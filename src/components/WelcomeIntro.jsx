@@ -27,31 +27,26 @@ const WelcomeIntro = () => {
     }, []);
 
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {show && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cosmic-blue text-white overflow-hidden"
+                    key="welcome-screen"
+                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white overflow-hidden"
                     initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
+                    exit={{ opacity: 0, transition: { duration: 1.0 } }}
                 >
                     {/* Background Stars/Gradient */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900 via-[#0a0a0a] to-black opacity-90"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-black opacity-90"></div>
 
-                    {/* Floating Particles/Stars */}
+                    {/* Floating Particles */}
                     {[...Array(20)].map((_, i) => (
                         <motion.div
                             key={i}
-                            className="absolute bg-white rounded-full"
-                            initial={{
-                                x: Math.random() * window.innerWidth,
-                                y: Math.random() * window.innerHeight,
-                                opacity: 0,
-                                scale: 0
-                            }}
+                            className="absolute bg-white rounded-full opacity-0"
                             animate={{
                                 opacity: [0, 1, 0],
                                 scale: [0, 1.5, 0],
-                                y: [null, Math.random() * -100] // float up
+                                y: [0, -100]
                             }}
                             transition={{
                                 duration: 3,
@@ -61,19 +56,21 @@ const WelcomeIntro = () => {
                             style={{
                                 width: Math.random() * 3 + 1 + 'px',
                                 height: Math.random() * 3 + 1 + 'px',
+                                left: Math.random() * 100 + '%',
+                                top: Math.random() * 100 + '%',
                             }}
                         />
                     ))}
 
                     {/* Content Container */}
-                    <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="relative z-10 flex flex-col items-center text-center px-4">
 
-                        {/* 1. OM Symbol Reveal */}
+                        {/* 1. OM Symbol */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                            initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
                             animate={{ opacity: 1, scale: 1.2, rotate: 0 }}
-                            transition={{ duration: 1.2, ease: "easeOut" }}
-                            className="text-8xl md:text-9xl text-gold font-serif mb-6 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]"
+                            transition={{ duration: 1 }}
+                            className="text-8xl md:text-9xl text-yellow-400 font-serif mb-6 drop-shadow-lg"
                         >
                             ॐ
                         </motion.div>
@@ -85,32 +82,40 @@ const WelcomeIntro = () => {
                             transition={{ delay: 1, duration: 0.8 }}
                             className="text-4xl md:text-6xl font-serif text-white tracking-wider mb-2"
                         >
-                            <span className="text-saffron">Astro</span> Pravin
+                            <span className="text-orange-500">Astro</span> Pravin
                         </motion.h1>
 
-                        {/* 3. Subtitle / Greeting */}
+                        {/* 3. Subtitle */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 1.8, duration: 0.8 }}
                             className="flex flex-col items-center space-y-2"
                         >
-                            <div className="h-[1px] w-24 bg-gold/50 my-2"></div>
+                            <div className="h-[1px] w-24 bg-yellow-500/50 my-2"></div>
                             <p className="text-lg md:text-xl text-gray-300 font-light italic">
                                 Are You Ready to Discover Your Destiny?
                             </p>
                         </motion.div>
 
-                        {/* 4. Final 'Swami Samarth' touch for Dada (Subtle) */}
+                        {/* 4. Blessing */}
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 2.5, duration: 1 }}
-                            className="mt-8 text-sm text-gold/60 font-medium tracking-widest uppercase"
+                            className="mt-8 text-sm text-yellow-500/80 font-medium tracking-widest uppercase"
                         >
                             || Shri Swami Samarth ||
                         </motion.p>
                     </div>
+
+                    {/* Skip Button (Safety) */}
+                    <button
+                        onClick={() => setShow(false)}
+                        className="absolute bottom-8 right-8 text-gray-500 text-xs hover:text-white transition-colors z-20 underline"
+                    >
+                        Skip Intro
+                    </button>
                 </motion.div>
             )}
         </AnimatePresence>
