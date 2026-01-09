@@ -62,6 +62,7 @@ const AppContent = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
+            <WelcomeIntro />
             {!isAdmin && <Navbar onBookClick={() => setIsBookingOpen(true)} />}
             <main className="flex-grow">
                 <Routes>
