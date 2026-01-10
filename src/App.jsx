@@ -22,6 +22,7 @@ import AboutSection from './components/AboutSection';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import ErrorBoundary from './components/ErrorBoundary';
+import WelcomeIntro from './components/WelcomeIntro';
 
 const LandingPage = ({ onBookClick }) => (
     <>
