@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
                     <button
                         onClick={() => {
                             const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price.toLocaleString()}\n*Category:* ${product.category || 'Start'}\n\n*Hello Astro Pravin Ji,*\nI am interested in buying this spiritual artifact. Please share availability and payment details. \n\n🙏`;
-                            const waUrl = `https://wa.me/919999999999?text=${encodeURIComponent(msg)}`;
+                            const waUrl = `https://wa.me/919921697908?text=${encodeURIComponent(msg)}`;
                             window.open(waUrl, '_blank');
                         }}
                         className="p-2 rounded-full bg-white/5 hover:bg-gold hover:text-cosmic-blue text-gold transition-all"
