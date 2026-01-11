@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Search, Filter } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
-import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 const Store = () => {
     const [products, setProducts] = useState([]);
@@ -103,8 +103,8 @@ const Store = () => {
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
                                 className={`px-4 py-2 rounded-full text-sm transition-all border ${activeCategory === cat.id
-                                        ? 'bg-gold text-black font-bold border-gold'
-                                        : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
+                                    ? 'bg-gold text-black font-bold border-gold'
+                                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
                                     }`}
                             >
                                 {cat.label}
@@ -131,8 +131,8 @@ const Store = () => {
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
                                 className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all border ${activeCategory === cat.id
-                                        ? 'bg-gold text-black font-bold border-gold'
-                                        : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
+                                    ? 'bg-gold text-black font-bold border-gold'
+                                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
                                     }`}
                             >
                                 {cat.label}
@@ -168,7 +168,7 @@ const Store = () => {
                 )}
             </div>
 
-            <Footer />
+
         </div>
     );
 };
