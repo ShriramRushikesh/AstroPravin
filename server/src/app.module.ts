@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { BookingModule } from './booking/booking.module';
 import { KundliModule } from './kundli/kundli.module';
 import { SharedModule } from './shared/shared.module';
+import { ServicesModule } from './services/services.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
     BookingModule,
     KundliModule,
     SharedModule,
+    ServicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

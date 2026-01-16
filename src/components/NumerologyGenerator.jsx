@@ -140,9 +140,9 @@ const NumerologyGenerator = () => {
     return (
         <section className="min-h-screen py-20 bg-void relative overflow-hidden flex flex-col items-center justify-center">
             <SEO
-                title="Free Numerology Calculator | Mulank & Bhagyank"
-                description="Discover your Life Path Number (Bhagyank) and Birth Number (Mulank) with our free Vedic Numerology Calculator. Get insights into your personality and destiny."
-                keywords="numerology calculator, mulank calculator, bhagyank calculator, free numerology, vedic numerology, life path number, destiny number"
+                title="Numerology Calculator | Mulank & Bhagyank"
+                description="Discover your Life Path Number (Bhagyank) and Birth Number (Mulank) with our Vedic Numerology Calculator. Get insights into your personality and destiny."
+                keywords="numerology calculator, mulank calculator, bhagyank calculator, vedic numerology, life path number, destiny number"
             />
 
             {/* Background Effects */}

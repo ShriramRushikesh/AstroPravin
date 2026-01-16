@@ -6,34 +6,34 @@ import { planets } from '../data/planetData';
 
 const PlanetCard = ({ planet, index }) => {
     return (
-        <section className="h-screen w-full flex items-center justify-center overflow-hidden snap-center relative">
+        <section className="min-h-screen w-full flex items-center justify-center overflow-hidden snap-center relative py-12 md:py-0">
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none z-0" />
-            <div className="max-w-7xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center relative z-10">
+            <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
                 {/* Text Content */}
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-left"
+                    className="text-left order-2 md:order-1 pt-4 md:pt-0"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-8xl font-serif text-white/10 font-bold absolute -top-20 -left-10 select-none pointer-events-none">
+                    <div className="flex items-center gap-4 mb-2 md:mb-4 relative">
+                        <span className="text-5xl md:text-8xl font-serif text-white/10 font-bold absolute -top-8 md:-top-20 -left-2 md:-left-10 select-none pointer-events-none">
                             {index + 1}
                         </span>
-                        <h2 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white relative z-10 tracking-widest uppercase break-words">
+                        <h2 className="text-3xl md:text-6xl lg:text-8xl font-serif font-bold text-white relative z-10 tracking-widest uppercase break-words leading-tight">
                             {planet.englishName}
                         </h2>
                     </div>
-                    <div className="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-gold text-sm font-bold tracking-widest mb-6 border border-white/20 uppercase">
+                    <div className="inline-block bg-white/10 backdrop-blur-md px-3 py-1 md:px-4 md:py-1 rounded-full text-gold text-xs md:text-sm font-bold tracking-widest mb-4 md:mb-6 border border-white/20 uppercase">
                         {planet.role || 'Cosmic Force'}
                     </div>
-                    <p className="text-white/80 text-lg leading-relaxed mb-8 max-w-xl font-light">
-                        {planet.description.slice(0, 180)}...
+                    <p className="text-white/80 text-sm md:text-lg leading-relaxed mb-6 md:mb-8 max-w-xl font-light line-clamp-4 md:line-clamp-none">
+                        {planet.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-3 mb-8">
+                    <div className="flex flex-wrap gap-2 md:gap-3 mb-6 md:mb-8">
                         {planet.do && planet.do.slice(0, 2).map((item, i) => (
-                            <span key={i} className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 text-xs uppercase tracking-wider hover:bg-white/10 transition-colors">
+                            <span key={i} className="px-3 py-1 md:px-4 md:py-2 rounded-full border border-white/10 bg-white/5 text-white/70 text-[10px] md:text-xs uppercase tracking-wider hover:bg-white/10 transition-colors">
                                 {item}
                             </span>
                         ))}
@@ -41,7 +41,7 @@ const PlanetCard = ({ planet, index }) => {
 
                     <Link
                         to={`/planet/${planet.id}`}
-                        className="inline-flex items-center gap-2 px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-sm rounded hover:bg-gold transition-colors"
+                        className="inline-flex items-center gap-2 px-6 py-2 md:px-8 md:py-3 bg-white text-black font-bold uppercase tracking-widest text-xs md:text-sm rounded hover:bg-gold transition-colors"
                     >
                         Explore <ArrowRight size={16} />
                     </Link>
@@ -52,12 +52,12 @@ const PlanetCard = ({ planet, index }) => {
                     initial={{ scale: 0.8, opacity: 0, rotate: -20 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     transition={{ duration: 1.2, type: "spring", bounce: 0.3 }}
-                    className="relative flex justify-center perspective-1000"
+                    className="relative flex justify-center perspective-1000 order-1 md:order-2 h-[300px] md:h-auto items-center"
                 >
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-                        className="relative z-10 w-[300px] h-[300px] md:w-[500px] md:h-[500px]"
+                        className="relative z-10 w-[200px] h-[200px] md:w-[500px] md:h-[500px]"
                     >
                         {planet.img ? (
                             <img

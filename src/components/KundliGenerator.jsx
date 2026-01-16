@@ -31,7 +31,7 @@ const KundliGenerator = () => {
 
             const payload = { ...formData, hour, minute };
 
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const response = await fetch(`${apiUrl}/api/kundli/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -57,9 +57,9 @@ const KundliGenerator = () => {
     return (
         <section className="min-h-screen py-20 bg-void relative overflow-hidden">
             <SEO
-                title="Free Kundli Generator | Vedic Birth Chart & Analysis"
-                description="Generate your free Janam Kundli online. Get detailed Vedic birth chart analysis, planetary positions, and astrological predictions instantly."
-                keywords="kundli generator, free kundli, vedic birth chart, janma kundli, online horoscope, indian astrology, birth chart calculator, vedic astrology software, free kundli matching, kundali online"
+                title="Kundli Generator | Vedic Birth Chart & Analysis"
+                description="Generate your Janam Kundli online. Get detailed Vedic birth chart analysis, planetary positions, and astrological predictions instantly."
+                keywords="kundli generator, vedic birth chart, janma kundli, online horoscope, indian astrology, birth chart calculator, vedic astrology software, kundli matching, kundali online"
             />
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.05),_transparent_70%)]" />
@@ -71,7 +71,7 @@ const KundliGenerator = () => {
                     className="text-center mb-12"
                 >
                     <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-saffron to-gold mb-4">
-                        Free Kundli Generation
+                        Kundli Generation
                     </h2>
                     <p className="text-white/60 text-lg max-w-2xl mx-auto">
                         Unlock the secrets of your destiny. Generate your Vedic Birth Chart instantly with our advanced ancient algorithms.

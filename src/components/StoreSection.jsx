@@ -11,7 +11,7 @@ const StoreSection = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
                 const res = await fetch(`${apiUrl}/api/products`);
                 if (res.ok) {
                     setProducts(await res.json());

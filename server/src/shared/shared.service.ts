@@ -19,7 +19,7 @@ export class SharedService {
 
     // --- Products ---
     async getProducts() {
-        return this.productModel.find({ inStock: true }).exec();
+        return this.productModel.find().exec();
     }
     async createProduct(data: any) {
         return new this.productModel(data).save();

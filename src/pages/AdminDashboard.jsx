@@ -23,6 +23,8 @@ const AdminDashboard = () => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [editingVideo, setEditingVideo] = useState(null);
     const [editingBlog, setEditingBlog] = useState(null);
+    const [editingService, setEditingService] = useState(null);
+    const [services, setServices] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
@@ -34,13 +36,14 @@ const AdminDashboard = () => {
             fetchVideos(token);
             fetchOrders(token);
             fetchBlogs(token);
+            fetchServices(token);
         }
     }, []);
 
     const fetchOrders = async (token) => {
         try {
             const authToken = token || localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/orders`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
@@ -50,7 +53,7 @@ const AdminDashboard = () => {
 
     const fetchProducts = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             // Products are public, but for admin we might want all? (API returns 'inStock' only currently for public, maybe need admin specific route? 
             // The current route /api/products returns `inStock: true`. For admin we might want to see all.
             // For now let's use the public one, or better yet, let's just use the same one and I'll update backend later if needed.
@@ -65,7 +68,7 @@ const AdminDashboard = () => {
 
     const fetchVideos = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/videos`); // Public route
             if (res.ok) setVideos(await res.json());
         } catch (error) { console.error('Failed to fetch videos', error); }
@@ -74,7 +77,7 @@ const AdminDashboard = () => {
     const fetchBookings = async (token) => {
         try {
             const authToken = token || localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/bookings`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
@@ -107,7 +110,7 @@ const AdminDashboard = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -131,7 +134,7 @@ const AdminDashboard = () => {
     const updateStatus = async (id, newStatus) => {
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/bookings/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -174,7 +177,7 @@ const AdminDashboard = () => {
 
         setUploading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/upload`, {
                 method: 'POST',
                 body: formData
@@ -209,7 +212,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
 
             let res;
             if (editingProduct) {
@@ -262,7 +265,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             await fetch(`${apiUrl}/api/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -291,7 +294,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
 
             let res;
             if (editingVideo) {
@@ -330,7 +333,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             await fetch(`${apiUrl}/api/videos/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -344,10 +347,73 @@ const AdminDashboard = () => {
 
     const fetchBlogs = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/blogs`);
             if (res.ok) setBlogs(await res.json());
         } catch (error) { console.error('Failed to fetch blogs', error); }
+    };
+
+    // --- Service Handlers ---
+    const fetchServices = async (token) => {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const res = await fetch(`${apiUrl}/api/services`);
+            if (res.ok) setServices(await res.json());
+        } catch (error) { console.error('Failed to fetch services', error); }
+    };
+
+    const handleSaveService = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const serviceData = {
+            name: formData.get('name'),
+            price: formData.get('price'),
+            category: formData.get('category'),
+            description: formData.get('description'),
+        };
+
+        try {
+            const token = localStorage.getItem('adminToken');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            let res;
+            if (editingService) {
+                res = await fetch(`${apiUrl}/api/services/${editingService._id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(serviceData)
+                });
+            } else {
+                res = await fetch(`${apiUrl}/api/services`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(serviceData)
+                });
+            }
+            if (res.ok) {
+                const savedService = await res.json();
+                if (editingService) {
+                    setServices(services.map(s => s._id === savedService._id ? savedService : s));
+                    setEditingService(null);
+                } else {
+                    setServices([savedService, ...services]);
+                }
+                form.reset();
+            }
+        } catch (error) { console.error('Save service error', error); }
+    };
+
+    const handleDeleteService = async (id) => {
+        if (!confirm('Are you sure?')) return;
+        try {
+            const token = localStorage.getItem('adminToken');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            await fetch(`${apiUrl}/api/services/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            setServices(services.filter(s => s._id !== id));
+        } catch (error) { console.error('Delete service error', error); }
     };
 
     const handleSaveBlog = async (e) => {
@@ -370,7 +436,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
 
             let res;
             if (editingBlog) {
@@ -411,7 +477,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             await fetch(`${apiUrl}/api/blogs/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -479,10 +545,22 @@ const AdminDashboard = () => {
                             Orders
                         </button>
                         <button
+                            onClick={() => setActiveTab('courses')}
+                            className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${activeTab === 'courses' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}
+                        >
+                            Courses
+                        </button>
+                        <button
                             onClick={() => setActiveTab('blogs')}
                             className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${activeTab === 'blogs' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}
                         >
                             Blogs
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('services')}
+                            className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${activeTab === 'services' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}
+                        >
+                            Services
                         </button>
                     </nav>
                 </div>
@@ -713,6 +791,45 @@ const AdminDashboard = () => {
                                 </div>
                             ))}
                             {blogs.length === 0 && <div className="text-center text-white/30 py-8">No articles published yet.</div>}
+                        </div>
+                    </div>
+                )}
+
+                {/* Services Manager Tab */}
+                {activeTab === 'services' && (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Add Service Form */}
+                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 h-fit">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-serif">{editingService ? 'Edit Service' : 'Add Service'}</h2>
+                                {editingService && <button onClick={() => setEditingService(null)} className="text-xs text-red-400">Cancel</button>}
+                            </div>
+                            <form onSubmit={handleSaveService} className="space-y-4">
+                                <input name="name" defaultValue={editingService?.name} placeholder="Service Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <input name="price" defaultValue={editingService?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <input name="category" defaultValue={editingService?.category} placeholder="Category (e.g. Consultation)" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <textarea name="description" defaultValue={editingService?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                    {editingService ? 'Save Changes' : 'Add Service'}
+                                </button>
+                            </form>
+                        </div>
+                        {/* Service List */}
+                        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {services.map(s => (
+                                <div key={s._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col relative group">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="font-bold text-white text-lg">{s.name}</h3>
+                                        <span className="text-gold font-bold">₹{s.price}</span>
+                                    </div>
+                                    <p className="text-white/50 text-xs mb-2">{s.category}</p>
+                                    <p className="text-white/70 text-sm line-clamp-3 mb-4">{s.description}</p>
+                                    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 rounded p-1">
+                                        <button onClick={() => { setEditingService(s); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="p-1 text-blue-400 hover:text-blue-300">Edit</button>
+                                        <button onClick={() => handleDeleteService(s._id)} className="p-1 text-red-400 hover:text-red-300"><XCircle size={16} /></button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}

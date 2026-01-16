@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Search, Filter } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
-import SEO from '../components/SEO';
 
 const Store = () => {
     const [products, setProducts] = useState([]);
@@ -19,8 +18,9 @@ const Store = () => {
                 const res = await fetch(`${apiUrl}/api/products`);
                 if (res.ok) {
                     const data = await res.json();
-                    setProducts(data);
-                    setFilteredProducts(data);
+                    const activeProducts = data.filter(p => p.inStock);
+                    setProducts(activeProducts);
+                    setFilteredProducts(activeProducts);
                 }
             } catch (error) {
                 console.error('Failed to fetch products', error);

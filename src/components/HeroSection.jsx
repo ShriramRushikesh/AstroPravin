@@ -40,8 +40,8 @@ const HeroSection = ({ onBookClick }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    <h2 className="text-saffron tracking-[0.5em] text-sm md:text-base mb-4 uppercase font-sans">
-                        Ancient Vedic Wisdom
+                    <h2 className="text-saffron tracking-[0.099em] text-sm md:text-base mb-4 uppercase font-sans">
+                        श्रीराम समुपदेशन केंद्र 
                     </h2>
                     <h1 className="text-4xl md:text-7xl lg:text-8xl font-serif text-white mb-6 drop-shadow-2xl">
                         Unlock Your <span className="text-gradient-gold">Destiny</span>
@@ -56,7 +56,7 @@ const HeroSection = ({ onBookClick }) => {
                         whileTap={{ scale: 0.95 }}
                         className="px-8 py-4 bg-white/5 backdrop-blur-sm border border-gold/30 rounded-full text-gold font-semibold tracking-wider hover:bg-gold hover:text-cosmic-blue transition-all duration-300 shadow-[0_0_30px_rgba(255,215,0,0.2)]"
                     >
-                        BOOK FREE CONSULTATION
+                        BOOK CONSULTATION
                     </motion.button>
                 </motion.div>
             </motion.div>
@@ -67,7 +67,7 @@ const HeroSection = ({ onBookClick }) => {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute bottom-10 z-30 flex flex-col items-center gap-2"
             >
-                <span className="text-xs text-white/30 tracking-widest uppercase">Explore Your Kundli</span>
+                <span className="text-xs text-white/30 tracking-widest uppercase">ABOUT US</span>
                 <div className="w-[1px] h-12 bg-gradient-to-b from-gold/50 to-transparent" />
             </motion.div>
         </div>

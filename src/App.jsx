@@ -23,6 +23,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import ErrorBoundary from './components/ErrorBoundary';
 import WelcomeIntro from './components/WelcomeIntro';
+import PricingSection from './components/PricingSection';
+import ReviewsSection from './components/ReviewsSection';
 
 const LandingPage = ({ onBookClick }) => (
     <>
@@ -33,7 +35,9 @@ const LandingPage = ({ onBookClick }) => (
         />
         <HeroSection onBookClick={onBookClick} />
         <AboutSection />
+        <PricingSection />
         <StoreTeaser />
+        <ReviewsSection />
     </>
 );
 
@@ -52,7 +56,7 @@ const AppContent = () => {
     useEffect(() => {
         const hasVisited = sessionStorage.getItem('visited');
         if (!hasVisited) {
-            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/visits/increment`, { method: 'POST' })
+            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002'}/api/visits/increment`, { method: 'POST' })
                 .then(res => res.json())
                 .catch(err => console.error('Visit error', err));
             sessionStorage.setItem('visited', 'true');

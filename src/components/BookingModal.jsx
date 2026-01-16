@@ -53,7 +53,7 @@ const BookingModal = ({ isOpen, onClose }) => {
 
         setLoading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
             const res = await fetch(`${apiUrl}/api/bookings`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
