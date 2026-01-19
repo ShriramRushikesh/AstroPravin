@@ -111,26 +111,38 @@ const AdminDashboard = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        const cleanPassword = password.trim(); // Prevent whitespace errors
+        if (!cleanPassword) return;
+
         try {
             const apiUrl = API_URL;
-            console.log('Attempting login to:', `${apiUrl}/api/admin/login`);
+            console.log('Attempting login...');
+
             const res = await fetch(`${apiUrl}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ password: cleanPassword })
             });
+
+            // Handle non-JSON responses (server errors)
+            if (!res.ok && res.status !== 401) {
+                throw new Error(`Server returned ${res.status}`);
+            }
+
             const data = await res.json();
+
             if (data.success) {
                 localStorage.setItem('adminToken', data.token);
                 setIsAuthenticated(true);
                 fetchBookings(data.token);
-
             } else {
-                alert(data.message || 'Login failed');
+                // Show specific backend message or generic fallback
+                alert(data.message || 'Incorrect Password. Please try again.');
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Login error');
+            // More friendly error for network/server issues
+            alert('Unable to connect to server. Please ensure the backend is running and try again.');
         }
     };
 
