@@ -10,11 +10,10 @@ async function bootstrap() {
 
     app.enableCors({
       origin: [
-        'http://localhost:5173',
-        'http://localhost:5002',
         'https://astropravin.com',
         'https://www.astropravin.com',
-        'https://astropravin.vercel.app'
+        'http://localhost:5173',
+        'http://localhost:5002'
       ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
@@ -28,8 +27,8 @@ async function bootstrap() {
 
     const port = process.env.PORT || 5002;
     await app.listen(port);
-    console.log(`🚀 NestJS Server running on port ${port} [v2-CORS-FIX]`);
-    console.log(`Allowed Origins: https://astropravin.com, https://astropravin.vercel.app`);
+    console.log(`🚀 NestJS Server running on port ${port} [v3-STRICT-CORS]`);
+    console.log(`Allowed Origins: astropravin.com (and localhost)`);
   } catch (error) {
     console.error('❌ Server failed to start:', error);
     process.exit(1);
