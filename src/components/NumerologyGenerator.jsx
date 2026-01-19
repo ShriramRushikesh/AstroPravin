@@ -147,7 +147,7 @@ const NumerologyGenerator = () => {
 
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.05),_transparent_70%)]" />
-            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 mix-blend-overlay pointer-events-none"></div>
+            {/* <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 mix-blend-overlay pointer-events-none"></div> */}
 
             <div className="max-w-4xl mx-auto px-4 relative z-10 w-full">
                 <motion.div
