@@ -30,9 +30,9 @@ import ReviewsSection from './components/ReviewsSection';
 const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
-            title="Astro Pravin - Kundli, Vastu & Gemstones | Best Astrologer in Solapur"
-            description="Get accurate predictions for Marriage, Career, and Money. Services: Kundli Matching (Gun Milan), Vastu Visit, Gemstones, and simple Remedies (Upay)."
-            keywords="Astro Pravin, Solapur Astrologer, Gun Milan, Lagna Patrika, Marriage Matching, Janam Kundli, Rashifal, Best Jyotish Maharashtra, Vastu Tips, Online Puja, Kundli Making"
+            title="Best Astrologer in Solapur - Astro Pravin | Kundli & Vastu Consultant"
+            description="Acharya Pravin: Verified Astrologer in Solapur. Specialist in Kundli Matching, Marriage Problems, Career Guidance, and Vastu Shastra. 20+ Years Experience."
+            keywords="Best Astrologer in Solapur, Jyotish Solapur, Gun Milan, Kundli Matching, Vastu Consultant, Astro Pravin, Gemstones Solapur, Marriage Astrologer"
         />
         <HeroSection onBookClick={onBookClick} />
         <AboutSection />
