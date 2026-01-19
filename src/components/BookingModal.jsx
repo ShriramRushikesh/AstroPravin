@@ -224,32 +224,38 @@ const BookingModal = ({ isOpen, onClose }) => {
 
                                     {/* Birth Details */}
                                     <div>
-                                        <label className="text-white/40 text-xs uppercase mb-2 block">Birth Details (Required)</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            <input
-                                                type="date"
-                                                title="Birth Date"
-                                                value={formData.birthDate}
-                                                onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                                                required
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
-                                            />
-                                            <input
-                                                type="time"
-                                                title="Birth Time"
-                                                value={formData.birthTime}
-                                                onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
-                                                required
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Birth Place"
-                                                value={formData.birthPlace}
-                                                onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
-                                                required
-                                                className="col-span-2 w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
-                                            />
+                                            <div>
+                                                <label className="text-white/40 text-xs uppercase mb-1 block">Date of Birth</label>
+                                                <input
+                                                    type="date"
+                                                    value={formData.birthDate}
+                                                    onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                                                    required
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-white/40 text-xs uppercase mb-1 block">Time of Birth</label>
+                                                <input
+                                                    type="time"
+                                                    value={formData.birthTime}
+                                                    onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
+                                                    required
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                />
+                                            </div>
+                                            <div className="col-span-1 sm:col-span-2">
+                                                <label className="text-white/40 text-xs uppercase mb-1 block">Place of Birth</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="City, State, Country"
+                                                    value={formData.birthPlace}
+                                                    onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
+                                                    required
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
 
