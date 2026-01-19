@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { API_URL } from '../config';
 
 const AdminDashboard = () => {
     const [bookings, setBookings] = useState([]);
@@ -27,6 +28,7 @@ const AdminDashboard = () => {
     const [services, setServices] = useState([]);
 
     useEffect(() => {
+        console.log('Admin Dashboard API URL:', API_URL); // Debugging log
         const token = localStorage.getItem('adminToken');
         if (token) {
             setIsAuthenticated(true);
@@ -43,7 +45,7 @@ const AdminDashboard = () => {
     const fetchOrders = async (token) => {
         try {
             const authToken = token || localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/orders`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
@@ -53,7 +55,7 @@ const AdminDashboard = () => {
 
     const fetchProducts = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             // Products are public, but for admin we might want all? (API returns 'inStock' only currently for public, maybe need admin specific route? 
             // The current route /api/products returns `inStock: true`. For admin we might want to see all.
             // For now let's use the public one, or better yet, let's just use the same one and I'll update backend later if needed.
@@ -68,7 +70,7 @@ const AdminDashboard = () => {
 
     const fetchVideos = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/videos`); // Public route
             if (res.ok) setVideos(await res.json());
         } catch (error) { console.error('Failed to fetch videos', error); }
@@ -77,7 +79,7 @@ const AdminDashboard = () => {
     const fetchBookings = async (token) => {
         try {
             const authToken = token || localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/bookings`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
@@ -110,7 +112,8 @@ const AdminDashboard = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
+            console.log('Attempting login to:', `${apiUrl}/api/admin/login`);
             const res = await fetch(`${apiUrl}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -134,7 +137,7 @@ const AdminDashboard = () => {
     const updateStatus = async (id, newStatus) => {
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/bookings/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -177,7 +180,7 @@ const AdminDashboard = () => {
 
         setUploading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/upload`, {
                 method: 'POST',
                 body: formData
@@ -212,7 +215,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
 
             let res;
             if (editingProduct) {
@@ -265,7 +268,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             await fetch(`${apiUrl}/api/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -294,7 +297,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
 
             let res;
             if (editingVideo) {
@@ -333,7 +336,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             await fetch(`${apiUrl}/api/videos/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -347,7 +350,7 @@ const AdminDashboard = () => {
 
     const fetchBlogs = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/blogs`);
             if (res.ok) setBlogs(await res.json());
         } catch (error) { console.error('Failed to fetch blogs', error); }
@@ -356,7 +359,7 @@ const AdminDashboard = () => {
     // --- Service Handlers ---
     const fetchServices = async (token) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/services`);
             if (res.ok) setServices(await res.json());
         } catch (error) { console.error('Failed to fetch services', error); }
@@ -375,7 +378,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             let res;
             if (editingService) {
                 res = await fetch(`${apiUrl}/api/services/${editingService._id}`, {
@@ -407,7 +410,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             await fetch(`${apiUrl}/api/services/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -436,7 +439,7 @@ const AdminDashboard = () => {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
 
             let res;
             if (editingBlog) {
@@ -477,7 +480,7 @@ const AdminDashboard = () => {
         if (!confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('adminToken');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+            const apiUrl = API_URL;
             await fetch(`${apiUrl}/api/blogs/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }

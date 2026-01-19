@@ -11,7 +11,7 @@ const VideoGallery = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/videos`);
                 if (res.ok) {
                     setVideos(await res.json());
@@ -42,7 +42,12 @@ const VideoGallery = () => {
 
     return (
         <section className="relative py-24 bg-void overflow-hidden">
-            <SEO schema={schema} />
+            <SEO
+                title="Astrology Videos & Remedies (Upay) - Astro Pravin"
+                description="Watch simple remedies (Upay) for money, marriage, and health problems. Daily horoscope (Rashi Bhavishya) and planetary changes explained in simple language."
+                keywords="Astrology Videos, Upay, Totke, Remedies, Rashi Bhavishya, Grah Gochar, Planetary Transit, Solapur Astrologer Video, Marathi Astrology, Daily Horoscope"
+                schema={schema}
+            />
 
             {/* Background Decor */}
             <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-red-900/10 blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />

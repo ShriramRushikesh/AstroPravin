@@ -6,7 +6,7 @@ import { planets } from '../data/planetData';
 
 const PlanetCard = ({ planet, index }) => {
     return (
-        <section className="min-h-screen w-full flex items-center justify-center overflow-hidden snap-center relative py-12 md:py-0">
+        <section className="min-h-[100dvh] w-full flex items-center justify-center overflow-hidden relative py-12 md:py-0">
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none z-0" />
             <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
                 {/* Text Content */}
@@ -14,13 +14,13 @@ const PlanetCard = ({ planet, index }) => {
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-left order-2 md:order-1 pt-4 md:pt-0"
+                    className="text-center md:text-left order-2 md:order-1 pt-8 md:pt-0 flex flex-col items-center md:items-start"
                 >
-                    <div className="flex items-center gap-4 mb-2 md:mb-4 relative">
-                        <span className="text-5xl md:text-8xl font-serif text-white/10 font-bold absolute -top-8 md:-top-20 -left-2 md:-left-10 select-none pointer-events-none">
+                    <div className="flex items-center gap-4 mb-2 md:mb-4 relative justify-center md:justify-start w-full">
+                        <span className="text-4xl md:text-8xl font-serif text-white/10 font-bold absolute -top-8 md:-top-20 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-left-10 select-none pointer-events-none">
                             {index + 1}
                         </span>
-                        <h2 className="text-3xl md:text-6xl lg:text-8xl font-serif font-bold text-white relative z-10 tracking-widest uppercase break-words leading-tight">
+                        <h2 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white relative z-10 tracking-widest uppercase break-words leading-tight">
                             {planet.englishName}
                         </h2>
                     </div>
@@ -57,7 +57,7 @@ const PlanetCard = ({ planet, index }) => {
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-                        className="relative z-10 w-[200px] h-[200px] md:w-[500px] md:h-[500px]"
+                        className="relative z-10 w-[250px] h-[250px] md:w-[500px] md:h-[500px]"
                     >
                         {planet.img ? (
                             <img

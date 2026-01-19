@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Search, Filter } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import { API_URL } from '../config';
 import SEO from '../components/SEO';
 
 const Store = () => {
@@ -14,7 +15,7 @@ const Store = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/products`);
                 if (res.ok) {
                     const data = await res.json();
@@ -56,8 +57,9 @@ const Store = () => {
     return (
         <div className="min-h-screen bg-void text-white">
             <SEO
-                title="Celestial Treasury | Astro Pravin Store"
-                description="Explore our exclusive collection of energized gemstones, yantras, and rudrakshas. Hand-selected for spiritual growth and prosperity."
+                title="Buy Gemstones & Rudraksha - Original Certified | Astro Pravin Store"
+                description="Buy 100% Original and Energized Gemstones, Rudraksha, and Yantras. Certified Pukhraj, Neelam, Manik, Moti, and Gomed stones in Solapur."
+                keywords="Buy Gemstones, Original Rudraksha, Pukhraj Stone, Yellow Sapphire, Neelam Stone, Blue Sapphire, Moti, Pearl, Manik, Ruby, Gomed, Hessonite, Gemstone Shop Solapur, Certified Gemstones, Astrological Rings"
             />
 
             {/* Hero Section */}

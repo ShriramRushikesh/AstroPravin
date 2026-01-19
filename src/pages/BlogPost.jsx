@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { API_URL } from '../config';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import BookingModal from '../components/BookingModal';
 import SEO from '../components/SEO';
@@ -14,7 +15,8 @@ const BlogPost = () => {
         window.scrollTo(0, 0);
         const fetchBlog = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/blogs/${slug}`);
                 if (res.ok) {
                     setPost(await res.json());

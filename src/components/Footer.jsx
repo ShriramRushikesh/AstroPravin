@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../config';
 import { Facebook, Instagram, Twitter, Youtube, Mail, MapPin, Phone, Star } from 'lucide-react';
 
 const Footer = () => {
     const [visitCount, setVisitCount] = React.useState(null);
 
     React.useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/visits`)
+
+        fetch(`${API_URL}/api/visits`)
             .then(res => res.json())
             .then(data => setVisitCount(data.count))
             .catch(err => console.error('Fetch visit error', err));

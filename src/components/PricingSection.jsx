@@ -8,7 +8,7 @@ const PricingSection = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/services`);
                 if (res.ok) {
                     setServices(await res.json());

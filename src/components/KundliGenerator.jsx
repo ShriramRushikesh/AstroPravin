@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Sparkles } from 'lucide-react';
+import { API_URL } from '../config';
 import SEO from './SEO';
 
 const KundliGenerator = () => {
@@ -31,7 +32,8 @@ const KundliGenerator = () => {
 
             const payload = { ...formData, hour, minute };
 
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+
+            const apiUrl = API_URL;
             const response = await fetch(`${apiUrl}/api/kundli/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

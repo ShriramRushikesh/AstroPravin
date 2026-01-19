@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HeroSection from './components/HeroSection';
+import { API_URL } from './config';
 import ScrollSections from './components/ScrollSections';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -29,9 +30,9 @@ import ReviewsSection from './components/ReviewsSection';
 const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
-            title="Astro Pravin | Vedic Astrology & Consultancy"
-            description="Get accurate Vedic astrology predictions for marriage, career, and wealth. Book a consultation with Astro Pravin for personalized Kundli reading and remedies."
-            keywords="astro pravin, vedic astrology, online astrologer, kundli reading, horoscope, indian astrology, astrology consultation"
+            title="Astro Pravin - Kundli, Vastu & Gemstones | Best Astrologer in Solapur"
+            description="Get accurate predictions for Marriage, Career, and Money. Services: Kundli Matching (Gun Milan), Vastu Visit, Gemstones, and simple Remedies (Upay)."
+            keywords="Astro Pravin, Solapur Astrologer, Gun Milan, Lagna Patrika, Marriage Matching, Janam Kundli, Rashifal, Best Jyotish Maharashtra, Vastu Tips, Online Puja, Kundli Making"
         />
         <HeroSection onBookClick={onBookClick} />
         <AboutSection />
@@ -56,7 +57,7 @@ const AppContent = () => {
     useEffect(() => {
         const hasVisited = sessionStorage.getItem('visited');
         if (!hasVisited) {
-            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002'}/api/visits/increment`, { method: 'POST' })
+            fetch(`${API_URL}/api/visits/increment`, { method: 'POST' })
                 .then(res => res.json())
                 .catch(err => console.error('Visit error', err));
             sessionStorage.setItem('visited', 'true');

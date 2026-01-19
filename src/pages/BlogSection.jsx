@@ -14,7 +14,7 @@ const BlogSection = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/blogs`);
                 if (res.ok) {
                     setPosts(await res.json());

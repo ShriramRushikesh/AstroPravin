@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL } from '../config';
 import { X, Heart, Briefcase, Sparkles, User, Calendar, MapPin, Clock } from 'lucide-react';
 
 const BookingModal = ({ isOpen, onClose }) => {
@@ -53,7 +54,8 @@ const BookingModal = ({ isOpen, onClose }) => {
 
         setLoading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+
+            const apiUrl = API_URL;
             const res = await fetch(`${apiUrl}/api/bookings`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,11 +74,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                 });
             } else {
                 const err = await res.json();
+                console.error('Booking Failed response:', err);
                 alert(`Booking Failed: ${err.message || 'Unknown Error'}`);
             }
         } catch (error) {
             console.error('Booking Error:', error);
-            alert('Network Error. Please try again.');
+            alert(`Network Error: ${error.message}. Please check your connection.`);
         } finally {
             setLoading(false);
         }
@@ -96,7 +99,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="relative bg-cosmic-blue border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] md:max-h-[85vh]"
+                className="relative bg-cosmic-blue border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85dvh] md:max-h-[85vh]"
             >
                 <AnimatePresence mode="wait">
                     {showSuccess ? (
@@ -154,8 +157,8 @@ const BookingModal = ({ isOpen, onClose }) => {
                                 </button>
                             </div>
 
-                            {/* Form Body */}
-                            <div className="p-6 overflow-y-auto custom-scrollbar flex-grow overscroll-contain min-h-0">
+                            {/* FormBody */}
+                            <div className="p-4 md:p-6 overflow-y-auto custom-scrollbar flex-grow overscroll-contain min-h-0">
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     {/* Topic Selection */}
                                     <div>
@@ -187,7 +190,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                 required
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50 text-[16px]"
                                             />
                                             <input
                                                 type="email"

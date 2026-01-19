@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const StoreTeaser = () => {
     const [products, setProducts] = useState([]);
@@ -9,7 +10,8 @@ const StoreTeaser = () => {
     useEffect(() => {
         const fetchTopProducts = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002';
+
+                const apiUrl = API_URL;
                 const res = await fetch(`${apiUrl}/api/products`);
                 if (res.ok) {
                     const data = await res.json();
