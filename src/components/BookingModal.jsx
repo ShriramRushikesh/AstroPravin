@@ -200,7 +200,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
                                             />
-                                            <div className="grid grid-cols-2 gap-3">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 <input
                                                     type="tel"
                                                     placeholder="Phone Number *"
@@ -225,7 +225,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                     {/* Birth Details */}
                                     <div>
                                         <label className="text-white/40 text-xs uppercase mb-2 block">Birth Details (Required)</label>
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <input
                                                 type="date"
                                                 title="Birth Date"
@@ -256,7 +256,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                     {/* Preferred Time */}
                                     <div>
                                         <label className="text-white/40 text-xs uppercase mb-2 block">Preferred Consultation Time (Optional)</label>
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <input
                                                 type="date"
                                                 value={formData.preferredDate}

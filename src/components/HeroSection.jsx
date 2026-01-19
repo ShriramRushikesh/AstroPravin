@@ -41,10 +41,10 @@ const HeroSection = ({ onBookClick }) => {
                     transition={{ duration: 1, delay: 0.5 }}
                 >
                     <h2 className="text-saffron tracking-[0.099em] text-sm md:text-base mb-4 uppercase font-sans">
-                        श्रीराम समुपदेशन केंद्र 
+                        Shriram Samupdeshan Kendra
                     </h2>
                     <h1 className="text-4xl md:text-7xl lg:text-8xl font-serif text-white mb-6 drop-shadow-2xl">
-                        Unlock Your <span className="text-gradient-gold">Destiny</span>
+                        Best Astrologer <span className="text-gradient-gold">in Solapur</span>
                     </h1>
                     <p className="text-lg md:text-xl text-white/70 mb-10 font-light tracking-wide">
                         Love • Career • Wealth • Karma
