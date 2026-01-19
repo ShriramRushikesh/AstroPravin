@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as path from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-async function bootstrap() {
+try {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
@@ -25,8 +25,13 @@ async function bootstrap() {
     prefix: '/public',
   });
 
-  const port = process.env.PORT || 5002; // Default to 5002
+  const port = process.env.PORT || 5002;
   await app.listen(port);
-  console.log(`🚀 NestJS Server running on port ${port}`);
+  console.log(`🚀 NestJS Server running on port ${port} [v2-CORS-FIX]`);
+  console.log(`Allowed Origins: https://astropravin.com, https://astropravin.vercel.app`);
+} catch (error) {
+  console.error('❌ Server failed to start:', error);
+  process.exit(1);
+}
 }
 bootstrap();
