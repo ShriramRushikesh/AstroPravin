@@ -30,12 +30,13 @@
         "multer": "^2.0.2",
         "nodemailer": "^7.0.12",
         "pdfkit": "^0.17.2",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "react-helmet-async": "^2.0.5",
         "react-router-dom": "^6.21.0",
+        "stats-gl": "^2.3.0",
         "tailwind-merge": "^2.2.0",
-        "three": "^0.160.0",
+        "three": "0.160.1",
         "twilio": "^5.11.1"
     },
     "devDependencies": {
