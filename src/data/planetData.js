@@ -129,7 +129,7 @@ export const planets = [
         id: 'rahu',
         name: 'Rahu',
         englishName: 'North Node',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Inner_Solar_System_and_Comet_Encke.jpg/800px-Inner_Solar_System_and_Comet_Encke.jpg',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg', // Placeholder as Rahu is shadow
         color: 'from-gray-700 to-slate-800',
         glow: 'shadow-[0_0_50px_rgba(75,85,99,0.5)]',
         mantra: 'Om Bhram Bhreem Bhroum Sah Rahave Namah',
@@ -147,7 +147,7 @@ export const planets = [
         id: 'ketu',
         name: 'Ketu',
         englishName: 'South Node',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Comet_P1_McNaught02_-_23-01-07.jpg/800px-Comet_P1_McNaught02_-_23-01-07.jpg',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg', // Placeholder as Ketu is shadow
         color: 'from-stone-600 to-amber-900',
         glow: 'shadow-[0_0_50px_rgba(120,53,15,0.5)]',
         mantra: 'Om Stram Streem Stroum Sah Ketave Namah',
