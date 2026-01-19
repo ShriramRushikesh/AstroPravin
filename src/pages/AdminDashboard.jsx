@@ -142,7 +142,7 @@ const AdminDashboard = () => {
         } catch (error) {
             console.error('Login error:', error);
             // More friendly error for network/server issues
-            alert('Unable to connect to server. Please ensure the backend is running and try again.');
+            alert(`Unable to connect to server at ${API_URL}. \nPlease ensure the backend is running and allow ~30s for spin-up if on free tier.\nError: ${error.message}`);
         }
     };
 
