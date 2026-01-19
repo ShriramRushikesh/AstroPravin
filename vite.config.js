@@ -17,19 +17,9 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                manualChunks(id) {
-                    if (id.includes('node_modules')) {
-                        if (id.includes('three') || id.includes('@react-three')) {
-                            return 'three-vendor';
-                        }
-                        if (id.includes('react') || id.includes('react-dom') || id.includes('framer-motion')) {
-                            return 'react-vendor';
-                        }
-                        return 'vendor';
-                    }
-                }
+                manualChunks: undefined // Let Vite/Rollup handle chunking automatically to prevent context breakage
             }
         },
-        chunkSizeWarningLimit: 1000 // Increase limit slightly to avoid minor warnings
+        chunkSizeWarningLimit: 1600 // Increased limit to suppress warnings for now
     }
 })
