@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Calendar, User } from 'lucide-react';
 import SEO from '../components/SEO';

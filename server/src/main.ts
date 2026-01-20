@@ -19,6 +19,7 @@ async function bootstrap() {
       credentials: true,
     });
     app.useGlobalPipes(new ValidationPipe());
+    app.setGlobalPrefix('api'); // Standardize all backend routes to /api/...
 
     // Serve static assets (uploads, kundlis)
     app.useStaticAssets(path.join(__dirname, '..', 'public'), {

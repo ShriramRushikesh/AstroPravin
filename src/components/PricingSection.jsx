@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../config';
 import { motion } from 'framer-motion';
 import { CheckCircle, Sliders } from 'lucide-react';
 
