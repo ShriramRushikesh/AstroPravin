@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nes
 import { ServicesService } from './services.service';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('api/services')
+@Controller('services')
 export class ServicesController {
     constructor(private readonly servicesService: ServicesService) { }
 

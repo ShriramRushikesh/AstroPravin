@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Put, UseGuards } from '@nestjs/comm
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('api/bookings')
+@Controller('bookings')
 export class BookingController {
     constructor(private readonly bookingService: BookingService) { }
 
