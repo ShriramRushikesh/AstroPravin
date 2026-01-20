@@ -5,7 +5,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('api')
+@Controller('')
 export class SharedController {
     constructor(private readonly sharedService: SharedService) { }
 

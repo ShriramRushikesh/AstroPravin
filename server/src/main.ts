@@ -9,14 +9,23 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     app.enableCors({
-      origin: [
-        'https://astropravin.com',
-        'https://www.astropravin.com',
-        'http://localhost:5173',
-        'http://localhost:5002'
-      ],
+      origin: (origin, callback) => {
+        const allowedOrigins = [
+          'https://astropravin.com',
+          'https://www.astropravin.com',
+          'http://localhost:5173',
+          'http://localhost:5002'
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          console.log(`🚫 Blocked CORS Origin: ${origin}`);
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
+      optionsSuccessStatus: 204,
     });
     app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix('api'); // Standardize all backend routes to /api/...
