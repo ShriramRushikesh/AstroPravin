@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown } from 'lucide-react';
+import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { API_URL } from '../config';
@@ -711,113 +711,58 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
-                {/* Bookings Tab (Default) */}
-                {activeTab === 'bookings' && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead className="bg-white/5 text-white/50 text-xs uppercase tracking-wider">
-                                    <tr>
-                                        <th className="p-4">Client</th>
-                                        <th className="p-4">Details</th>
-                                        <th className="p-4">Status</th>
-                                        <th className="p-4">Date</th>
-                                        <th className="p-4 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-white/5">
-                                    {getFilteredData(bookings).map(booking => (
-                                        <tr key={booking._id} className="hover:bg-white/5 transition-colors">
-                                            <td className="p-4">
-                                                <div className="font-bold text-white max-w-[150px] truncate" title={booking.name}>{booking.name}</div>
-                                                <div className="text-white/50 text-xs">{booking.phone}</div>
-                                            </td>
-                                            <td className="p-4">
-                                                <div className="text-sm text-gold">{booking.serviceType || 'Consultation'}</div>
-                                                <div className="text-xs text-white/50" title={booking.email}>{booking.email}</div>
-                                            </td>
-                                            <td className="p-4">
-                                                <select
-                                                    value={booking.status}
-                                                    onChange={(e) => updateStatus(booking._id, e.target.value)}
-                                                    className={`bg-transparent outline-none text-xs font-bold uppercase cursor-pointer ${booking.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'}`}
-                                                >
-                                                    <option value="Pending" className="bg-gray-900 text-amber-500">Pending</option>
-                                                    <option value="Completed" className="bg-gray-900 text-emerald-500">Completed</option>
-                                                    <option value="Cancelled" className="bg-gray-900 text-red-500">Cancelled</option>
-                                                </select>
-                                            </td>
-                                            <td className="p-4 text-xs text-white/50">
-                                                {new Date(booking.createdAt).toLocaleDateString()}
-                                                <br />
-                                                {new Date(booking.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </td>
-                                            <td className="p-4 text-right">
-                                                <button
-                                                    onClick={() => handleDeleteBooking(booking._id)}
-                                                    className="p-2 text-red-400 hover:bg-white/10 rounded-full transition-colors"
-                                                    title="Delete Booking"
-                                                >
-                                                    <XCircle size={18} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            {getFilteredData(bookings).length === 0 && <div className="p-8 text-center text-white/30">No bookings found for this filter.</div>}
-                        </div>
-                    </div>
-                )}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Add Product Form */}
-                    <div className="bg-white/5 p-6 rounded-2xl border border-white/10 h-fit">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-serif">{editingProduct ? 'Edit Product' : 'Add Artifact'}</h2>
-                            {editingProduct && <button onClick={cancelEditProduct} className="text-xs text-red-400">Cancel</button>}
-                        </div>
-                        <form onSubmit={handleSaveProduct} className="space-y-4">
-                            <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                            <div className="grid grid-cols-2 gap-4">
-                                <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
-                                    <option value="gemstones">Gemstone</option>
-                                    <option value="yantras">Yantra</option>
-                                    <option value="kawach">Kawach</option>
-                                    <option value="rudraksha">Rudraksha</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                            <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                            <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
-                                {editingProduct ? 'Save Changes' : 'Add to Store'}
-                            </button>
-                        </form>
-                    </div>
 
-                    {/* Product List */}
-                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {products.map(p => (
-                            <div key={p._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex gap-4 relative group">
-                                <img src={p.image} alt={p.name} className="w-20 h-20 object-cover rounded-lg bg-black/50" />
-                                <div>
-                                    <h3 className="font-bold text-white">{p.name}</h3>
-                                    <p className="text-gold">₹{p.price}</p>
-                                    <p className="text-white/50 text-xs mt-1 line-clamp-2">{p.description}</p>
-                                </div>
-                                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button onClick={() => startEditProduct(p)} className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 rounded">
-                                        Edit
-                                    </button>
-                                    <button onClick={() => handleDeleteProduct(p._id)} className="text-red-400 p-2 hover:bg-white/10 rounded">
-                                        <XCircle size={18} />
-                                    </button>
-                                </div>
+                {/* Store Tab */}
+                {activeTab === 'store' && (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Add Product Form */}
+                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 h-fit">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-serif">{editingProduct ? 'Edit Product' : 'Add Artifact'}</h2>
+                                {editingProduct && <button onClick={cancelEditProduct} className="text-xs text-red-400">Cancel</button>}
                             </div>
-                        ))}
+                            <form onSubmit={handleSaveProduct} className="space-y-4">
+                                <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                    <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
+                                        <option value="gemstones">Gemstone</option>
+                                        <option value="yantras">Yantra</option>
+                                        <option value="kawach">Kawach</option>
+                                        <option value="rudraksha">Rudraksha</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                    {editingProduct ? 'Save Changes' : 'Add to Store'}
+                                </button>
+                            </form>
+                        </div>
+
+                        {/* Product List */}
+                        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {products.map(p => (
+                                <div key={p._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex gap-4 relative group">
+                                    <img src={p.image} alt={p.name} className="w-20 h-20 object-cover rounded-lg bg-black/50" />
+                                    <div>
+                                        <h3 className="font-bold text-white">{p.name}</h3>
+                                        <p className="text-gold">₹{p.price}</p>
+                                        <p className="text-white/50 text-xs mt-1 line-clamp-2">{p.description}</p>
+                                    </div>
+                                    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button onClick={() => startEditProduct(p)} className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 rounded">
+                                            Edit
+                                        </button>
+                                        <button onClick={() => handleDeleteProduct(p._id)} className="text-red-400 p-2 hover:bg-white/10 rounded">
+                                            <XCircle size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
                 )}
 
                 {/* Video Manager Tab */}
@@ -1012,37 +957,11 @@ const AdminDashboard = () => {
                         <div className="p-6 border-b border-white/10 flex justify-between items-center">
                             <h2 className="text-xl font-semibold">Recent Appointments</h2>
                             <button
-                                onClick={() => {
-                                    if (bookings.length === 0) return alert("No data to export");
-                                    const headers = ['Name', 'Phone', 'Email', 'Topic', 'BirthDate', 'BirthTime', 'BirthPlace', 'Gender', 'Status', 'Date'];
-                                    const csvContent = "data:text/csv;charset=utf-8,"
-                                        + headers.join(",") + "\n"
-                                        + bookings.map(b => {
-                                            return [
-                                                `"${b.name || ''}"`,
-                                                `"${b.phone || ''}"`,
-                                                `"${b.email || ''}"`,
-                                                `"${b.topic || ''}"`,
-                                                `"${b.birthDate || ''}"`,
-                                                `"${b.birthTime || ''}"`,
-                                                `"${b.birthPlace || ''}"`,
-                                                `"${b.gender || ''}"`,
-                                                `"${b.status || ''}"`,
-                                                `"${new Date(b.createdAt).toLocaleDateString()}"`
-                                            ].join(",");
-                                        }).join("\n");
-                                    const encodedUri = encodeURI(csvContent);
-                                    const link = document.createElement("a");
-                                    link.setAttribute("href", encodedUri);
-                                    link.setAttribute("download", `bookings_${new Date().toISOString().split('T')[0]}.csv`);
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    document.body.removeChild(link);
-                                }}
+                                onClick={handleExportExcel}
                                 className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-md hover:bg-green-500/30 transition-colors text-sm"
                             >
                                 <FileDown size={16} />
-                                Export CSV
+                                Export Excel
                             </button>
                         </div>
                         <div className="overflow-x-auto">
@@ -1111,10 +1030,17 @@ const AdminDashboard = () => {
                                                 )}
                                                 <button
                                                     onClick={() => updateStatus(booking._id, 'Cancelled')}
-                                                    className="p-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded-full transition-colors"
-                                                    title="Cancel"
+                                                    className="p-2 bg-amber-500/20 hover:bg-amber-500/40 text-amber-400 rounded-full transition-colors"
+                                                    title="Mark as Cancelled"
                                                 >
                                                     <XCircle size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteBooking(booking._id)}
+                                                    className="p-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded-full transition-colors"
+                                                    title="Delete Permanently"
+                                                >
+                                                    <Trash2 size={18} />
                                                 </button>
                                             </td>
                                         </motion.tr>
