@@ -37,6 +37,7 @@
         "stats-gl": "^2.3.0",
         "tailwind-merge": "^2.2.0",
         "three": "0.160.1",
+        "three-mesh-bvh": "^0.9.7",
         "twilio": "^5.11.1"
     },
     "devDependencies": {
