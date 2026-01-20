@@ -35,6 +35,15 @@ export class Booking {
     @Prop()
     astrologer: string;
 
+    @Prop()
+    gender: string;
+
+    @Prop()
+    preferredDate: string; // Renamed from 'date' to match frontend
+
+    @Prop()
+    preferredTime: string; // Renamed from 'time' to match frontend
+
     @Prop({ default: 'Pending' })
     status: string;
 }

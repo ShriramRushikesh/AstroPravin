@@ -8,24 +8,24 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+    // STRICT STATIC CORS (Industry Standard)
     app.enableCors({
-      origin: (origin, callback) => {
-        const allowedOrigins = [
-          'https://astropravin.com',
-          'https://www.astropravin.com',
-          'http://localhost:5173',
-          'http://localhost:5002'
-        ];
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          console.log(`🚫 Blocked CORS Origin: ${origin}`);
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
+      origin: [
+        'https://astropravin.com',
+        'https://www.astropravin.com',
+        'http://localhost:5173',
+        'http://localhost:5174', // Vite often switches to 5174 if 5173 is busy
+        'http://localhost:5002'
+      ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
       optionsSuccessStatus: 204,
+    });
+
+    // Request Logging (Morgan-style)
+    app.use((req, res, next) => {
+      console.log(`[Request] ${req.method} ${req.url} | Origin: ${req.headers.origin || 'None'}`);
+      next();
     });
     app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix('api'); // Standardize all backend routes to /api/...
