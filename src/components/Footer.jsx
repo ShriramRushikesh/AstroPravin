@@ -99,7 +99,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
                     <p>&copy; {new Date().getFullYear()} Astro Pravin. All rights reserved. • <span className="text-gold/80">Visits: {visitCount ? visitCount.toLocaleString() : '...'}</span>
-                        <br />Made with ❤️ for <strong>BABA</strong> by~ <strong>Rushikesh Shriram</strong>
+                        <br />Made with ❤️ for <strong>BABA</strong> by~ <strong><a href="https://www.instagram.com/shriramrushi_5_5_5/">Rushikesh Shriram</a></strong>
                     </p>
                     <div className="flex gap-6">
                         <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>

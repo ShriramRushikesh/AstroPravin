@@ -4,6 +4,7 @@ import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDo
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { API_URL } from '../config';
+import * as XLSX from 'xlsx';
 
 const AdminDashboard = () => {
     const [bookings, setBookings] = useState([]);
@@ -19,6 +20,7 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'leads', 'store', 'videos', 'orders'
     const [uploading, setUploading] = useState(false);
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+    const [filterType, setFilterType] = useState('all'); // 'all', 'today', 'week', 'month'
 
     // Edit States
     const [editingProduct, setEditingProduct] = useState(null);
@@ -178,6 +180,82 @@ const AdminDashboard = () => {
         setIsAuthenticated(false);
         setBookings([]);
 
+    };
+
+    // --- New Features: Delete, Export, Filter ---
+
+    const handleDeleteBooking = async (id) => {
+        if (!confirm('Are you sure you want to delete this booking? This cannot be undone.')) return;
+        try {
+            const token = localStorage.getItem('adminToken');
+            const res = await fetch(`${API_URL}/api/bookings/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (res.ok) {
+                const updatedBookings = bookings.filter(b => b._id !== id);
+                setBookings(updatedBookings);
+                calculateStats(updatedBookings);
+            } else {
+                alert('Failed to delete booking');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+        }
+    };
+
+    const handleExportExcel = () => {
+        const dataToExport = getFilteredData(activeTab === 'orders' ? orders : bookings);
+
+        // Format data for simpler Excel view
+        const formattedData = dataToExport.map(item => {
+            if (activeTab === 'orders') {
+                return {
+                    Date: new Date(item.createdAt).toLocaleDateString(),
+                    Customer: item.customerName,
+                    Phone: item.customerPhone,
+                    Product: item.productName,
+                    Price: item.productPrice,
+                    Status: item.status
+                };
+            } else {
+                return {
+                    Date: new Date(item.createdAt).toLocaleDateString(),
+                    Name: item.name,
+                    Email: item.email,
+                    Phone: item.phone,
+                    Service: item.serviceType || 'Consultation',
+                    Status: item.status
+                };
+            }
+        });
+
+        const ws = XLSX.utils.json_to_sheet(formattedData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Data");
+        XLSX.writeFile(wb, `Astropravin_Data_${filterType}_${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
+
+    const getFilteredData = (data) => {
+        if (filterType === 'all') return data;
+
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday as start
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        return data.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            if (filterType === 'today') return itemDate >= startOfDay;
+            if (filterType === 'week') return itemDate >= startOfWeek;
+            if (filterType === 'month') return itemDate >= startOfMonth;
+            return true;
+        });
     };
 
     // ... existing updateStatus ... is replaced above
@@ -610,57 +688,136 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                {/* Store Manager Tab */}
-                {activeTab === 'store' && (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Add Product Form */}
-                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 h-fit">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-serif">{editingProduct ? 'Edit Product' : 'Add Artifact'}</h2>
-                                {editingProduct && <button onClick={cancelEditProduct} className="text-xs text-red-400">Cancel</button>}
-                            </div>
-                            <form onSubmit={handleSaveProduct} className="space-y-4">
-                                <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <div className="grid grid-cols-2 gap-4">
-                                    <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                    <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
-                                        <option value="gemstones">Gemstone</option>
-                                        <option value="yantras">Yantra</option>
-                                        <option value="kawach">Kawach</option>
-                                        <option value="rudraksha">Rudraksha</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
-                                    {editingProduct ? 'Save Changes' : 'Add to Store'}
+                {/* Filters & Export Toolbar (Visible for Bookings & Orders) */}
+                {(activeTab === 'bookings' || activeTab === 'orders') && (
+                    <div className="flex flex-wrap gap-4 justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+                        <div className="flex gap-2">
+                            {['all', 'today', 'week', 'month'].map(type => (
+                                <button
+                                    key={type}
+                                    onClick={() => setFilterType(type)}
+                                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${filterType === type ? 'bg-gold text-black font-bold' : 'bg-black/40 text-white/60 hover:text-white'}`}
+                                >
+                                    {type}
                                 </button>
-                            </form>
-                        </div>
-
-                        {/* Product List */}
-                        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {products.map(p => (
-                                <div key={p._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex gap-4 relative group">
-                                    <img src={p.image} alt={p.name} className="w-20 h-20 object-cover rounded-lg bg-black/50" />
-                                    <div>
-                                        <h3 className="font-bold text-white">{p.name}</h3>
-                                        <p className="text-gold">₹{p.price}</p>
-                                        <p className="text-white/50 text-xs mt-1 line-clamp-2">{p.description}</p>
-                                    </div>
-                                    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button onClick={() => startEditProduct(p)} className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 rounded">
-                                            Edit
-                                        </button>
-                                        <button onClick={() => handleDeleteProduct(p._id)} className="text-red-400 p-2 hover:bg-white/10 rounded">
-                                            <XCircle size={18} />
-                                        </button>
-                                    </div>
-                                </div>
                             ))}
                         </div>
+                        <button
+                            onClick={handleExportExcel}
+                            className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-lg hover:bg-emerald-500/30 transition-colors"
+                        >
+                            <FileDown size={18} /> Export Excel
+                        </button>
                     </div>
+                )}
+
+                {/* Bookings Tab (Default) */}
+                {activeTab === 'bookings' && (
+                    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-white/5 text-white/50 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th className="p-4">Client</th>
+                                        <th className="p-4">Details</th>
+                                        <th className="p-4">Status</th>
+                                        <th className="p-4">Date</th>
+                                        <th className="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                    {getFilteredData(bookings).map(booking => (
+                                        <tr key={booking._id} className="hover:bg-white/5 transition-colors">
+                                            <td className="p-4">
+                                                <div className="font-bold text-white max-w-[150px] truncate" title={booking.name}>{booking.name}</div>
+                                                <div className="text-white/50 text-xs">{booking.phone}</div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="text-sm text-gold">{booking.serviceType || 'Consultation'}</div>
+                                                <div className="text-xs text-white/50" title={booking.email}>{booking.email}</div>
+                                            </td>
+                                            <td className="p-4">
+                                                <select
+                                                    value={booking.status}
+                                                    onChange={(e) => updateStatus(booking._id, e.target.value)}
+                                                    className={`bg-transparent outline-none text-xs font-bold uppercase cursor-pointer ${booking.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'}`}
+                                                >
+                                                    <option value="Pending" className="bg-gray-900 text-amber-500">Pending</option>
+                                                    <option value="Completed" className="bg-gray-900 text-emerald-500">Completed</option>
+                                                    <option value="Cancelled" className="bg-gray-900 text-red-500">Cancelled</option>
+                                                </select>
+                                            </td>
+                                            <td className="p-4 text-xs text-white/50">
+                                                {new Date(booking.createdAt).toLocaleDateString()}
+                                                <br />
+                                                {new Date(booking.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <button
+                                                    onClick={() => handleDeleteBooking(booking._id)}
+                                                    className="p-2 text-red-400 hover:bg-white/10 rounded-full transition-colors"
+                                                    title="Delete Booking"
+                                                >
+                                                    <XCircle size={18} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            {getFilteredData(bookings).length === 0 && <div className="p-8 text-center text-white/30">No bookings found for this filter.</div>}
+                        </div>
+                    </div>
+                )}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Add Product Form */}
+                    <div className="bg-white/5 p-6 rounded-2xl border border-white/10 h-fit">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-serif">{editingProduct ? 'Edit Product' : 'Add Artifact'}</h2>
+                            {editingProduct && <button onClick={cancelEditProduct} className="text-xs text-red-400">Cancel</button>}
+                        </div>
+                        <form onSubmit={handleSaveProduct} className="space-y-4">
+                            <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                            <div className="grid grid-cols-2 gap-4">
+                                <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
+                                    <option value="gemstones">Gemstone</option>
+                                    <option value="yantras">Yantra</option>
+                                    <option value="kawach">Kawach</option>
+                                    <option value="rudraksha">Rudraksha</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                            <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                            <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                {editingProduct ? 'Save Changes' : 'Add to Store'}
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* Product List */}
+                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {products.map(p => (
+                            <div key={p._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex gap-4 relative group">
+                                <img src={p.image} alt={p.name} className="w-20 h-20 object-cover rounded-lg bg-black/50" />
+                                <div>
+                                    <h3 className="font-bold text-white">{p.name}</h3>
+                                    <p className="text-gold">₹{p.price}</p>
+                                    <p className="text-white/50 text-xs mt-1 line-clamp-2">{p.description}</p>
+                                </div>
+                                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => startEditProduct(p)} className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 rounded">
+                                        Edit
+                                    </button>
+                                    <button onClick={() => handleDeleteProduct(p._id)} className="text-red-400 p-2 hover:bg-white/10 rounded">
+                                        <XCircle size={18} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
                 )}
 
                 {/* Video Manager Tab */}
@@ -717,7 +874,7 @@ const AdminDashboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
-                                    {orders.map(order => (
+                                    {getFilteredData(orders).map(order => (
                                         <tr key={order._id} className="hover:bg-white/5">
                                             <td className="p-4">
                                                 <div className="font-bold text-white">{order.customerName}</div>

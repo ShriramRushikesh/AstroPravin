@@ -30,4 +30,8 @@ export class BookingService {
             .findByIdAndUpdate(id, { status }, { new: true })
             .exec();
     }
+
+    async remove(id: string): Promise<Booking | null> {
+        return this.bookingModel.findByIdAndDelete(id).exec();
+    }
 }
