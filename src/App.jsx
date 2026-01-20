@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from "@vercel/analytics/react";
 import HeroSection from './components/HeroSection';
 import { API_URL } from './config';
 import ScrollSections from './components/ScrollSections';
@@ -97,6 +98,7 @@ function App() {
         <HelmetProvider>
             <Router>
                 <AppContent />
+                <Analytics />
             </Router>
         </HelmetProvider>
     );
