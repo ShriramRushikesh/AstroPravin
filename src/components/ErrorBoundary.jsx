@@ -19,13 +19,13 @@ class ErrorBoundary extends React.Component {
         if (this.state.hasError) {
             return (
                 <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-6 text-center">
-                    <h1 className="text-3xl text-saffron mb-4">Something went wrong.</h1>
+                    <h1 className="text-3xl text-primary mb-4">Something went wrong.</h1>
                     <p className="text-white/60 mb-8 max-w-md">
                         We encountered an unexpected error. Please try refreshing the page or navigating back to home.
                     </p>
                     <button
                         onClick={() => window.location.href = '/'}
-                        className="px-6 py-3 bg-white/10 border border-white/20 rounded-full hover:bg-gold hover:text-black transition-all"
+                        className="px-6 py-3 bg-white/10 border border-white/20 rounded-full hover:bg-secondary hover:text-black transition-all"
                     >
                         Go to Home
                     </button>

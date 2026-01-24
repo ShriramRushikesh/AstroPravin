@@ -27,7 +27,7 @@ const HeroSection = ({ onBookClick }) => {
             {/* Glowing Sun Effect behind text */}
             <motion.div
                 style={{ y: yMid, scale: useTransform(scrollY, [0, 500], [1, 1.5]) }}
-                className="absolute z-20 w-64 h-64 bg-saffron/20 blur-[100px] rounded-full"
+                className="absolute z-20 w-64 h-64 bg-hero-saffron/20 blur-[100px] rounded-full"
             />
 
             {/* Layer 3: Foreground Content */}
@@ -40,7 +40,7 @@ const HeroSection = ({ onBookClick }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    <h2 className="text-saffron tracking-[0.099em] text-sm md:text-base mb-4 uppercase font-sans">
+                    <h2 className="text-hero-saffron tracking-[0.099em] text-sm md:text-base mb-4 uppercase font-sans">
                         Shriram Samupdeshan Kendra
                     </h2>
                     <h1 className="text-4xl md:text-7xl lg:text-8xl font-serif text-white mb-6 drop-shadow-2xl">
@@ -54,7 +54,7 @@ const HeroSection = ({ onBookClick }) => {
                         onClick={onBookClick}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-4 bg-white/5 backdrop-blur-sm border border-gold/30 rounded-full text-gold font-semibold tracking-wider hover:bg-gold hover:text-cosmic-blue transition-all duration-300 shadow-[0_0_30px_rgba(255,215,0,0.2)]"
+                        className="px-8 py-4 bg-white/5 backdrop-blur-sm border border-hero-gold/30 rounded-full text-hero-gold font-semibold tracking-wider hover:bg-hero-gold hover:text-cosmic-blue transition-all duration-300 shadow-[0_0_30px_rgba(255,215,0,0.2)]"
                     >
                         BOOK CONSULTATION
                     </motion.button>
@@ -68,7 +68,7 @@ const HeroSection = ({ onBookClick }) => {
                 className="absolute bottom-10 z-30 flex flex-col items-center gap-2"
             >
                 <span className="text-xs text-white/30 tracking-widest uppercase">ABOUT US</span>
-                <div className="w-[1px] h-12 bg-gradient-to-b from-gold/50 to-transparent" />
+                <div className="w-[1px] h-12 bg-gradient-to-b from-hero-gold/50 to-transparent" />
             </motion.div>
         </div>
     );

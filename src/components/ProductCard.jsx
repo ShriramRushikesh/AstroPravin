@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
-            className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-gold/30 transition-all duration-500"
+            className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-secondary/30 transition-all duration-500"
         >
             {/* Holographic Gradient Overlay on Hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10" />
@@ -35,18 +35,18 @@ const ProductCard = ({ product }) => {
 
             {/* Content */}
             <div className="p-5">
-                <h3 className="text-white font-serif text-lg truncate group-hover:text-gold transition-colors">{product.name}</h3>
+                <h3 className="text-white font-serif text-lg truncate group-hover:text-secondary transition-colors">{product.name}</h3>
                 <p className="text-white/40 text-sm mt-1 mb-4 h-10 overflow-hidden line-clamp-2">{product.description || product.desc}</p>
 
                 <div className="flex items-center justify-between mt-4 border-t border-white/5 pt-4">
-                    <span className="text-saffron font-bold">₹{product.price.toLocaleString()}</span>
+                    <span className="text-primary font-bold">₹{product.price.toLocaleString()}</span>
                     <button
                         onClick={() => {
                             const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price.toLocaleString()}\n*Category:* ${product.category || 'Start'}\n\n*Hello Astro Pravin Ji,*\nI am interested in buying this spiritual artifact. Please share availability and payment details. \n\n🙏`;
                             const waUrl = `https://wa.me/919921697908?text=${encodeURIComponent(msg)}`;
                             window.open(waUrl, '_blank');
                         }}
-                        className="p-2 rounded-full bg-white/5 hover:bg-gold hover:text-cosmic-blue text-gold transition-all"
+                        className="p-2 rounded-full bg-white/5 hover:bg-secondary hover:text-cosmic-blue text-secondary transition-all"
                         title="Buy on WhatsApp"
                     >
                         <ShoppingBag size={18} />

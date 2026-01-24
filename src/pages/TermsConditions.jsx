@@ -9,7 +9,7 @@ const TermsConditions = () => {
                 description="Terms and Conditions for Astro Pravin services. Astrology is a belief system."
             />
             <div className="max-w-4xl mx-auto space-y-8">
-                <h1 className="text-4xl font-serif text-gold">Terms & Conditions</h1>
+                <h1 className="text-4xl font-serif text-secondary">Terms & Conditions</h1>
                 <p className="text-white/60 text-sm">Last Updated: {new Date().toLocaleDateString()}</p>
 
                 <section className="space-y-4">

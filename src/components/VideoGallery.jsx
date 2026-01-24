@@ -55,7 +55,7 @@ const VideoGallery = () => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="text-center mb-16">
-                    <span className="text-saffron tracking-[0.3em] uppercase text-sm font-semibold">Free Wisdom</span>
+                    <span className="text-primary tracking-[0.3em] uppercase text-sm font-semibold">Free Wisdom</span>
                     <h2 className="text-4xl md:text-5xl font-serif text-white mt-2 mb-6">Latest Vedic Insights</h2>
                     <p className="text-white/60 max-w-2xl mx-auto">
                         Watch our latest videos on planetary transits, remedies, and astrological predictions to transform your life.
@@ -73,7 +73,7 @@ const VideoGallery = () => {
                             onClick={() => setSelectedVideo(video)}
                         >
                             {/* Thumbnail Wrapper */}
-                            <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group-hover:border-saffron/50 transition-colors shadow-2xl">
+                            <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors shadow-2xl">
                                 <img
                                     src={`https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`}
                                     alt={video.title}
@@ -88,7 +88,7 @@ const VideoGallery = () => {
 
                             {/* Content */}
                             <div className="mt-4">
-                                <h3 className="text-xl font-serif text-white group-hover:text-gold transition-colors line-clamp-2">{video.title}</h3>
+                                <h3 className="text-xl font-serif text-white group-hover:text-secondary transition-colors line-clamp-2">{video.title}</h3>
                                 <p className="text-white/50 text-sm mt-2 line-clamp-2">{video.desc}</p>
                                 <div className="flex items-center gap-4 mt-3 text-xs text-white/30 uppercase tracking-wider">
                                     <span>{video.views} Views</span>

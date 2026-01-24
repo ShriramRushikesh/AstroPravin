@@ -42,7 +42,7 @@ const Navbar = ({ onBookClick }) => {
                         {/* Logo */}
                         <div className="flex items-center gap-2">
                             <span className="text-2xl font-serif text-white font-bold tracking-tight">
-                                Astro<span className="text-gradient-gold">Pravin</span>
+                                Astro<span className="text-gradient-primary">Pravin</span>
                             </span>
                         </div>
 
@@ -52,7 +52,7 @@ const Navbar = ({ onBookClick }) => {
                                 <Link
                                     key={link.name}
                                     to={link.href}
-                                    className="text-white/80 hover:text-gold transition-colors text-sm uppercase tracking-widest font-medium"
+                                    className="text-white/80 hover:text-secondary transition-colors text-sm uppercase tracking-widest font-medium"
                                 >
                                     {link.name}
                                 </Link>
@@ -63,7 +63,7 @@ const Navbar = ({ onBookClick }) => {
                         <div className="hidden md:block">
                             <button
                                 onClick={onBookClick}
-                                className="px-6 py-2 bg-gradient-to-r from-saffron to-red-500 rounded-full text-white text-xs font-bold tracking-widest hover:shadow-[0_0_20px_rgba(255,153,51,0.4)] transition-shadow"
+                                className="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full text-white text-xs font-bold tracking-widest hover:shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-shadow"
                             >
                                 BOOK NOW
                             </button>
@@ -94,7 +94,7 @@ const Navbar = ({ onBookClick }) => {
                                 key={link.name}
                                 to={link.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="text-2xl font-serif text-white hover:text-gold transition-colors"
+                                className="text-2xl font-serif text-white hover:text-secondary transition-colors"
                             >
                                 {link.name}
                             </Link>
@@ -104,7 +104,7 @@ const Navbar = ({ onBookClick }) => {
                                 setMobileMenuOpen(false);
                                 onBookClick();
                             }}
-                            className="px-8 py-3 bg-saffron rounded-full text-white font-bold tracking-widest"
+                            className="px-8 py-3 bg-primary rounded-full text-white font-bold tracking-widest"
                         >
                             BOOK CONSULTATION
                         </button>

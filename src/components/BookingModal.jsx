@@ -114,12 +114,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                                className="w-24 h-24 bg-gradient-to-tr from-gold to-saffron rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,215,0,0.4)]"
+                                className="w-24 h-24 bg-gradient-to-tr from-secondary to-primary rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,215,0,0.4)]"
                             >
                                 <Sparkles className="text-black" size={48} />
                             </motion.div>
 
-                            <h2 className="text-3xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-white via-gold to-white mb-4">
+                            <h2 className="text-3xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-white via-secondary to-white mb-4">
                                 Booking Confirmed!
                             </h2>
 
@@ -129,7 +129,7 @@ const BookingModal = ({ isOpen, onClose }) => {
 
                             <button
                                 onClick={onClose}
-                                className="px-8 py-3 bg-white/10 border border-white/20 rounded-full text-white hover:bg-gold hover:text-black transition-all mb-4"
+                                className="px-8 py-3 bg-white/10 border border-white/20 rounded-full text-white hover:bg-secondary hover:text-black transition-all mb-4"
                             >
                                 Close Window
                             </button>
@@ -162,7 +162,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     {/* Topic Selection */}
                                     <div>
-                                        <label className="text-saffron text-xs font-bold uppercase mb-2 block">Consultation Topic</label>
+                                        <label className="text-primary text-xs font-bold uppercase mb-2 block">Consultation Topic</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                             {topics.map(t => (
                                                 <button
@@ -170,7 +170,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, topic: t })}
                                                     className={`p-3 rounded-lg text-sm text-left transition-all border ${formData.topic === t
-                                                        ? 'bg-gold text-black border-gold font-bold shadow-[0_0_10px_rgba(255,215,0,0.3)]'
+                                                        ? 'bg-secondary text-black border-secondary font-bold shadow-[0_0_10px_rgba(255,215,0,0.3)]'
                                                         : 'bg-white/5 text-white/60 border-white/5 hover:bg-white/10'
                                                         }`}
                                                 >
@@ -190,7 +190,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                 required
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50 text-[16px]"
+                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50 text-[16px]"
                                             />
                                             <input
                                                 type="email"
@@ -198,7 +198,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                 required
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                             />
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 <input
@@ -207,12 +207,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                     required
                                                     value={formData.phone}
                                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                                 />
                                                 <select
                                                     value={formData.gender}
                                                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                                 >
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -232,7 +232,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                     value={formData.birthDate}
                                                     onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
                                                     required
-                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                                 />
                                             </div>
                                             <div>
@@ -242,7 +242,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                     value={formData.birthTime}
                                                     onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
                                                     required
-                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                                 />
                                             </div>
                                             <div className="col-span-1 sm:col-span-2">
@@ -253,7 +253,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                     value={formData.birthPlace}
                                                     onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
                                                     required
-                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                                 />
                                             </div>
                                         </div>
@@ -267,13 +267,13 @@ const BookingModal = ({ isOpen, onClose }) => {
                                                 type="date"
                                                 value={formData.preferredDate}
                                                 onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                             />
                                             <input
                                                 type="time"
                                                 value={formData.preferredTime}
                                                 onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
-                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-gold/50"
+                                                className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-secondary/50"
                                             />
                                         </div>
                                     </div>
@@ -281,7 +281,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full py-4 bg-gradient-to-r from-saffron to-gold rounded-xl text-cosmic-blue font-bold text-lg uppercase tracking-wide hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full py-4 bg-gradient-to-r from-primary to-secondary rounded-xl text-cosmic-blue font-bold text-lg uppercase tracking-wide hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {loading ? 'Confirming...' : 'Confirm Booking'}
                                     </button>

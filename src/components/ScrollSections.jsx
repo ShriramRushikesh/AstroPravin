@@ -20,10 +20,10 @@ const Section = ({ title, subtitle, icon: Icon, color, children, parallaxY }) =>
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex items-center gap-4 mb-4">
-                            <div className="p-3 glass rounded-full text-gold">
+                            <div className="p-3 glass rounded-full text-secondary">
                                 <Icon size={24} />
                             </div>
-                            <h3 className="text-saffron font-serif text-xl tracking-widest uppercase">{subtitle}</h3>
+                            <h3 className="text-primary font-serif text-xl tracking-widest uppercase">{subtitle}</h3>
                         </div>
                         <h2 className="text-4xl md:text-6xl font-serif text-white mb-6 leading-tight">
                             {title}
@@ -50,15 +50,15 @@ const KundliGrid = () => (
         <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-            className="w-[300px] h-[300px] border-2 border-saffron/30 rounded-full absolute"
+            className="w-[300px] h-[300px] border-2 border-primary/30 rounded-full absolute"
         />
         <motion.div
             animate={{ rotate: -360 }}
             transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-            className="w-[200px] h-[200px] border border-gold/20 rotate-45 absolute" // Simplified square/diamond
+            className="w-[200px] h-[200px] border border-secondary/20 rotate-45 absolute" // Simplified square/diamond
         />
         {/* Simplified Kundli Houses visualization */}
-        <svg viewBox="0 0 100 100" className="w-[350px] h-[350px] absolute text-saffron/20 stroke-current stroke-[0.5] fill-none">
+        <svg viewBox="0 0 100 100" className="w-[350px] h-[350px] absolute text-primary/20 stroke-current stroke-[0.5] fill-none">
             <rect x="25" y="25" width="50" height="50" />
             <path d="M25 25 L75 75 M75 25 L25 75" />
             <path d="M50 0 L100 50 L50 100 L0 50 Z" />
@@ -146,7 +146,7 @@ const ScrollSections = () => {
                 title="Saturn's Return"
                 subtitle="Career & Wealth"
                 icon={Briefcase}
-                color="bg-saturn-gold"
+                color="bg-saturn-secondary"
                 parallaxY={y1} // Reuse parallax speed or create new
             >
                 <CareerGraph />

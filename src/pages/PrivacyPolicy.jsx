@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
                 description="Privacy Policy for Astro Pravin. Compliant with Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011."
             />
             <div className="max-w-4xl mx-auto space-y-8">
-                <h1 className="text-4xl font-serif text-gold">Privacy Policy</h1>
+                <h1 className="text-4xl font-serif text-secondary">Privacy Policy</h1>
                 <p className="text-white/60 text-sm">Last Updated: {new Date().toLocaleDateString()}</p>
 
                 <section className="space-y-4">
@@ -62,7 +62,7 @@ const PrivacyPolicy = () => {
                     <h2 className="text-2xl font-serif text-white">6. Contact Us</h2>
                     <p className="text-white/80 leading-relaxed">
                         If you have any questions regarding this Privacy Policy, please contact us at: <br />
-                        <span className="text-gold">consult@astropravin.com</span>
+                        <span className="text-secondary">consult@astropravin.com</span>
                     </p>
                 </section>
             </div>

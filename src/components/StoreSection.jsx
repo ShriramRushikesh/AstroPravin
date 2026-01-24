@@ -50,7 +50,7 @@ const StoreSection = () => {
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <span className="text-saffron tracking-[0.3em] uppercase text-sm font-semibold">Spiritual Store</span>
+                    <span className="text-primary tracking-[0.3em] uppercase text-sm font-semibold">Spiritual Store</span>
                     <h2 className="text-4xl md:text-5xl font-serif text-white mt-2 mb-6">Energized Artifacts</h2>
                     <p className="text-white/60 max-w-2xl mx-auto">
                         Ancient Vedic tools energized with mantras to attract health, wealth, and prosperity.
@@ -64,7 +64,7 @@ const StoreSection = () => {
                             key={cat.id}
                             onClick={() => setFilter(cat.id)}
                             className={`px-6 py-2 rounded-full text-sm font-medium tracking-wide transition-all border ${filter === cat.id
-                                ? 'bg-saffron/20 border-saffron text-saffron shadow-[0_0_15px_rgba(255,153,51,0.3)]'
+                                ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(255,153,51,0.3)]'
                                 : 'bg-white/5 border-white/10 text-white/60 hover:border-white/30 hover:text-white'
                                 }`}
                         >

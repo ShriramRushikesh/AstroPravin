@@ -79,10 +79,10 @@ const Store = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <span className="text-saffron tracking-[0.4em] uppercase text-sm font-semibold mb-4 block">
+                        <span className="text-primary tracking-[0.4em] uppercase text-sm font-semibold mb-4 block">
                             Energized Artifacts
                         </span>
-                        <h1 className="text-5xl md:text-7xl font-serif mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-gold to-white">
+                        <h1 className="text-5xl md:text-7xl font-serif mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-secondary to-white">
                             Celestial Treasury
                         </h1>
                         <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light">
@@ -105,7 +105,7 @@ const Store = () => {
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
                                 className={`px-4 py-2 rounded-full text-sm transition-all border ${activeCategory === cat.id
-                                    ? 'bg-gold text-black font-bold border-gold'
+                                    ? 'bg-secondary text-black font-bold border-secondary'
                                     : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
                                     }`}
                             >
@@ -122,7 +122,7 @@ const Store = () => {
                             placeholder="Search artifacts..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full md:w-64 bg-black/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-white focus:border-gold outline-none transition-colors"
+                            className="w-full md:w-64 bg-black/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-white focus:border-secondary outline-none transition-colors"
                         />
                     </div>
 
@@ -133,7 +133,7 @@ const Store = () => {
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
                                 className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all border ${activeCategory === cat.id
-                                    ? 'bg-gold text-black font-bold border-gold'
+                                    ? 'bg-secondary text-black font-bold border-secondary'
                                     : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
                                     }`}
                             >
@@ -146,7 +146,7 @@ const Store = () => {
                 {/* Loading State */}
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-secondary"></div>
                     </div>
                 ) : (
                     /* Product Grid */

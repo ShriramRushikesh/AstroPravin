@@ -44,7 +44,7 @@ const BlogPost = () => {
         return (
             <div className="min-h-screen bg-void flex flex-col items-center justify-center text-white px-4">
                 <h1 className="text-3xl font-bold mb-4">Article Not Found</h1>
-                <Link to="/blogs" className="text-gold hover:underline">← Back to Blogs</Link>
+                <Link to="/blogs" className="text-secondary hover:underline">← Back to Blogs</Link>
             </div>
         );
     }
@@ -79,12 +79,12 @@ const BlogPost = () => {
                 <SEO {...seoData} />
 
                 <article className="max-w-3xl mx-auto">
-                    <Link to="/blogs" className="inline-flex items-center gap-2 text-white/50 hover:text-gold transition-colors mb-8">
+                    <Link to="/blogs" className="inline-flex items-center gap-2 text-white/50 hover:text-secondary transition-colors mb-8">
                         <ArrowLeft size={20} /> Back to Blog
                     </Link>
 
                     <header className="mb-10 text-center">
-                        <span className="px-3 py-1 bg-saffron/10 border border-saffron/30 rounded-full text-xs text-saffron uppercase tracking-widest font-bold">
+                        <span className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full text-xs text-primary uppercase tracking-widest font-bold">
                             {post.category}
                         </span>
                         <h1 className="text-3xl md:text-5xl font-serif text-white mt-6 mb-4 leading-tight">
@@ -117,7 +117,7 @@ const BlogPost = () => {
                         </p>
                         <button
                             onClick={() => setIsBookingOpen(true)}
-                            className="px-8 py-4 bg-gradient-to-r from-saffron to-gold rounded-full text-cosmic-blue font-bold tracking-widest hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)]"
+                            className="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-cosmic-blue font-bold tracking-widest hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)]"
                         >
                             BOOK CONSULTATION NOW
                         </button>

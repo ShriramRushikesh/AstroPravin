@@ -11,8 +11,8 @@ const PlanetCard = ({ planet, index }) => {
             <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
                 {/* Text Content */}
                 <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-center md:text-left order-2 md:order-1 pt-8 md:pt-0 flex flex-col items-center md:items-start"
                 >
@@ -24,7 +24,7 @@ const PlanetCard = ({ planet, index }) => {
                             {planet.englishName}
                         </h2>
                     </div>
-                    <div className="inline-block bg-white/10 backdrop-blur-md px-3 py-1 md:px-4 md:py-1 rounded-full text-gold text-xs md:text-sm font-bold tracking-widest mb-4 md:mb-6 border border-white/20 uppercase">
+                    <div className="inline-block bg-white/10 backdrop-blur-md px-3 py-1 md:px-4 md:py-1 rounded-full text-secondary text-xs md:text-sm font-bold tracking-widest mb-4 md:mb-6 border border-white/20 uppercase">
                         {planet.role || 'Cosmic Force'}
                     </div>
                     <p className="text-white/80 text-sm md:text-lg leading-relaxed mb-6 md:mb-8 max-w-xl font-light line-clamp-4 md:line-clamp-none">
@@ -41,7 +41,7 @@ const PlanetCard = ({ planet, index }) => {
 
                     <Link
                         to={`/planet/${planet.id}`}
-                        className="inline-flex items-center gap-2 px-6 py-2 md:px-8 md:py-3 bg-white text-black font-bold uppercase tracking-widest text-xs md:text-sm rounded hover:bg-gold transition-colors"
+                        className="inline-flex items-center gap-2 px-6 py-2 md:px-8 md:py-3 bg-white text-black font-bold uppercase tracking-widest text-xs md:text-sm rounded hover:bg-secondary transition-colors"
                     >
                         Explore <ArrowRight size={16} />
                     </Link>
@@ -49,21 +49,21 @@ const PlanetCard = ({ planet, index }) => {
 
                 {/* Planet Visual (3D Render or Fallback) */}
                 <motion.div
-                    initial={{ scale: 0.8, opacity: 0, rotate: -20 }}
-                    whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 1.2, type: "spring", bounce: 0.3 }}
-                    className="relative flex justify-center perspective-1000 order-1 md:order-2 h-[300px] md:h-auto items-center"
+                    className="relative flex justify-center perspective-1000 order-1 md:order-2 h-[350px] md:h-auto items-center w-full"
                 >
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-                        className="relative z-10 w-[250px] h-[250px] md:w-[500px] md:h-[500px]"
+                        className="relative z-10 w-[70vw] h-[70vw] max-w-[300px] max-h-[300px] md:w-[500px] md:h-[500px] md:max-w-none md:max-h-none flex items-center justify-center"
                     >
                         {planet.img ? (
                             <img
                                 src={planet.img}
                                 alt={planet.englishName}
-                                className="w-full h-full object-contain mix-blend-screen filter drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]"
+                                className="w-full h-full object-cover rounded-full shadow-[0_0_25px_rgba(255,255,255,0.3)]"
                             />
                         ) : (
                             <div

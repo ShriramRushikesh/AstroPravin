@@ -54,7 +54,7 @@ const KundliGenerator = () => {
         }
     };
 
-    const inputClass = "w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none";
+    const inputClass = "w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none";
 
     return (
         <section className="min-h-screen py-20 bg-void relative overflow-hidden">
@@ -72,7 +72,7 @@ const KundliGenerator = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-saffron to-gold mb-4">
+                    <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4">
                         Kundli Generation
                     </h2>
                     <p className="text-white/60 text-lg max-w-2xl mx-auto">
@@ -90,7 +90,7 @@ const KundliGenerator = () => {
                                     type="text"
                                     name="name"
                                     onChange={handleInputChange}
-                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none text-sm md:text-base"
+                                    className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none text-sm md:text-base"
                                     placeholder="Enter your name"
                                     required
                                 />
@@ -99,11 +99,11 @@ const KundliGenerator = () => {
                             <div className="grid grid-cols-3 gap-2 md:gap-4">
                                 <div>
                                     <label className="block text-white/70 mb-2 text-xs md:text-sm uppercase tracking-wider">Day</label>
-                                    <input type="number" name="day" placeholder="DD" onChange={handleInputChange} className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none text-sm md:text-base" required />
+                                    <input type="number" name="day" placeholder="DD" onChange={handleInputChange} className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none text-sm md:text-base" required />
                                 </div>
                                 <div>
                                     <label className="block text-white/70 mb-2 text-xs md:text-sm uppercase tracking-wider">Month</label>
-                                    <input type="number" name="month" placeholder="MM" onChange={handleInputChange} className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none text-sm md:text-base" required />
+                                    <input type="number" name="month" placeholder="MM" onChange={handleInputChange} className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none text-sm md:text-base" required />
                                 </div>
                                 <div>
                                     <label className="block text-white/70 mb-2 text-xs md:text-sm uppercase tracking-wider">Year</label>
@@ -170,7 +170,7 @@ const KundliGenerator = () => {
                                                         setFormData({ ...formData, place: city.display_name.split(',')[0] + ", " + city.display_name.split(',').slice(-1)[0].trim() });
                                                         setCitySuggestions([]);
                                                     }}
-                                                    className="p-3 text-white/80 hover:bg-white/10 hover:text-gold cursor-pointer text-sm border-b border-white/5 last:border-none transition-colors"
+                                                    className="p-3 text-white/80 hover:bg-white/10 hover:text-secondary cursor-pointer text-sm border-b border-white/5 last:border-none transition-colors"
                                                 >
                                                     {city.display_name}
                                                 </li>
@@ -180,7 +180,7 @@ const KundliGenerator = () => {
                                 </div>
                             </div>
 
-                            <button disabled={loading} className="w-full py-4 bg-gradient-to-r from-saffron to-gold text-black font-bold text-lg uppercase tracking-wide rounded-xl shadow-[0_0_20px_rgba(255,165,0,0.3)] hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
+                            <button disabled={loading} className="w-full py-4 bg-gradient-to-r from-primary to-secondary text-black font-bold text-lg uppercase tracking-wide rounded-xl shadow-[0_0_20px_rgba(255,165,0,0.3)] hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
                                 {loading ? (
                                     <>
                                         <Sparkles className="animate-spin" /> Generating...
@@ -196,7 +196,7 @@ const KundliGenerator = () => {
                     <div className="relative flex justify-center items-center">
                         {!showPreview ? (
                             <div className="text-center opacity-50">
-                                <Sparkles size={64} className="mx-auto text-gold mb-4 animate-pulse" />
+                                <Sparkles size={64} className="mx-auto text-secondary mb-4 animate-pulse" />
                                 <p className="text-white">Enter details to reveal your cosmic map</p>
                             </div>
                         ) : (
@@ -205,7 +205,7 @@ const KundliGenerator = () => {
                                 animate={{ scale: 1, opacity: 1 }}
                                 className="bg-white p-6 rounded-lg shadow-2xl max-w-sm w-full relative"
                             >
-                                <div className="border-4 border-saffron p-4">
+                                <div className="border-4 border-primary p-4">
                                     <h3 className="text-center font-serif text-2xl mb-4 text-black font-bold">Lagna Chart</h3>
                                     {/* Simplified North Indian Chart SVG */}
                                     <svg viewBox="0 0 200 200" className="w-full h-auto border border-black mb-4">

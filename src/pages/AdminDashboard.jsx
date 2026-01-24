@@ -589,11 +589,11 @@ const AdminDashboard = () => {
                         <input
                             type="password"
                             placeholder="Enter Key"
-                            className="w-full bg-black/50 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none"
+                            className="w-full bg-black/50 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button type="submit" className="w-full bg-gradient-to-r from-saffron to-gold p-3 rounded-lg text-black font-bold hover:scale-105 transition-transform">
+                        <button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary p-3 rounded-lg text-black font-bold hover:scale-105 transition-transform">
                             Unlock Dashboard
                         </button>
                     </form>
@@ -610,7 +610,7 @@ const AdminDashboard = () => {
             </Helmet>
             <header className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full md:w-auto">
-                    <h1 className="text-3xl font-serif">Astro Pravin <span className="text-gold text-lg">Dashboard</span></h1>
+                    <h1 className="text-3xl font-serif">Astro Pravin <span className="text-secondary text-lg">Dashboard</span></h1>
                     <nav className="flex bg-white/5 rounded-lg p-1 overflow-x-auto w-full md:w-auto max-w-[90vw] md:max-w-none no-scrollbar">
                         <button
                             onClick={() => setActiveTab('bookings')}
@@ -696,7 +696,7 @@ const AdminDashboard = () => {
                                 <button
                                     key={type}
                                     onClick={() => setFilterType(type)}
-                                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${filterType === type ? 'bg-gold text-black font-bold' : 'bg-black/40 text-white/60 hover:text-white'}`}
+                                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${filterType === type ? 'bg-secondary text-black font-bold' : 'bg-black/40 text-white/60 hover:text-white'}`}
                                 >
                                     {type}
                                 </button>
@@ -722,10 +722,10 @@ const AdminDashboard = () => {
                                 {editingProduct && <button onClick={cancelEditProduct} className="text-xs text-red-400">Cancel</button>}
                             </div>
                             <form onSubmit={handleSaveProduct} className="space-y-4">
-                                <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
+                                <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <div className="grid grid-cols-2 gap-4">
-                                    <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                    <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
+                                    <input name="price" defaultValue={editingProduct?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                    <select name="category" defaultValue={editingProduct?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-white/70">
                                         <option value="gemstones">Gemstone</option>
                                         <option value="yantras">Yantra</option>
                                         <option value="kawach">Kawach</option>
@@ -733,9 +733,9 @@ const AdminDashboard = () => {
                                         <option value="other">Other</option>
                                     </select>
                                 </div>
-                                <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingProduct ? 'Save Changes' : 'Add to Store'}
                                 </button>
                             </form>
@@ -748,7 +748,7 @@ const AdminDashboard = () => {
                                     <img src={p.image} alt={p.name} className="w-20 h-20 object-cover rounded-lg bg-black/50" />
                                     <div>
                                         <h3 className="font-bold text-white">{p.name}</h3>
-                                        <p className="text-gold">₹{p.price}</p>
+                                        <p className="text-secondary">₹{p.price}</p>
                                         <p className="text-white/50 text-xs mt-1 line-clamp-2">{p.description}</p>
                                     </div>
                                     <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -774,10 +774,10 @@ const AdminDashboard = () => {
                                 {editingVideo && <button onClick={() => setEditingVideo(null)} className="text-xs text-red-400">Cancel</button>}
                             </div>
                             <form onSubmit={handleSaveVideo} className="space-y-4">
-                                <input name="title" defaultValue={editingVideo?.title} placeholder="Video Title" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <input name="url" defaultValue={editingVideo ? `https://youtube.com/watch?v=${editingVideo.ytId}` : ''} placeholder="YouTube URL" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <textarea name="desc" defaultValue={editingVideo?.desc} placeholder="Description" rows="3" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                <input name="title" defaultValue={editingVideo?.title} placeholder="Video Title" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <input name="url" defaultValue={editingVideo ? `https://youtube.com/watch?v=${editingVideo.ytId}` : ''} placeholder="YouTube URL" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <textarea name="desc" defaultValue={editingVideo?.desc} placeholder="Description" rows="3" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingVideo ? 'Save Changes' : 'Add Video'}
                                 </button>
                             </form>
@@ -827,7 +827,7 @@ const AdminDashboard = () => {
                                             </td>
                                             <td className="p-4">
                                                 <div className="text-white">{order.productName}</div>
-                                                <div className="text-gold text-xs">₹{order.productPrice}</div>
+                                                <div className="text-secondary text-xs">₹{order.productPrice}</div>
                                             </td>
                                             <td className="p-4">
                                                 <span className={`px-2 py-1 rounded text-xs border ${order.status === 'Completed' ? 'border-emerald-500/30 text-emerald-400' : 'border-amber-500/30 text-amber-400'}`}>{order.status}</span>
@@ -854,9 +854,9 @@ const AdminDashboard = () => {
                                 {editingBlog && <button onClick={() => { setEditingBlog(null); setUploadedImageUrl(''); }} className="text-xs text-red-400">Cancel</button>}
                             </div>
                             <form onSubmit={handleSaveBlog} className="space-y-4">
-                                <input name="title" defaultValue={editingBlog?.title} placeholder="Blog Title" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <input name="subtitle" defaultValue={editingBlog?.subtitle} placeholder="Subtitle" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <select name="category" defaultValue={editingBlog?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-white/70">
+                                <input name="title" defaultValue={editingBlog?.title} placeholder="Blog Title" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <input name="subtitle" defaultValue={editingBlog?.subtitle} placeholder="Subtitle" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <select name="category" defaultValue={editingBlog?.category} className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-white/70">
                                     <option value="Astrology">Astrology</option>
                                     <option value="Numerology">Numerology</option>
                                     <option value="Vastu">Vastu</option>
@@ -869,7 +869,7 @@ const AdminDashboard = () => {
                                             type="file"
                                             accept="image/*"
                                             onChange={handleImageUpload}
-                                            className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                                            className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                                         />
                                     </div>
                                     <input
@@ -877,13 +877,13 @@ const AdminDashboard = () => {
                                         placeholder="Or Image URL"
                                         defaultValue={editingBlog?.image} // This might be stale if using controlled component for uploadedImageUrl, but needed for initial load
                                         key={editingBlog ? editingBlog._id : 'new'} // Force re-render on switch
-                                        className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none"
+                                        className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none"
                                     />
-                                    {uploading && <span className="text-xs text-gold animate-pulse">Uploading...</span>}
+                                    {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
                                     {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
                                 </div>
-                                <textarea name="content" defaultValue={editingBlog?.content} placeholder="Content (HTML or Markdown supported)" rows="10" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                <textarea name="content" defaultValue={editingBlog?.content} placeholder="Content (HTML or Markdown supported)" rows="10" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingBlog ? 'Update Article' : 'Publish Article'}
                                 </button>
                             </form>
@@ -922,11 +922,11 @@ const AdminDashboard = () => {
                                 {editingService && <button onClick={() => setEditingService(null)} className="text-xs text-red-400">Cancel</button>}
                             </div>
                             <form onSubmit={handleSaveService} className="space-y-4">
-                                <input name="name" defaultValue={editingService?.name} placeholder="Service Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <input name="price" defaultValue={editingService?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <input name="category" defaultValue={editingService?.category} placeholder="Category (e.g. Consultation)" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <textarea name="description" defaultValue={editingService?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-gold outline-none" />
-                                <button type="submit" className="w-full bg-gold text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
+                                <input name="name" defaultValue={editingService?.name} placeholder="Service Name" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <input name="price" defaultValue={editingService?.price} type="number" placeholder="Price (₹)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <input name="category" defaultValue={editingService?.category} placeholder="Category (e.g. Consultation)" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <textarea name="description" defaultValue={editingService?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingService ? 'Save Changes' : 'Add Service'}
                                 </button>
                             </form>
@@ -937,7 +937,7 @@ const AdminDashboard = () => {
                                 <div key={s._id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col relative group">
                                     <div className="flex justify-between items-start mb-2">
                                         <h3 className="font-bold text-white text-lg">{s.name}</h3>
-                                        <span className="text-gold font-bold">₹{s.price}</span>
+                                        <span className="text-secondary font-bold">₹{s.price}</span>
                                     </div>
                                     <p className="text-white/50 text-xs mb-2">{s.category}</p>
                                     <p className="text-white/70 text-sm line-clamp-3 mb-4">{s.description}</p>

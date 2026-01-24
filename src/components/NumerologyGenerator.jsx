@@ -135,7 +135,7 @@ const NumerologyGenerator = () => {
         setFormData({ day: '', month: '', year: '' });
     };
 
-    const inputClass = "w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none md:text-lg text-center font-bold tracking-wider placeholder:font-normal placeholder:text-sm";
+    const inputClass = "w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none md:text-lg text-center font-bold tracking-wider placeholder:font-normal placeholder:text-sm";
 
     return (
         <section className="min-h-screen py-20 bg-void relative overflow-hidden flex flex-col items-center justify-center">
@@ -155,7 +155,7 @@ const NumerologyGenerator = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-saffron to-gold mb-4 py-1">
+                    <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 py-1">
                         Vedic Numerology
                     </h2>
                     <p className="text-white/60 text-lg max-w-2xl mx-auto">
@@ -216,7 +216,7 @@ const NumerologyGenerator = () => {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 disabled={loading}
-                                className="w-full py-4 bg-gradient-to-r from-saffron to-gold text-black font-bold text-lg uppercase tracking-wide rounded-xl shadow-[0_0_20px_rgba(255,165,0,0.3)] flex justify-center items-center gap-2"
+                                className="w-full py-4 bg-gradient-to-r from-primary to-secondary text-black font-bold text-lg uppercase tracking-wide rounded-xl shadow-[0_0_20px_rgba(255,165,0,0.3)] flex justify-center items-center gap-2"
                             >
                                 {loading ? <Sparkles className="animate-spin" /> : <Star className="fill-current" />}
                                 {loading ? "Calculating..." : "Reveal Your Numbers"}
@@ -273,7 +273,7 @@ const ResultCard = ({ title, number, data, delay, color }) => (
             <h3 className="text-white/60 text-sm uppercase tracking-widest text-center mb-2">{title}</h3>
 
             <div className="flex justify-center items-center mb-6 relative">
-                <div className="w-24 h-24 rounded-full border-2 border-white/20 flex items-center justify-center text-5xl font-serif text-gold font-bold relative z-10 bg-black/50">
+                <div className="w-24 h-24 rounded-full border-2 border-white/20 flex items-center justify-center text-5xl font-serif text-secondary font-bold relative z-10 bg-black/50">
                     {number}
                 </div>
                 <div className={`absolute w-32 h-32 bg-gradient-to-r ${color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
@@ -298,7 +298,7 @@ const ResultCard = ({ title, number, data, delay, color }) => (
 
                 <div className="flex flex-wrap gap-2 justify-center mt-4">
                     {data.traits.map((trait, i) => (
-                        <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs text-gold border border-gold/20">
+                        <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs text-secondary border border-secondary/20">
                             {trait}
                         </span>
                     ))}

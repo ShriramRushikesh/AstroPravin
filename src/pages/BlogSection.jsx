@@ -69,7 +69,7 @@ const BlogSection = () => {
                 <div className="max-w-7xl mx-auto">
                     {/* Header */}
                     <div className="text-center mb-16">
-                        <span className="text-saffron tracking-[0.3em] uppercase text-sm font-semibold">Vedic Knowledge Base</span>
+                        <span className="text-primary tracking-[0.3em] uppercase text-sm font-semibold">Vedic Knowledge Base</span>
                         <h1 className="text-4xl md:text-6xl font-serif text-white mt-2 mb-6">Astro Wisdom</h1>
                         <p className="text-white/60 max-w-2xl mx-auto">
                             Deep dive into the ancient science of stars. Learn how planetary movements affect your daily life.
@@ -83,7 +83,7 @@ const BlogSection = () => {
                                 key={cat.id}
                                 onClick={() => setFilter(cat.id)}
                                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all border ${filter === cat.id
-                                    ? 'bg-saffron/20 border-saffron text-saffron'
+                                    ? 'bg-primary/20 border-primary text-primary'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:text-white'
                                     }`}
                             >
@@ -103,7 +103,7 @@ const BlogSection = () => {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-gold/30 transition-all h-full flex flex-col"
+                                        className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-secondary/30 transition-all h-full flex flex-col"
                                     >
                                         {/* Image Placeholder */}
                                         <div className={`h-48 relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
@@ -122,13 +122,13 @@ const BlogSection = () => {
                                                 <span className="flex items-center gap-1"><Calendar size={12} /> {new Date(post.createdAt).toLocaleDateString()}</span>
                                                 <span className="flex items-center gap-1"><User size={12} /> {post.author || 'Astro Pravin'}</span>
                                             </div>
-                                            <h2 className="text-xl font-serif text-white mb-3 group-hover:text-gold transition-colors leading-tight line-clamp-2">
+                                            <h2 className="text-xl font-serif text-white mb-3 group-hover:text-secondary transition-colors leading-tight line-clamp-2">
                                                 {post.title}
                                             </h2>
                                             <p className="text-white/60 text-sm mb-6 flex-1 line-clamp-3">
                                                 {post.subtitle || stripHtml(post.content).substring(0, 100) + '...'}
                                             </p>
-                                            <div className="flex items-center text-saffron text-sm font-bold tracking-wide uppercase group-hover:translate-x-2 transition-transform">
+                                            <div className="flex items-center text-primary text-sm font-bold tracking-wide uppercase group-hover:translate-x-2 transition-transform">
                                                 Read Article <ChevronRight size={16} />
                                             </div>
                                         </div>

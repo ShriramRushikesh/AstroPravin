@@ -14,7 +14,11 @@
   }
 
   .text-gradient-gold {
-    @apply bg-gradient-to-r from-saffron to-gold bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-hero-saffron to-hero-gold bg-clip-text text-transparent;
+  }
+
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
   }
 
   .bg-venus-glow {
@@ -54,12 +58,12 @@ h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FF9933;
+  background: #d946ef; /* Primary */
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFD700;
+  background: #06b6d4; /* Secondary */
 }
 
 .no-scrollbar::-webkit-scrollbar {

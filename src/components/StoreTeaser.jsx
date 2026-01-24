@@ -31,7 +31,7 @@ const StoreTeaser = () => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
                 <div className="mb-16">
-                    <span className="text-saffron tracking-[0.3em] uppercase text-sm font-semibold">The Treasury</span>
+                    <span className="text-primary tracking-[0.3em] uppercase text-sm font-semibold">The Treasury</span>
                     <h2 className="text-4xl md:text-5xl font-serif text-white mt-2 mb-6">Celestial Artifacts</h2>
                     <p className="text-white/60 max-w-2xl mx-auto">
                         Energetically charged Gemstones, Yantras, and Rudrakshas to align your destiny.
@@ -54,8 +54,8 @@ const StoreTeaser = () => {
                                 <div className={`w-full h-full bg-gradient-to-br ${product.image || 'from-gray-800 to-gray-900'}`} />
                             )}
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex flex-col items-center justify-center p-4">
-                                <Sparkles className="text-gold mb-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 duration-300" />
-                                <h3 className="text-xl font-serif text-white group-hover:text-gold transition-colors">{product.name}</h3>
+                                <Sparkles className="text-secondary mb-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 duration-300" />
+                                <h3 className="text-xl font-serif text-white group-hover:text-secondary transition-colors">{product.name}</h3>
                             </div>
                         </motion.div>
                     ))}
@@ -65,7 +65,7 @@ const StoreTeaser = () => {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-4 bg-transparent border border-gold/30 hover:border-gold text-gold rounded-full font-medium tracking-wide flex items-center mx-auto gap-2 group transition-colors"
+                        className="px-8 py-4 bg-transparent border border-secondary/30 hover:border-secondary text-secondary rounded-full font-medium tracking-wide flex items-center mx-auto gap-2 group transition-colors"
                     >
                         Enter The Treasury <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </motion.button>
