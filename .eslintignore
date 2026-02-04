@@ -1,0 +1,5 @@
+dist
+server/dist
+server-express-backup
+node_modules
+public/assets

@@ -372,16 +372,39 @@ const AdminDashboard = () => {
         e.preventDefault();
         const form = e.target;
         const url = form.url.value;
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        const ytId = (match && match[2].length === 11) ? match[2] : (editingVideo ? editingVideo.ytId : null);
+        let ytId = null;
+        let platform = 'youtube';
 
-        if (!ytId) return alert('Invalid YouTube URL');
+        // Check for Instagram
+        if (url.includes('instagram.com/reel')) {
+            platform = 'instagram';
+            const match = url.match(/\/reel\/([^/?#&]+)/);
+            if (match && match[1]) ytId = match[1];
+        }
+        // Check for YouTube Shorts
+        else if (url.includes('youtube.com/shorts/')) {
+            platform = 'youtube';
+            const match = url.match(/\/shorts\/([^/?#&]+)/);
+            if (match && match[1]) ytId = match[1];
+        }
+        // Check for Standard YouTube
+        else {
+            platform = 'youtube';
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            if (match && match[2].length === 11) ytId = match[2];
+        }
+
+        if (!ytId && editingVideo) ytId = editingVideo.ytId; // Fallback to existing if editing and url implies same
+
+        if (!ytId) return alert('Invalid Video URL. Supported: YouTube, YouTube Shorts, Instagram Reels');
 
         const videoData = {
             title: form.title.value,
             desc: form.desc.value,
             ytId: ytId,
+            platform: platform,
+            image: uploadedImageUrl || (editingVideo ? editingVideo.image : ''), // Use uploaded image or keep existing
             date: editingVideo ? editingVideo.date : 'Just Now'
         };
 
@@ -413,12 +436,14 @@ const AdminDashboard = () => {
                     setVideos([savedVideo, ...videos]);
                 }
                 form.reset();
+                setUploadedImageUrl('');
             }
         } catch (error) { console.error('Save video error', error); }
     };
 
     const startEditVideo = (video) => {
         setEditingVideo(video);
+        setUploadedImageUrl(video.image || '');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -793,7 +818,19 @@ const AdminDashboard = () => {
                             </div>
                             <form onSubmit={handleSaveVideo} className="space-y-4">
                                 <input name="title" defaultValue={editingVideo?.title} placeholder="Video Title" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
-                                <input name="url" defaultValue={editingVideo ? `https://youtube.com/watch?v=${editingVideo.ytId}` : ''} placeholder="YouTube URL" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <input name="url" defaultValue={editingVideo ? (editingVideo.platform === 'instagram' ? `https://instagram.com/reel/${editingVideo.ytId}/` : `https://youtube.com/watch?v=${editingVideo.ytId}`) : ''} placeholder="Video URL (YouTube, Shorts, or Instagram Reel)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/50">Custom Thumbnail (Optional, Recommended for Reels)</label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                                    />
+                                    {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
+                                    {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
+                                </div>
                                 <textarea name="desc" defaultValue={editingVideo?.desc} placeholder="Description" rows="3" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingVideo ? 'Save Changes' : 'Add Video'}

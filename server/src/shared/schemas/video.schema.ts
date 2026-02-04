@@ -11,6 +11,12 @@ export class Video {
     @Prop({ required: true })
     ytId: string;
 
+    @Prop({ default: 'youtube' }) // 'youtube', 'instagram'
+    platform: string;
+
+    @Prop()
+    image: string; // Custom thumbnail URL
+
     @Prop()
     description: string;
 

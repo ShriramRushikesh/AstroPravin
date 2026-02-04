@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X } from 'lucide-react';
+import { Play, X, Instagram } from 'lucide-react';
 import SEO from './SEO';
 
 const VideoGallery = () => {
@@ -35,9 +35,9 @@ const VideoGallery = () => {
             "position": i + 1,
             "name": v.title,
             "description": v.desc,
-            "thumbnailUrl": `https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg`,
+            "thumbnailUrl": v.image || (v.platform === 'instagram' ? 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png' : `https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg`),
             "uploadDate": v.date || "2024-01-01",
-            "contentUrl": `https://www.youtube.com/watch?v=${v.ytId}`
+            "contentUrl": v.platform === 'instagram' ? `https://www.instagram.com/reel/${v.ytId}/` : `https://www.youtube.com/watch?v=${v.ytId}`
         }))
     };
 
@@ -75,13 +75,13 @@ const VideoGallery = () => {
                             {/* Thumbnail Wrapper */}
                             <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors shadow-2xl">
                                 <img
-                                    src={`https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`}
+                                    src={video.image || (video.platform === 'instagram' ? 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg' : `https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`)}
                                     alt={video.title}
-                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    className={`w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ${video.platform === 'instagram' && !video.image ? 'p-12 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500' : ''}`}
                                 />
                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                                     <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
-                                        <Play className="fill-white text-white ml-1" />
+                                        {video.platform === 'instagram' ? <Instagram className="text-white fill-white" /> : <Play className="fill-white text-white ml-1" />}
                                     </div>
                                 </div>
                             </div>
@@ -118,15 +118,24 @@ const VideoGallery = () => {
                             >
                                 <X />
                             </button>
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                src={`https://www.youtube.com/embed/${selectedVideo.ytId}?autoplay=1`}
-                                title={selectedVideo.title}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            />
+                            {selectedVideo.platform === 'instagram' ? (
+                                <iframe
+                                    className="w-full h-full"
+                                    src={`https://www.instagram.com/reel/${selectedVideo.ytId}/embed`}
+                                    frameBorder="0"
+                                    allowFullScreen
+                                ></iframe>
+                            ) : (
+                                <iframe
+                                    width="100%"
+                                    height="100%"
+                                    src={`https://www.youtube.com/embed/${selectedVideo.ytId}?autoplay=1`}
+                                    title={selectedVideo.title}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            )}
                         </div>
                     </motion.div>
                 )}
