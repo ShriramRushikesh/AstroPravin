@@ -733,7 +733,25 @@ const AdminDashboard = () => {
                                         <option value="other">Other</option>
                                     </select>
                                 </div>
-                                <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL (e.g. /gems/ruby.jpg)" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/50">Product Image</label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                                    />
+                                    <input
+                                        name="image"
+                                        placeholder="Or Image URL (e.g. /gems/ruby.jpg)"
+                                        defaultValue={editingProduct?.image}
+                                        key={editingProduct ? editingProduct._id : 'new_prod'}
+                                        required={!uploadedImageUrl}
+                                        className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none"
+                                    />
+                                    {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
+                                    {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
+                                </div>
                                 <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
                                     {editingProduct ? 'Save Changes' : 'Add to Store'}
