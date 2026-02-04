@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2 } from 'lucide-react';
+import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2, RefreshCw, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { API_URL } from '../config';
@@ -21,6 +21,8 @@ const AdminDashboard = () => {
     const [uploading, setUploading] = useState(false);
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
     const [filterType, setFilterType] = useState('all'); // 'all', 'today', 'week', 'month'
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     // Edit States
     const [editingProduct, setEditingProduct] = useState(null);
@@ -119,6 +121,7 @@ const AdminDashboard = () => {
         try {
             const apiUrl = API_URL;
             console.log('Attempting login...');
+            setIsLoggingIn(true);
 
             const res = await fetch(`${apiUrl}/api/admin/login`, {
                 method: 'POST',
@@ -145,7 +148,29 @@ const AdminDashboard = () => {
             console.error('Login error:', error);
             // More friendly error for network/server issues
             alert(`Unable to connect to server at ${API_URL}. \nPlease ensure the backend is running and allow ~30s for spin-up if on free tier.\nError: ${error.message}`);
+        } finally {
+            setIsLoggingIn(false);
         }
+    };
+
+    const handleRefreshData = async () => {
+        setIsRefreshing(true);
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+            await Promise.all([
+                fetchBookings(token),
+                fetchProducts(token),
+                fetchVideos(token),
+                fetchOrders(token),
+                fetchBlogs(token),
+                fetchServices(token)
+            ]);
+        }
+        setIsRefreshing(false);
+    };
+
+    const removeUploadedFile = () => {
+        setUploadedImageUrl('');
     };
 
     const updateStatus = async (id, newStatus) => {
@@ -618,8 +643,8 @@ const AdminDashboard = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary p-3 rounded-lg text-black font-bold hover:scale-105 transition-transform">
-                            Unlock Dashboard
+                        <button type="submit" disabled={isLoggingIn} className="w-full bg-gradient-to-r from-primary to-secondary p-3 rounded-lg text-black font-bold hover:scale-105 transition-transform flex justify-center items-center">
+                            {isLoggingIn ? <RefreshCw className="animate-spin" /> : 'Unlock Dashboard'}
                         </button>
                     </form>
                 </div>
@@ -682,6 +707,9 @@ const AdminDashboard = () => {
                         </button>
                     </nav>
                 </div>
+                <button onClick={handleRefreshData} className="flex items-center gap-2 text-white/50 hover:text-white" title="Refresh Data">
+                    <RefreshCw size={18} className={isRefreshing ? 'animate-spin' : ''} /> Refresh
+                </button>
                 <button onClick={handleLogout} className="flex items-center gap-2 text-white/50 hover:text-white">
                     <LogOut size={18} /> Logout
                 </button>
@@ -775,7 +803,14 @@ const AdminDashboard = () => {
                                         className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none"
                                     />
                                     {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
-                                    {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
+                                    {uploadedImageUrl && (
+                                        <div className="relative w-fit mt-2">
+                                            <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded border border-white/10" />
+                                            <button type="button" onClick={removeUploadedFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600">
+                                                <X size={12} />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <textarea name="description" defaultValue={editingProduct?.description} placeholder="Description" rows="3" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
@@ -829,7 +864,14 @@ const AdminDashboard = () => {
                                         className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                                     />
                                     {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
-                                    {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
+                                    {uploadedImageUrl && (
+                                        <div className="relative w-fit mt-2">
+                                            <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded border border-white/10" />
+                                            <button type="button" onClick={removeUploadedFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600">
+                                                <X size={12} />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <textarea name="desc" defaultValue={editingVideo?.desc} placeholder="Description" rows="3" className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
@@ -935,7 +977,14 @@ const AdminDashboard = () => {
                                         className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none"
                                     />
                                     {uploading && <span className="text-xs text-secondary animate-pulse">Uploading...</span>}
-                                    {uploadedImageUrl && <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded mt-2 border border-white/10" />}
+                                    {uploadedImageUrl && (
+                                        <div className="relative w-fit mt-2">
+                                            <img src={uploadedImageUrl} alt="Preview" className="h-16 rounded border border-white/10" />
+                                            <button type="button" onClick={removeUploadedFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600">
+                                                <X size={12} />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <textarea name="content" defaultValue={editingBlog?.content} placeholder="Content (HTML or Markdown supported)" rows="10" required className="w-full bg-black/50 p-3 rounded border border-white/10 focus:border-secondary outline-none" />
                                 <button type="submit" className="w-full bg-secondary text-black font-bold p-3 rounded hover:bg-yellow-500 transition-colors">
