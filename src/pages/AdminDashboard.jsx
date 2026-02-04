@@ -263,8 +263,7 @@ const AdminDashboard = () => {
     };
 
     const getFilteredData = (data) => {
-        if (filterType === 'all') return data;
-
+        let filtered = data;
         const now = new Date();
         const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -274,13 +273,18 @@ const AdminDashboard = () => {
 
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-        return data.filter(item => {
-            const itemDate = new Date(item.createdAt);
-            if (filterType === 'today') return itemDate >= startOfDay;
-            if (filterType === 'week') return itemDate >= startOfWeek;
-            if (filterType === 'month') return itemDate >= startOfMonth;
-            return true;
-        });
+        if (filterType !== 'all') {
+            filtered = data.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                if (filterType === 'today') return itemDate >= startOfDay;
+                if (filterType === 'week') return itemDate >= startOfWeek;
+                if (filterType === 'month') return itemDate >= startOfMonth;
+                return true;
+            });
+        }
+
+        // Sort by Newest First
+        return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     };
 
     // ... existing updateStatus ... is replaced above
@@ -1080,7 +1084,7 @@ const AdminDashboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
-                                    {bookings.map(booking => (
+                                    {getFilteredData(bookings).map(booking => (
                                         <motion.tr
                                             key={booking._id}
                                             initial={{ opacity: 0 }}

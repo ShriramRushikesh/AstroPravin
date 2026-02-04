@@ -40,7 +40,7 @@ const ReviewsSection = () => {
                         Client <span className="text-secondary">Testimonials</span>
                     </h2>
                     <div className="flex justify-center items-center gap-2 mb-4">
-                        <span className="text-white/80">Rated 5.0</span>
+                        <span className="text-white/80">Rated 4.7</span>
                         <div className="flex text-secondary">
                             {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
                         </div>
