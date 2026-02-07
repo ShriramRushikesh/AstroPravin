@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Search, Filter } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import ProductModal from '../components/ProductModal';
 import { API_URL } from '../config';
 import SEO from '../components/SEO';
 
@@ -11,6 +12,7 @@ const Store = () => {
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -157,7 +159,11 @@ const Store = () => {
                         <AnimatePresence>
                             {filteredProducts.length > 0 ? (
                                 filteredProducts.map(product => (
-                                    <ProductCard key={product._id} product={product} />
+                                    <ProductCard
+                                        key={product._id}
+                                        product={product}
+                                        onClick={() => setSelectedProduct(product)}
+                                    />
                                 ))
                             ) : (
                                 <div className="col-span-full text-center py-20 text-white/30">
@@ -171,6 +177,16 @@ const Store = () => {
             </div>
 
 
+            {/* Product Detail Modal */}
+            <AnimatePresence>
+                {selectedProduct && (
+                    <ProductModal
+                        isOpen={!!selectedProduct}
+                        onClose={() => setSelectedProduct(null)}
+                        product={selectedProduct}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 };

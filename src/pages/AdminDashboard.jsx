@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2, RefreshCw, X } from 'lucide-react';
+import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2, RefreshCw, X, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { API_URL } from '../config';
@@ -23,6 +23,7 @@ const AdminDashboard = () => {
     const [filterType, setFilterType] = useState('all'); // 'all', 'today', 'week', 'month'
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Edit States
     const [editingProduct, setEditingProduct] = useState(null);
@@ -247,11 +248,17 @@ const AdminDashboard = () => {
             } else {
                 return {
                     Date: new Date(item.createdAt).toLocaleDateString(),
+                    SubmittedTime: new Date(item.createdAt).toLocaleTimeString(),
                     Name: item.name,
                     Email: item.email,
                     Phone: item.phone,
-                    Service: item.serviceType || 'Consultation',
-                    Status: item.status
+                    Topic: item.topic,
+                    Status: item.status,
+                    DOB: item.birthDate,
+                    TOB: item.birthTime,
+                    Place: item.birthPlace,
+                    PreferredDate: item.preferredDate,
+                    PreferredTime: item.preferredTime
                 };
             }
         });
@@ -263,18 +270,29 @@ const AdminDashboard = () => {
     };
 
     const getFilteredData = (data) => {
-        let filtered = data;
+        let filtered = [...data];
+
+        // 1. Search Filter
+        if (searchTerm) {
+            const lowSearch = searchTerm.toLowerCase();
+            filtered = filtered.filter(item => {
+                const nameMatch = (item.name || item.customerName || '').toLowerCase().includes(lowSearch);
+                const phoneMatch = (item.phone || item.customerPhone || '').toLowerCase().includes(lowSearch);
+                const emailMatch = (item.email || '').toLowerCase().includes(lowSearch);
+                return nameMatch || phoneMatch || emailMatch;
+            });
+        }
+
+        // 2. Date Filter
         const now = new Date();
         const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
         const startOfWeek = new Date(now);
-        startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday as start
+        startOfWeek.setDate(now.getDate() - now.getDay());
         startOfWeek.setHours(0, 0, 0, 0);
-
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
         if (filterType !== 'all') {
-            filtered = data.filter(item => {
+            filtered = filtered.filter(item => {
                 const itemDate = new Date(item.createdAt);
                 if (filterType === 'today') return itemDate >= startOfDay;
                 if (filterType === 'week') return itemDate >= startOfWeek;
@@ -748,16 +766,35 @@ const AdminDashboard = () => {
                 {/* Filters & Export Toolbar (Visible for Bookings & Orders) */}
                 {(activeTab === 'bookings' || activeTab === 'orders') && (
                     <div className="flex flex-wrap gap-4 justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
-                        <div className="flex gap-2">
-                            {['all', 'today', 'week', 'month'].map(type => (
-                                <button
-                                    key={type}
-                                    onClick={() => setFilterType(type)}
-                                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${filterType === type ? 'bg-secondary text-black font-bold' : 'bg-black/40 text-white/60 hover:text-white'}`}
-                                >
-                                    {type}
-                                </button>
-                            ))}
+                        <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex gap-2">
+                                {['all', 'today', 'week', 'month'].map(type => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setFilterType(type)}
+                                        className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${filterType === type ? 'bg-secondary text-black font-bold' : 'bg-black/40 text-white/60 hover:text-white'}`}
+                                    >
+                                        {type}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30">
+                                    <Search size={14} />
+                                </span>
+                                <input
+                                    type="text"
+                                    placeholder="Search by name or phone..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="bg-black/40 border border-white/10 rounded-lg py-1.5 pl-9 pr-10 text-sm focus:border-secondary transition-all outline-none w-64"
+                                />
+                                {searchTerm && (
+                                    <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white">
+                                        <X size={14} />
+                                    </button>
+                                )}
+                            </div>
                         </div>
                         <button
                             onClick={handleExportExcel}
@@ -1062,22 +1099,17 @@ const AdminDashboard = () => {
                 {/* Bookings Table */}
                 {activeTab === 'bookings' && (
                     <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                        <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                        <div className="p-6 border-b border-white/10">
                             <h2 className="text-xl font-semibold">Recent Appointments</h2>
-                            <button
-                                onClick={handleExportExcel}
-                                className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-md hover:bg-green-500/30 transition-colors text-sm"
-                            >
-                                <FileDown size={16} />
-                                Export Excel
-                            </button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead className="bg-white/5 text-white/50 text-xs uppercase tracking-wider">
                                     <tr>
+                                        <th className="p-4">Submitted</th>
                                         <th className="p-4">Client</th>
                                         <th className="p-4">Birth Details</th>
+                                        <th className="p-4">Preferred Slot</th>
                                         <th className="p-4">Topic</th>
                                         <th className="p-4">Status</th>
                                         <th className="p-4 text-right">Actions</th>
@@ -1089,28 +1121,50 @@ const AdminDashboard = () => {
                                             key={booking._id}
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            className="hover:bg-white/5 transition-colors"
+                                            className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                                         >
                                             <td className="p-4">
-                                                <div className="font-medium text-white">{booking.name}</div>
-                                                <div className="text-white/50 text-xs">{booking.phone}</div>
-                                                <div className="text-white/30 text-xs">{booking.email}</div>
+                                                <div className="text-white font-medium">{new Date(booking.createdAt).toLocaleDateString()}</div>
+                                                <div className="text-white/40 text-xs">{new Date(booking.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                                             </td>
                                             <td className="p-4">
-                                                <div className="text-white/80 text-sm">{booking.birthDate} at {booking.birthTime}</div>
-                                                <div className="text-white/50 text-xs">{booking.birthPlace}</div>
-                                                <div className="text-white/50 text-xs capitalize">{booking.gender}</div>
+                                                <div className="font-bold text-white text-[15px]">{booking.name}</div>
+                                                <div className="text-secondary font-mono text-sm font-bold tracking-wide mt-0.5">{booking.phone}</div>
+                                                <div className="text-white/30 text-[11px] mt-0.5">{booking.email}</div>
                                             </td>
                                             <td className="p-4">
-                                                <span className={`px-2 py-1 rounded text-xs ${booking.topic === 'Love' ? 'bg-rose-500/20 text-rose-300' : 'bg-blue-500/20 text-blue-300'
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <span className="text-white font-semibold">{booking.birthDate}</span>
+                                                        <span className="text-white/40 text-xs">at</span>
+                                                        <span className="text-secondary font-bold">{booking.birthTime}</span>
+                                                    </div>
+                                                    <div className="text-white/60 text-xs italic">{booking.birthPlace}</div>
+                                                    <div className="text-white/40 text-[10px] uppercase tracking-wider">{booking.gender}</div>
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                {booking.preferredDate ? (
+                                                    <div className="flex flex-col">
+                                                        <div className="text-emerald-400 font-medium text-sm">{booking.preferredDate}</div>
+                                                        <div className="text-emerald-400/60 text-xs">{booking.preferredTime || 'Any Time'}</div>
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-white/20 text-xs italic">Not Selected</span>
+                                                )}
+                                            </td>
+                                            <td className="p-4">
+                                                <span className={`px-2 py-1 rounded text-[11px] font-bold uppercase tracking-tight ${booking.topic === 'Love & Marriage' ? 'bg-rose-500/20 text-rose-300' :
+                                                    booking.topic === 'Career & Wealth' ? 'bg-emerald-500/20 text-emerald-300' :
+                                                        'bg-blue-500/20 text-blue-300'
                                                     }`}>
                                                     {booking.topic}
                                                 </span>
                                             </td>
                                             <td className="p-4">
-                                                <span className={`px-2 py-1 rounded text-xs border ${booking.status === 'Completed' ? 'border-emerald-500/30 text-emerald-400' :
-                                                    booking.status === 'Pending' ? 'border-amber-500/30 text-amber-400' :
-                                                        'border-red-500/30 text-red-400'
+                                                <span className={`px-2 py-1 rounded text-[11px] font-bold border uppercase tracking-wider ${booking.status === 'Completed' ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' :
+                                                    booking.status === 'Pending' ? 'border-amber-500/30 text-amber-400 bg-amber-500/5' :
+                                                        'border-red-500/30 text-red-400 bg-red-500/5'
                                                     }`}>
                                                     {booking.status}
                                                 </span>
@@ -1118,7 +1172,7 @@ const AdminDashboard = () => {
                                             <td className="p-4 flex justify-end gap-2">
                                                 <button
                                                     onClick={() => {
-                                                        const text = `*New Booking*\nName: ${booking.name}\nPhone: ${booking.phone}\nTopic: ${booking.topic}\nDOB: ${booking.birthDate} ${booking.birthTime}\nPlace: ${booking.birthPlace}\nGender: ${booking.gender}\nStatus: ${booking.status}`;
+                                                        const text = `*New Booking Request*\n\n--- Customer ---\nName: ${booking.name}\nPhone: ${booking.phone}\nEmail: ${booking.email}\nTopic: ${booking.topic}\n\n--- Birth Details ---\nDOB: ${booking.birthDate}\nTOB: ${booking.birthTime}\nPlace: ${booking.birthPlace}\nGender: ${booking.gender}\n\n--- Preferred Slot ---\nDate: ${booking.preferredDate || 'N/A'}\nTime: ${booking.preferredTime || 'N/A'}\n\nStatus: ${booking.status}`;
                                                         navigator.clipboard.writeText(text);
                                                         alert('Booking details copied!');
                                                     }}

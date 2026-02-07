@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from './ProductCard';
+import ProductModal from './ProductModal';
 import SEO from './SEO';
+import { API_URL } from '../config';
 
 const StoreSection = () => {
     const [filter, setFilter] = useState('all');
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -80,11 +83,26 @@ const StoreSection = () => {
                 >
                     <AnimatePresence>
                         {filteredProducts.map(product => (
-                            <ProductCard key={product._id || product.id} product={product} />
+                            <ProductCard
+                                key={product._id || product.id}
+                                product={product}
+                                onClick={() => setSelectedProduct(product)}
+                            />
                         ))}
                     </AnimatePresence>
                 </motion.div>
             </div>
+
+            {/* Product Detail Modal */}
+            <AnimatePresence>
+                {selectedProduct && (
+                    <ProductModal
+                        isOpen={!!selectedProduct}
+                        onClose={() => setSelectedProduct(null)}
+                        product={selectedProduct}
+                    />
+                )}
+            </AnimatePresence>
         </section>
     );
 };

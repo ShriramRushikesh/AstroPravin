@@ -2,14 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Sparkles } from 'lucide-react';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onClick }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
-            className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-secondary/30 transition-all duration-500"
+            onClick={onClick}
+            className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-secondary/30 transition-all duration-500 cursor-pointer"
         >
             {/* Holographic Gradient Overlay on Hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10" />
