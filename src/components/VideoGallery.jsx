@@ -77,6 +77,8 @@ const VideoGallery = () => {
                                 <img
                                     src={video.image || (video.platform === 'instagram' ? 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg' : `https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`)}
                                     alt={video.title}
+                                    loading="lazy"
+                                    decoding="async"
                                     className={`w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ${video.platform === 'instagram' && !video.image ? 'p-12 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500' : ''}`}
                                 />
                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">

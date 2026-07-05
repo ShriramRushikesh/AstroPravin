@@ -7,11 +7,13 @@ const Footer = () => {
     const [visitCount, setVisitCount] = React.useState(null);
 
     React.useEffect(() => {
-
         fetch(`${API_URL}/api/visits`)
             .then(res => res.json())
             .then(data => setVisitCount(data.count))
-            .catch(err => console.error('Fetch visit error', err));
+            .catch(err => {
+                console.error('Fetch visit error', err);
+                setVisitCount('—');
+            });
     }, []);
 
     return (

@@ -62,7 +62,9 @@ const PlanetCard = ({ planet, index }) => {
                         {planet.img ? (
                             <img
                                 src={planet.img}
-                                alt={planet.englishName}
+                                alt={`${planet.englishName} - ${planet.name} Graha in Vedic Astrology`}
+                                loading="lazy"
+                                decoding="async"
                                 className="w-full h-full object-cover rounded-full shadow-[0_0_25px_rgba(255,255,255,0.3)]"
                             />
                         ) : (
@@ -109,9 +111,9 @@ const PlanetsSection = () => {
             className="relative"
             style={{ backgroundColor: smoothBgColor }}
         >
-            {/* Header intro */}
+            {/* Header intro — CSS gradient background instead of Unsplash image */}
             <section className="h-screen flex flex-col items-center justify-center text-center px-4 snap-center relative">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-20" />
+                <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/30 via-purple-900/20 to-black opacity-60" />
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}

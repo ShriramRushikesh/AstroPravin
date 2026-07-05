@@ -17,7 +17,7 @@ const WelcomeIntro = () => {
                 setShow(false);
                 document.body.style.overflow = 'unset';
                 localStorage.setItem('hasSeenIntro', 'true');
-            }, 4500); // 4.5 seconds total duration
+            }, 2500); // 2.5 seconds total duration
 
             return () => {
                 clearTimeout(timer);
@@ -79,7 +79,7 @@ const WelcomeIntro = () => {
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1, duration: 0.8 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
                             className="text-4xl md:text-6xl font-serif text-white tracking-wider mb-2"
                         >
                             <span className="text-orange-500">Astro</span> Pravin
@@ -89,7 +89,7 @@ const WelcomeIntro = () => {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 1.8, duration: 0.8 }}
+                            transition={{ delay: 1.0, duration: 0.5 }}
                             className="flex flex-col items-center space-y-2"
                         >
                             <div className="h-[1px] w-24 bg-yellow-500/50 my-2"></div>
@@ -102,7 +102,7 @@ const WelcomeIntro = () => {
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 2.5, duration: 1 }}
+                            transition={{ delay: 1.5, duration: 0.8 }}
                             className="mt-8 text-sm text-yellow-500/80 font-medium tracking-widest uppercase"
                         >
                             || Shri Swami Samarth ||

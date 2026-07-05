@@ -49,7 +49,7 @@ const StoreTeaser = () => {
                             className="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-white/10"
                         >
                             {product.image && (product.image.startsWith('http') || product.image.startsWith('/')) ? (
-                                <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                <img src={product.image} alt={product.name} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             ) : (
                                 <div className={`w-full h-full bg-gradient-to-br ${product.image || 'from-gray-800 to-gray-900'}`} />
                             )}

@@ -35,7 +35,11 @@ const AboutSection = () => {
                         <div className="relative z-10 rounded-t-full rounded-b-[200px] overflow-hidden border-b-4 border-secondary shadow-[0_0_50px_rgba(255,215,0,0.2)]">
                             <img
                                 src="/pravin-shriram.png"
-                                alt="Pravin Shriram - Vedic Astrologer"
+                                alt="Pravin Shriram - Best Vedic Astrologer in Solapur Maharashtra"
+                                loading="lazy"
+                                decoding="async"
+                                width="600"
+                                height="800"
                                 className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                             />
                         </div>

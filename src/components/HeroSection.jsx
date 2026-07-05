@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import StarField from './StarField';
 import ZodiacWheel from './ZodiacWheel';
+
+// Lazy-load Three.js StarField — this is ~500KB of JS that shouldn't block initial render
+const StarField = lazy(() => import('./StarField'));
+
+// Lightweight CSS-only star fallback while Three.js loads
+const StarFallback = () => (
+    <div className="absolute inset-0 bg-void overflow-hidden">
+        {[...Array(60)].map((_, i) => (
+            <div
+                key={i}
+                className="absolute rounded-full bg-hero-gold"
+                style={{
+                    width: Math.random() * 2 + 1 + 'px',
+                    height: Math.random() * 2 + 1 + 'px',
+                    top: Math.random() * 100 + '%',
+                    left: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.5 + 0.2,
+                    animation: `pulse ${2 + Math.random() * 3}s ease-in-out infinite`,
+                    animationDelay: Math.random() * 2 + 's',
+                }}
+            />
+        ))}
+    </div>
+);
 
 const HeroSection = ({ onBookClick }) => {
     const { scrollY } = useScroll();
@@ -11,9 +34,11 @@ const HeroSection = ({ onBookClick }) => {
 
     return (
         <div className="relative w-full min-h-screen overflow-hidden bg-void flex items-center justify-center">
-            {/* Layer 1: Three.js Starfield Background */}
+            {/* Layer 1: Three.js Starfield Background (lazy-loaded) */}
             <div className="absolute inset-0 z-0">
-                <StarField />
+                <Suspense fallback={<StarFallback />}>
+                    <StarField />
+                </Suspense>
             </div>
 
             {/* Layer 2: Parallax Zodiac Wheel */}

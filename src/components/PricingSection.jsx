@@ -5,6 +5,7 @@ import { CheckCircle, Sliders } from 'lucide-react';
 
 const PricingSection = () => {
     const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -14,14 +15,39 @@ const PricingSection = () => {
                 if (res.ok) {
                     setServices(await res.json());
                 }
+                setLoading(false);
             } catch (error) {
                 console.error('Failed to fetch services', error);
+                setLoading(false);
             }
         };
         fetchServices();
     }, []);
 
-    if (services.length === 0) return null;
+    if (loading) {
+        return (
+            <section className="py-24 bg-void relative overflow-hidden min-h-[500px]">
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                    <div className="text-center mb-16">
+                        <div className="h-10 w-64 bg-white/10 skeleton mx-auto mb-4 rounded-lg"></div>
+                        <div className="h-6 w-96 bg-white/10 skeleton mx-auto rounded-lg"></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-2xl h-[320px]">
+                                <div className="h-8 w-48 bg-white/10 skeleton mb-4 rounded-lg"></div>
+                                <div className="h-10 w-32 bg-white/10 skeleton mb-6 rounded-lg"></div>
+                                <div className="h-20 w-full bg-white/10 skeleton mb-6 rounded-lg"></div>
+                                <div className="h-12 w-full bg-white/10 skeleton rounded-lg"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (!loading && services.length === 0) return null;
 
     return (
         <section className="py-24 bg-void relative overflow-hidden">

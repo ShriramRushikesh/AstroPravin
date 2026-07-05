@@ -11,7 +11,9 @@ const SEO = ({ title, description, keywords, schema }) => {
         <Helmet>
             <title>{title ? `${title} | Astro Pravin` : siteTitle}</title>
             <meta name="description" content={description || defaultDesc} />
-            <meta name="keywords" content={keywords || 'vedic astrology, online astrology consultation, horoscope reading, kundli matching, indian astrologer, astrology remedies, love astrology, career astrology'} />
+            <meta name="keywords" content={keywords || 'best astrologer near me, online kundli matching free, free astrology consultation, horoscope today in marathi, rashi bhavishya, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, gemstone recommendation astrologer, vedic astrology consultation India, love problem solution astrologer, best jyotish in Maharashtra, accurate birth chart reading, astrologer in Solapur, kundli milan online free'} />
+            <meta name="robots" content="index, follow" />
+            <meta http-equiv="content-language" content="en, mr" />
             <link rel="canonical" href={siteUrl + window.location.pathname} />
 
             {/* Open Graph / Facebook */}

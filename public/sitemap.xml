@@ -2,41 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.astropravin.com/</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/store</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/numerology</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/planets</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/blogs</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/videos</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/privacy-policy</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.astropravin.com/terms-conditions</loc>
+    <lastmod>2026-07-05</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
