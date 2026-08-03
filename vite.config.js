@@ -2,13 +2,31 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        {
+            name: 'copy-ads-txt',
+            closeBundle() {
+                try {
+                    const src = path.resolve(__dirname, 'public/ads.txt');
+                    const dest = path.resolve(__dirname, 'dist/ads.txt');
+                    if (fs.existsSync(src)) {
+                        fs.copyFileSync(src, dest);
+                        console.log('Successfully copied ads.txt to dist/');
+                    }
+                } catch (e) {
+                    console.error('Failed to copy ads.txt:', e);
+                }
+            }
+        }
+    ],
     resolve: {
         alias: {
             react: path.resolve(__dirname, './node_modules/react'),
@@ -16,7 +34,10 @@ export default defineConfig({
         },
     },
     server: {
-        host: true // Expose to network (0.0.0.0)
+        host: true, // Expose to network (0.0.0.0)
+        watch: {
+            ignored: ['**/server/**', '**/server-express-backup/**', '**/audit-system/**']
+        }
     },
     build: {
         rollupOptions: {
