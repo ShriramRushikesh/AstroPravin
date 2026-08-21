@@ -1,12 +1,14 @@
 import React, { useState, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Shield, LayoutDashboard, Search, Heart, MessageSquare,
-  Star, User, LogOut, Sparkles, FileText
+  ShieldCheck, LayoutDashboard, Search, Heart, MessageSquare,
+  Star, User, LogOut, Sparkles, AlertCircle, CreditCard
 } from 'lucide-react';
 import { useMatrimonyAuth } from './hooks/useMatrimonyAuth';
 import MatrimonyLogin from './auth/MatrimonyLogin';
 import ForceChangePassword from './auth/ForceChangePassword';
+import MembershipPaymentGate from './components/MembershipPaymentGate';
+import { MatrimonyAmbientBackground, LotusCrest, ToranBorder } from './components/MatrimonyDecorativeArt';
 
 // ── Lazy-loaded tab views ───────────────────────────────────────────────────
 const PortalDashboard = lazy(() => import('./portal/PortalDashboard'));
@@ -19,15 +21,16 @@ const ProfileWizard = lazy(() => import('./onboarding/ProfileWizard'));
 
 const TabLoader = () => (
   <div className="py-20 flex flex-col items-center justify-center gap-3">
-    <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-    <span className="text-xs text-white/40 uppercase tracking-widest font-mono">Loading Section...</span>
+    <div className="w-8 h-8 border-2 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
+    <span className="text-xs text-[#78716C] uppercase tracking-widest font-mono">Loading Section...</span>
   </div>
 );
 
 const MatrimonyLayout = () => {
   const {
     token, user, profile, loading, isAuthenticated,
-    isFirstLogin, login, changePassword, logout, refreshProfile
+    isFirstLogin, isPendingPayment, login, register, submitPayment,
+    changePassword, logout, refreshProfile
   } = useMatrimonyAuth();
 
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -35,25 +38,53 @@ const MatrimonyLayout = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-void pt-28 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-xs text-amber-400/80 uppercase tracking-widest font-mono">
-            Connecting to Matrimony Portal...
+      <div className="min-h-screen bg-[#FAF8F5] pt-28 flex items-center justify-center relative">
+        <MatrimonyAmbientBackground />
+        <div className="flex flex-col items-center gap-3 relative z-10">
+          <div className="w-8 h-8 border-2 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs text-[#C2410C] uppercase tracking-widest font-mono font-bold">
+            Connecting to Vedic Matrimony Portal...
           </span>
         </div>
       </div>
     );
   }
 
-  // If not authenticated, show login
+  // If not authenticated, show login/register
   if (!isAuthenticated) {
-    return <MatrimonyLogin onLoginSuccess={login} />;
+    return (
+      <div className="relative min-h-screen bg-[#FAF8F5] pt-20">
+        <MatrimonyAmbientBackground />
+        <MatrimonyLogin onLoginSuccess={login} onRegisterSuccess={register} />
+      </div>
+    );
+  }
+
+  // If membership registration fee is pending, show payment gate
+  if (isPendingPayment) {
+    return (
+      <div className="relative min-h-screen bg-[#FAF8F5] pt-20">
+        <MatrimonyAmbientBackground />
+        <MembershipPaymentGate
+          user={user}
+          onPaymentCompleted={async (paymentData) => {
+            await submitPayment(paymentData);
+            await refreshProfile();
+          }}
+          onLogout={logout}
+        />
+      </div>
+    );
   }
 
   // If first login, force change password gate
   if (isFirstLogin) {
-    return <ForceChangePassword onPasswordChanged={changePassword} />;
+    return (
+      <div className="relative min-h-screen bg-[#FAF8F5] pt-20">
+        <MatrimonyAmbientBackground />
+        <ForceChangePassword onPasswordChanged={changePassword} />
+      </div>
+    );
   }
 
   const navTabs = [
@@ -66,40 +97,37 @@ const MatrimonyLayout = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-void pt-24 md:pt-28 pb-20 px-4 sm:px-6 md:px-8 text-white overflow-hidden">
-      {/* ── Ambient Background Lighting ── */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-1/4 w-[600px] h-[300px] bg-amber-600/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 right-10 w-[450px] h-[450px] bg-orange-600/5 rounded-full blur-3xl" />
-      </div>
+    <div className="relative min-h-screen bg-[#FAF8F5] pt-24 md:pt-28 pb-20 px-4 sm:px-6 md:px-8 text-[#1C1917] overflow-hidden">
+      {/* ── 2D Ambient Indian Art Background ── */}
+      <MatrimonyAmbientBackground />
 
       <div className="max-w-6xl mx-auto space-y-6 relative z-10">
         {/* ── Top Navigation Bar ────────────────────────────────────────── */}
-        <div className="bg-neutral-900/80 border border-amber-500/25 backdrop-blur-2xl rounded-3xl p-3.5 sm:p-4.5 flex flex-wrap items-center justify-between gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(245,158,11,0.08)]">
+        <div className="bg-white/95 border border-[#EADCC8] backdrop-blur-xl rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-4 shadow-[0_8px_30px_rgba(194,65,12,0.04),0_1px_3px_rgba(0,0,0,0.02)]">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-br from-amber-500/20 to-orange-500/10 rounded-2xl border border-amber-500/30 text-amber-300 shadow-md">
-              <Shield size={22} />
+            <div className="p-2 bg-[#FFFBEB] rounded-2xl border border-[#FDE68A] text-[#C2410C] shadow-sm">
+              <LotusCrest size={28} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-serif font-bold text-amber-300 leading-tight">Vedic Matrimony</h1>
-                <span className="px-2 py-0.5 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[10px] font-bold rounded-full uppercase tracking-wider">
-                  {user?.tier || 'Basic'}
+                <h1 className="text-base sm:text-lg font-serif font-bold text-[#1C1917] leading-tight">Vedic Matrimony</h1>
+                <span className="px-2.5 py-0.5 bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] text-[10px] font-bold rounded-full uppercase tracking-wider">
+                  {user?.tier || 'Basic'} Member
                 </span>
               </div>
-              <p className="text-[11px] text-white/50 flex items-center gap-1.5 mt-0.5">
+              <p className="text-[11px] text-[#78716C] flex items-center gap-1.5 mt-0.5">
                 <span>Member:</span>
-                <strong className="text-amber-400 font-mono font-medium">{user?.username}</strong>
+                <strong className="text-[#C2410C] font-mono font-semibold">{user?.username}</strong>
                 <span>•</span>
-                <span className={`inline-flex items-center gap-1 font-semibold ${user?.status === 'verified' || user?.status === 'active' ? 'text-emerald-400' : 'text-amber-400'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${user?.status === 'verified' || user?.status === 'active' ? 'bg-emerald-400' : 'bg-amber-400 animate-ping'}`} />
-                  {user?.status?.toUpperCase()}
+                <span className={`inline-flex items-center gap-1 font-semibold ${user?.status === 'verified' || user?.status === 'active' ? 'text-[#15803D]' : 'text-[#B45309]'}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${user?.status === 'verified' || user?.status === 'active' ? 'bg-[#16A34A]' : 'bg-[#D97706] animate-ping'}`} />
+                  {user?.status === 'pending_profile' ? 'ACTIVE' : user?.status?.toUpperCase()}
                 </span>
               </p>
             </div>
           </div>
 
-          {/* Nav buttons */}
+          {/* Navigation Pill Buttons */}
           <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
             {navTabs.map((t) => {
               const Icon = t.icon;
@@ -110,11 +138,11 @@ const MatrimonyLayout = () => {
                   onClick={() => setActiveTab(t.id)}
                   className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                     active
-                      ? 'bg-gradient-to-r from-amber-500/25 to-yellow-500/25 text-amber-300 border border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.2)] scale-[1.02]'
-                      : 'text-white/60 hover:text-white hover:bg-white/5 border border-transparent'
+                      ? 'bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white shadow-md shadow-[#C2410C]/20 scale-[1.02]'
+                      : 'text-[#574F47] hover:text-[#1C1917] hover:bg-[#FAF8F5] border border-transparent'
                   }`}
                 >
-                  <Icon size={14} className={active ? 'text-amber-400' : ''} />
+                  <Icon size={14} className={active ? 'text-white' : ''} />
                   <span className="hidden sm:inline">{t.label}</span>
                 </button>
               );
@@ -122,7 +150,7 @@ const MatrimonyLayout = () => {
 
             <button
               onClick={logout}
-              className="p-2 sm:px-3 sm:py-2 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ml-1 cursor-pointer hover:scale-105"
+              className="p-2 sm:px-3 sm:py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] border border-[#FECACA] text-[#B91C1C] rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ml-1 cursor-pointer hover:scale-105"
               title="Logout"
             >
               <LogOut size={14} />

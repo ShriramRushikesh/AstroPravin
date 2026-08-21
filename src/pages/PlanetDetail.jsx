@@ -1,135 +1,231 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Star, Shield, AlertTriangle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    ArrowLeft, Star, Shield, AlertTriangle, Sparkles, BookOpen,
+    HelpCircle, ChevronDown, Award, Compass, HeartHandshake, CheckCircle2
+} from 'lucide-react';
 import { planets } from '../data/planetData';
 import SEO from '../components/SEO';
+import AdSenseUnit from '../components/AdSenseUnit';
+import { MandalaWatermark, LotusCrest } from '../components/VedicDecorativeArt';
 
 const PlanetDetail = () => {
     const { id } = useParams();
+    const [openFaq, setOpenFaq] = useState(null);
     const planet = planets.find(p => p.id === id);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [id]);
 
-    if (!planet) return <div className="text-white flex items-center justify-center h-screen">Planet not found</div>;
+    if (!planet) {
+        return (
+            <div className="min-h-screen bg-[#FAF8F5] text-[#1C1917] flex flex-col items-center justify-center font-sans px-4 text-center">
+                <h1 className="text-3xl font-serif font-bold mb-4">Planet Profile Not Found</h1>
+                <p className="text-[#78716C] mb-6 max-w-md">The celestial body you are exploring is not found in our directory.</p>
+                <Link to="/planets" className="px-6 py-3 bg-[#FFF7ED] border border-[#FED7AA] text-[#C2410C] rounded-xl font-bold text-sm hover:bg-[#FFEDD5]">
+                    ← Return to Planets Directory
+                </Link>
+            </div>
+        );
+    }
+
+    const toggleFaq = (index) => {
+        setOpenFaq(openFaq === index ? null : index);
+    };
 
     const seoData = {
-        title: `${planet.name} (${planet.englishName}) in Vedic Astrology | Meaning & Remedies`,
-        description: `Learn about ${planet.name} (${planet.englishName}) in Vedic Astrology. Discover its significance, mantra (${planet.mantra}), controls, and powerful remedies to strengthen it.`,
-        keywords: `${planet.name}, ${planet.englishName}, ${planet.name} planet astrology, vedic astrology planets, ${planet.name} mantra, ${planet.name} remedies, ${planet.name} effects`
+        title: `${planet.name} (${planet.englishName}) in Vedic Astrology | Meaning, Dignities & Remedies`,
+        description: `Comprehensive Vedic guide on ${planet.name} (${planet.englishName}). Learn its spiritual significance, ${planet.mantra}, dignities (${planet.exaltation}), positive & afflicted traits, and authentic remedies.`,
+        keywords: `${planet.name}, ${planet.englishName}, ${planet.name} in vedic astrology, ${planet.gemstone}, ${planet.name} mantra, ${planet.name} upay, ${planet.name} effects in kundli, best astrologer Solapur`,
     };
 
     return (
-        <>
+        <div className="min-h-screen bg-[#FAF8F5] text-[#1C1917] pt-28 pb-20 relative overflow-hidden font-sans">
             <SEO {...seoData} />
-            <div className="min-h-screen bg-void text-white pt-24 pb-12 relative overflow-hidden">
-                {/* Background Glow */}
-                <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b ${planet.color} opacity-20 blur-[150px] rounded-full pointer-events-none`} />
 
-                <div className="max-w-6xl mx-auto px-6 relative z-10">
-                    <Link to="/" className="inline-flex items-center gap-2 text-white/50 hover:text-secondary transition-colors mb-8">
-                        <ArrowLeft size={20} /> Back to Cosmos
-                    </Link>
+            <div className="max-w-6xl mx-auto px-6 relative z-10">
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#78716C] mb-8">
+                    <Link to="/" className="hover:text-[#C2410C] transition-colors">Home</Link>
+                    <span>/</span>
+                    <Link to="/planets" className="hover:text-[#C2410C] transition-colors">Navagrahas</Link>
+                    <span>/</span>
+                    <span className="text-[#C2410C] font-semibold">{planet.name}</span>
+                </div>
 
-                    <div className="grid md:grid-cols-2 gap-12 items-start">
-                        {/* Visual Side */}
+                {/* Hero Card */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-[#EADCC8] shadow-luxury mb-12 relative overflow-hidden">
+                    <div className="grid lg:grid-cols-12 gap-10 items-center">
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex flex-col items-center"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="lg:col-span-5 flex flex-col items-center text-center space-y-4"
                         >
-                            <motion.div
-                                animate={{ y: [0, -20, 0], rotate: 360 }}
-                                transition={{
-                                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                                    rotate: { duration: 100, repeat: Infinity, ease: "linear" }
-                                }}
-                                className={`w-[70vw] h-[70vw] max-w-[250px] max-h-[250px] md:w-96 md:h-96 md:max-w-none md:max-h-none rounded-full ${!planet.img ? `bg-gradient-to-br ${planet.color}` : ''} ${planet.glow} shadow-2xl mb-8 relative flex items-center justify-center`}
-                            >
+                            <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-[#FFF7ED] via-[#FEF3C7] to-[#FAF8F5] border-4 border-[#FED7AA] shadow-luxury p-2 flex items-center justify-center">
                                 {planet.img ? (
                                     <img
                                         src={planet.img}
                                         alt={planet.englishName}
-                                        className="w-full h-full object-cover rounded-full shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                                        className="w-full h-full object-cover rounded-full filter drop-shadow-md"
                                     />
                                 ) : (
-                                    <div className="absolute inset-0 rounded-full mix-blend-multiply bg-black/20" />
+                                    <div className="text-4xl font-serif text-[#C2410C] font-bold">
+                                        {planet.name[0]}
+                                    </div>
                                 )}
-                            </motion.div>
+                            </div>
 
-                            <div className="glass p-6 rounded-xl text-center w-full max-w-md">
-                                <h3 className="text-primary uppercase tracking-widest text-sm mb-2">Vedic Mantra</h3>
-                                <p className="font-serif italic text-lg leading-relaxed text-secondary">"{planet.mantra}"</p>
+                            {/* Beej Mantra Plaque */}
+                            <div className="bg-[#FFFDF9] border border-[#EADCC8] p-4 rounded-2xl w-full">
+                                <span className="text-[#C2410C] uppercase tracking-widest text-[10px] font-bold block mb-1">
+                                    Vedic Beej Mantra
+                                </span>
+                                <p className="font-serif italic text-sm sm:text-base text-[#B45309]">
+                                    "{planet.beejMantra || planet.mantra}"
+                                </p>
                             </div>
                         </motion.div>
 
-                        {/* Content Side */}
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="space-y-8 text-center md:text-left"
+                            className="lg:col-span-7 space-y-4"
                         >
-                            <div>
-                                <h1 className="text-3xl md:text-6xl font-serif font-bold text-white mb-2">{planet.name}</h1>
-                                <h2 className="text-xl md:text-2xl text-white/50">{planet.englishName}</h2>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FFF7ED] border border-[#FED7AA] rounded-full text-xs text-[#C2410C] font-bold uppercase tracking-wider">
+                                <Sparkles size={13} /> {planet.sanskritTitle || 'Navagraha Lord'}
                             </div>
 
-                            <p className="text-lg text-white/80 leading-relaxed md:border-l-2 md:border-secondary/50 md:pl-4">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                                {planet.name} <span className="text-[#78716C] text-2xl font-light">({planet.englishName})</span>
+                            </h1>
+
+                            <p className="text-sm sm:text-base text-[#44403C] leading-relaxed">
                                 {planet.description}
                             </p>
 
-                            <div>
-                                <h3 className="text-xl font-serif text-white mb-4 flex items-center gap-2 justify-center md:justify-start">
-                                    <Star className="text-secondary" size={20} /> Controls
-                                </h3>
-                                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                                    {planet.controls.map((c, i) => (
-                                        <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-sm border border-white/5">{c}</span>
-                                    ))}
+                            {/* Quick Stats Grid */}
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Element / Tattva</span>
+                                    <strong className="text-xs sm:text-sm text-[#1C1917]">{planet.element || 'Fire'}</strong>
+                                </div>
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Gemstone (Ratna)</span>
+                                    <strong className="text-xs sm:text-sm text-[#C2410C]">{planet.gemstone || 'Natural'}</strong>
+                                </div>
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Ruling Day</span>
+                                    <strong className="text-xs sm:text-sm text-[#1C1917]">{planet.day || 'Auspicious'}</strong>
+                                </div>
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Exaltation (Uchcha)</span>
+                                    <strong className="text-xs sm:text-sm text-[#B45309]">{planet.exaltation || 'Direct'}</strong>
+                                </div>
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Debilitation (Neecha)</span>
+                                    <strong className="text-xs sm:text-sm text-[#78716C]">{planet.debilitation || 'Opposite'}</strong>
+                                </div>
+                                <div className="p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-xl">
+                                    <span className="text-[10px] uppercase text-[#78716C] font-bold block">Ruling Rashi</span>
+                                    <strong className="text-xs sm:text-sm text-[#1C1917]">{planet.rashi || 'Zodiac Sign'}</strong>
                                 </div>
                             </div>
-
-                            <div className="grid sm:grid-cols-2 gap-6">
-                                <div className="bg-emerald-900/20 border border-emerald-500/20 p-5 rounded-xl text-left">
-                                    <h3 className="text-emerald-400 font-serif mb-3 flex items-center gap-2 justify-center md:justify-start">
-                                        <Shield size={18} /> Do's (Positive)
-                                    </h3>
-                                    <ul className="list-disc list-inside text-sm text-emerald-100/70 space-y-1">
-                                        {planet.do.map((item, i) => <li key={i}>{item}</li>)}
-                                    </ul>
-                                </div>
-                                <div className="bg-red-900/20 border border-red-500/20 p-5 rounded-xl text-left">
-                                    <h3 className="text-red-400 font-serif mb-3 flex items-center gap-2 justify-center md:justify-start">
-                                        <AlertTriangle size={18} /> Don'ts (Negative)
-                                    </h3>
-                                    <ul className="list-disc list-inside text-sm text-red-100/70 space-y-1">
-                                        {planet.dont.map((item, i) => <li key={i}>{item}</li>)}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 className="text-xl font-serif text-white mb-4">Remedies (Upay)</h3>
-                                <div className="space-y-3">
-                                    {planet.remedies.map((r, i) => (
-                                        <div key={i} className="flex items-start gap-3 p-3 glass rounded-lg hover:bg-white/10 transition-colors">
-                                            <div className="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-xs text-secondary font-bold mt-0.5">
-                                                {i + 1}
-                                            </div>
-                                            <p className="text-white/90 text-sm">{r}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
                         </motion.div>
                     </div>
                 </div>
+
+                {/* Positive vs Afflicted Traits */}
+                <div className="grid md:grid-cols-2 gap-8 mb-12">
+                    <div className="bg-white rounded-3xl p-7 border border-[#EADCC8] shadow-luxury space-y-4">
+                        <h3 className="text-lg font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                            <Shield className="text-[#C2410C]" size={18} />
+                            Positive Astrological Influence
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                            {planet.positiveEffects || 'Bestows mental courage, vitality, leadership, honor, and prosperity when well-placed in auspicious houses (1st, 5th, 9th, 10th).'}
+                        </p>
+                        {planet.do && (
+                            <ul className="space-y-1.5 pt-2 text-xs text-[#44403C]">
+                                {planet.do.map((item, i) => (
+                                    <li key={i} className="flex items-center gap-2">
+                                        <CheckCircle2 size={13} className="text-[#C2410C]" />
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <div className="bg-white rounded-3xl p-7 border border-[#EADCC8] shadow-luxury space-y-4">
+                        <h3 className="text-lg font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                            <AlertTriangle className="text-[#D97706]" size={18} />
+                            Afflicted or Weakened Symptoms
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                            {planet.negativeEffects || 'Can cause physical lethargy, relationship friction, delays in career advancement, or financial fluctuations when placed in 6th, 8th, or 12th houses.'}
+                        </p>
+                        {planet.dont && (
+                            <ul className="space-y-1.5 pt-2 text-xs text-[#78716C]">
+                                {planet.dont.map((item, i) => (
+                                    <li key={i} className="flex items-center gap-2">
+                                        <span className="text-[#C2410C] font-bold">✕</span>
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+
+                {/* Remedies & Upay */}
+                <div className="bg-[#FFFDF9] rounded-3xl p-8 border border-[#FED7AA] shadow-luxury mb-12 space-y-4">
+                    <h3 className="text-xl font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                        <LotusCrest className="w-5 h-5" />
+                        Authentic Vedic Remedies (Upay)
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                        {planet.remedies || 'Chant the prescribed Beej Mantra during morning Hora, wear certified natural energized gemstones, donate respective grains on the ruling day, and perform dedicated Navagraha Shanti pooja.'}
+                    </p>
+                </div>
+
+                {/* FAQ Accordion */}
+                {planet.faqs && planet.faqs.length > 0 && (
+                    <div className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury space-y-4">
+                        <h3 className="text-xl font-serif font-bold text-[#1C1917] mb-6">
+                            Frequently Asked Questions about {planet.name}
+                        </h3>
+                        <div className="space-y-3">
+                            {planet.faqs.map((faq, idx) => (
+                                <div key={idx} className="border border-[#EADCC8] rounded-2xl overflow-hidden">
+                                    <button
+                                        onClick={() => toggleFaq(idx)}
+                                        className="w-full p-4 text-left font-serif font-bold text-sm text-[#1C1917] flex items-center justify-between hover:bg-[#FAF8F5] transition-colors"
+                                    >
+                                        <span>{faq.question}</span>
+                                        <ChevronDown size={16} className={`transform transition-transform ${openFaq === idx ? 'rotate-180 text-[#C2410C]' : ''}`} />
+                                    </button>
+                                    <AnimatePresence>
+                                        {openFaq === idx && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="px-4 pb-4 text-xs sm:text-sm text-[#78716C] leading-relaxed border-t border-[#EADCC8] pt-3"
+                                            >
+                                                {faq.answer}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
-        </>
+        </div>
     );
 };
 
-export default PlanetDetail;
+export default React.memo(PlanetDetail);

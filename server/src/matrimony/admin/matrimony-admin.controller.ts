@@ -99,6 +99,18 @@ export class MatrimonyAdminController {
     return this.adminService.reviewPhoto(photoId, status, reason, adminId, ip);
   }
 
+  @Patch('users/:userId/verify-payment')
+  async verifyPayment(
+    @Req() req: any,
+    @Param('userId') userId: string,
+    @Body('approved') approved: boolean,
+    @Body('notes') notes?: string,
+  ) {
+    const adminId = req.user?.id || req.user?._id;
+    const ip = req.ip || req.connection?.remoteAddress;
+    return this.adminService.verifyMemberPayment(userId, approved, notes, adminId, ip);
+  }
+
   @Get('analytics/overview')
   async getOverview() {
     return this.adminService.getOverviewAnalytics();

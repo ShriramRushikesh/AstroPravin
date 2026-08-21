@@ -13,9 +13,9 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
   const isInterestSent = profile.interestStatus === 'pending' || profile.interestStatus === 'accepted';
 
   return (
-    <div className="group bg-neutral-900/80 border border-white/10 hover:border-amber-500/40 rounded-3xl overflow-hidden backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 flex flex-col justify-between">
+    <div className="group bg-white border border-[#EADCC8] hover:border-[#C2410C]/40 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_15px_40px_rgba(194,65,12,0.09)] flex flex-col justify-between hover:-translate-y-1">
       {/* ── Image & Badges ── */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-black/40 cursor-pointer" onClick={() => onViewDetail(profile)}>
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#FAF8F5] cursor-pointer" onClick={() => onViewDetail(profile)}>
         <img
           src={photoUrl}
           alt={profile.fullName}
@@ -23,26 +23,27 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60'; }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+        {/* Subtle Soft Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
           {profile.isProfileFeatured ? (
-            <span className="px-2.5 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-black text-[10px] font-bold rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1">
+            <span className="px-2.5 py-1 bg-gradient-to-r from-[#D97706] to-[#C2410C] text-white text-[10px] font-bold rounded-lg shadow-md uppercase tracking-wider flex items-center gap-1">
               <Sparkles size={11} /> Featured
             </span>
           ) : (
-            <span className="px-2.5 py-1 bg-black/60 border border-white/10 text-white/80 text-[10px] rounded-lg backdrop-blur-md">
+            <span className="px-2.5 py-1 bg-white/90 border border-[#EADCC8] text-[#44403C] text-[10px] font-semibold rounded-lg backdrop-blur-md shadow-sm">
               {profile.religion || 'Vedic'}
             </span>
           )}
 
           <button
             onClick={(e) => { e.stopPropagation(); onShortlist(profile.userId || profile._id); }}
-            className={`p-2 rounded-xl backdrop-blur-md transition-all pointer-events-auto ${
+            className={`p-2 rounded-xl backdrop-blur-md transition-all pointer-events-auto shadow-sm ${
               profile.isShortlisted
-                ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/30'
-                : 'bg-black/60 border border-white/10 text-white/70 hover:text-amber-400 hover:bg-black/80'
+                ? 'bg-[#F59E0B] text-white shadow-md'
+                : 'bg-white/90 border border-[#EADCC8] text-[#78716C] hover:text-[#C2410C] hover:bg-white'
             }`}
             title="Shortlist"
           >
@@ -53,22 +54,22 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
         {/* Bottom Info Overlay */}
         <div className="absolute bottom-3 left-3 right-3 text-white">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-base font-serif font-bold text-white leading-snug group-hover:text-amber-300 transition-colors">
+            <h3 className="text-base font-serif font-bold text-white leading-snug group-hover:text-[#FDE68A] transition-colors drop-shadow-sm">
               {profile.fullName}
             </h3>
-            {age && <span className="text-xs text-amber-400 font-mono font-bold">• {age} yrs</span>}
+            {age && <span className="text-xs text-[#FDE68A] font-mono font-bold">• {age} yrs</span>}
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-white/70 mt-1 flex-wrap">
+          <div className="flex items-center gap-2 text-xs text-white/90 mt-1 flex-wrap drop-shadow-sm">
             {profile.currentCity && (
               <span className="flex items-center gap-1">
-                <MapPin size={11} className="text-amber-400" />
+                <MapPin size={11} className="text-[#FDE68A]" />
                 {profile.currentCity}
               </span>
             )}
             {profile.occupation && (
               <span className="flex items-center gap-1">
-                <Briefcase size={11} className="text-amber-400" />
+                <Briefcase size={11} className="text-[#FDE68A]" />
                 {profile.occupation.split(' / ')[0]}
               </span>
             )}
@@ -77,15 +78,15 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
       </div>
 
       {/* ── Details & Astrological Info ── */}
-      <div className="p-4 space-y-3 bg-white/[0.02]">
+      <div className="p-4 space-y-3 bg-[#FAF8F5]/60 border-t border-[#F5EFE6]">
         <div className="grid grid-cols-2 gap-2 text-[11px]">
-          <div className="bg-black/30 border border-white/5 rounded-xl p-2">
-            <span className="text-white/40 block">Caste:</span>
-            <span className="text-white/80 font-medium truncate block">{profile.caste || 'Open'}</span>
+          <div className="bg-white border border-[#EADCC8] rounded-xl p-2 shadow-xs">
+            <span className="text-[#78716C] block text-[10px]">Caste:</span>
+            <span className="text-[#1C1917] font-semibold truncate block">{profile.caste || 'Open'}</span>
           </div>
-          <div className="bg-black/30 border border-white/5 rounded-xl p-2">
-            <span className="text-white/40 block">Rashi:</span>
-            <span className="text-amber-400/90 font-medium truncate block">{profile.rashi || 'Not Set'}</span>
+          <div className="bg-white border border-[#EADCC8] rounded-xl p-2 shadow-xs">
+            <span className="text-[#78716C] block text-[10px]">Rashi:</span>
+            <span className="text-[#C2410C] font-semibold truncate block">{profile.rashi || 'Not Set'}</span>
           </div>
         </div>
 
@@ -94,10 +95,10 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
           <button
             onClick={() => onInterest(profile.userId || profile._id)}
             disabled={isInterestSent}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               isInterestSent
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                : 'bg-gradient-to-r from-amber-500 to-amber-400 text-black hover:brightness-110 shadow-lg shadow-amber-500/10'
+                ? 'bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0]'
+                : 'bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white hover:brightness-105 shadow-md shadow-[#C2410C]/15 active:scale-95'
             }`}
           >
             {isInterestSent ? (
@@ -115,7 +116,7 @@ const ProfileCard = ({ profile, onInterest, onShortlist, onViewDetail, onGunMila
 
           <button
             onClick={() => onGunMilan(profile.userId || profile._id)}
-            className="p-2.5 bg-white/5 hover:bg-white/10 border border-amber-500/30 text-amber-300 rounded-xl text-xs font-bold transition-colors"
+            className="p-2.5 bg-[#FFFBEB] hover:bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] rounded-xl text-xs font-bold transition-all hover:scale-105 shadow-xs cursor-pointer"
             title="Calculate 36 Guna Milan"
           >
             <Compass size={16} />

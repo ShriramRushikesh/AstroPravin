@@ -460,6 +460,47 @@ export class MatrimonyAdminService {
     };
   }
 
+  async verifyMemberPayment(userId: string, approved: boolean, notes?: string, adminId?: string, ipAddress?: string) {
+    const userObjectId = new Types.ObjectId(userId);
+    const user = await this.userModel.findById(userObjectId);
+    if (!user) throw new NotFoundException('Member not found');
+
+    const adminObjectId = adminId ? new Types.ObjectId(adminId) : undefined;
+
+    if (approved) {
+      user.paymentStatus = 'verified';
+      user.status = 'pending_profile';
+      if (user.paymentDetails) {
+        user.paymentDetails.verifiedAt = new Date();
+        user.paymentDetails.verifiedBy = adminObjectId;
+      }
+    } else {
+      user.paymentStatus = 'rejected';
+      user.status = 'pending_payment';
+      if (user.paymentDetails) {
+        user.paymentDetails.notes = notes || 'Payment reference could not be verified in bank statement.';
+      }
+    }
+
+    user.markModified('paymentDetails');
+    await user.save();
+
+    await this.logAudit({
+      adminId: adminObjectId,
+      action: approved ? 'VERIFY_PAYMENT' : 'REJECT_PAYMENT',
+      targetUserId: user._id,
+      after: { paymentStatus: user.paymentStatus, status: user.status, utr: user.paymentDetails?.transactionId },
+      ipAddress,
+      notes: notes || (approved ? 'Payment verified by Admin' : 'Payment rejected'),
+    });
+
+    return {
+      success: true,
+      message: approved ? 'Member payment verified and portal access unlocked.' : 'Payment rejected.',
+      user,
+    };
+  }
+
   private async logAudit(data: {
     adminId: Types.ObjectId;
     action: string;

@@ -7,6 +7,8 @@ import { KundliModule } from './kundli/kundli.module';
 import { SharedModule } from './shared/shared.module';
 import { ServicesModule } from './services/services.module';
 import { MatrimonyModule } from './matrimony/matrimony.module';
+import { BlogsModule } from './blogs/blogs.module';
+import { ProductsModule } from './products/products.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -24,12 +26,11 @@ import { AppService } from './app.service';
         if (!uri) {
           throw new Error('MONGODB_URI environment variable is not set. Check your .env file.');
         }
-        process.stdout.write(`🔌 Mongoose connecting to target URI: ${uri.split('@')[1] || uri}\n`);
+        console.log(`🔌 Connecting to MongoDB Database...`);
         return {
           uri,
-          serverSelectionTimeoutMS: 5000,
-          connectTimeoutMS: 5000,
-          bufferCommands: false,
+          serverSelectionTimeoutMS: 8000,
+          connectTimeoutMS: 8000,
           autoIndex: false,
         };
       },
@@ -40,12 +41,14 @@ import { AppService } from './app.service';
     SharedModule,
     ServicesModule,
     MatrimonyModule,
+    BlogsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements OnModuleInit {
   onModuleInit() {
-    process.stdout.write('✅ NestJS AppModule Initialized successfully!\n');
+    console.log('✅ NestJS AppModule Initialized successfully!');
   }
 }

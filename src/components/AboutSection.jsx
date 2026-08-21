@@ -1,99 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, CheckCircle } from 'lucide-react';
+import { Award, CheckCircle2, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
+import { MandalaWatermark, LotusCrest } from './VedicDecorativeArt';
 
 const AboutSection = () => {
     const qualities = [
-        "25+ Years of Experience",
-        "Expert in Vedic Astrology & Numerology",
-        "Vastu Shastra & Psychology Consultant",
-        "Authentic Pooja Services (Home & Online)",
-        "Strict Adherence to Date Panchang",
-        "Trusted & Perfectionist Approach"
+        "25+ Years of Vedic Jyotish Mastery",
+        "Expert in 36 Guna Kundli Matchmaking",
+        "Vastu Shastra (Residential & Commercial)",
+        "Certified Vedic Gemstones & Remedial Poojas",
+        "Strict Adherence to Authentic Panchang",
+        "Confidential One-on-One Consultations"
     ];
 
     return (
-        <section className="relative py-20 bg-void overflow-hidden">
-            {/* Background Ambience */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        <section className="relative py-24 bg-[#FAF8F5] overflow-hidden border-t border-[#EADCC8]">
+            {/* Background Mandala Watermark */}
+            <div className="absolute right-[-150px] top-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
+                <MandalaWatermark className="w-[600px] h-[600px]" spin={false} />
+            </div>
 
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
                     {/* Image Column */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="relative"
+                        transition={{ duration: 0.7 }}
+                        className="lg:col-span-5 relative"
                     >
-                        {/* Decorative Rings */}
-                        <div className="absolute inset-0 border-2 border-secondary/30 rounded-t-full rounded-b-[1000px] scale-110 animate-pulse-slow" />
-                        <div className="absolute inset-0 border border-primary/20 rounded-t-full rounded-b-[1000px] scale-125" />
+                        <div className="relative mx-auto max-w-sm rounded-3xl bg-white border border-[#EADCC8] p-4 shadow-luxury overflow-hidden">
+                            <div className="rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFF7ED] to-[#FAF8F5] border border-[#FED7AA] aspect-[4/5] flex items-center justify-center p-2">
+                                <img
+                                    src="/pravin-shriram.png"
+                                    alt="Pandit Pravin Shriram - Vedic Astrologer Solapur"
+                                    loading="lazy"
+                                    className="w-full h-full object-contain filter drop-shadow-md"
+                                />
+                            </div>
 
-                        <div className="relative z-10 rounded-t-full rounded-b-[200px] overflow-hidden border-b-4 border-secondary shadow-[0_0_50px_rgba(255,215,0,0.2)]">
-                            <img
-                                src="/pravin-shriram.png"
-                                alt="Pravin Shriram - Best Vedic Astrologer in Solapur Maharashtra"
-                                loading="lazy"
-                                decoding="async"
-                                width="600"
-                                height="800"
-                                className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
-                            />
+                            {/* 25+ Years Experience Badge */}
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                whileInView={{ scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.3, type: 'spring' }}
+                                className="absolute -bottom-2 -right-2 bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] p-4 rounded-2xl text-white shadow-luxury flex flex-col items-center"
+                            >
+                                <span className="text-2xl font-bold font-serif leading-none">25+</span>
+                                <span className="text-[10px] font-bold uppercase tracking-wider mt-1">Years Mastery</span>
+                            </motion.div>
                         </div>
-
-                        {/* Experience Badge */}
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.5, type: 'spring' }}
-                            className="absolute -bottom-6 -right-6 bg-gradient-to-br from-secondary to-primary p-6 rounded-full text-black shadow-lg z-20"
-                        >
-                            <span className="block text-3xl font-bold font-serif">25+</span>
-                            <span className="block text-xs font-semibold uppercase tracking-wider">Years Exp.</span>
-                        </motion.div>
                     </motion.div>
 
                     {/* Content Column */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.7 }}
+                        className="lg:col-span-7 space-y-6"
                     >
-                        <div className="flex items-center gap-2 mb-4 text-secondary/80">
-                            <Star size={16} fill="currentColor" />
-                            <span className="uppercase tracking-widest text-sm font-semibold">Meet Your Guide</span>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                            <LotusCrest className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                                About Pandit Pravin Shriram
+                            </span>
                         </div>
 
-                        <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight">
-                            Pandit <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">Pravin Shriram</span>
+                        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#1C1917] leading-tight">
+                            Bridging Ancient Vedic Wisdom with <span className="bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] bg-clip-text text-transparent">Modern Practical Life</span>
                         </h2>
 
-                        <p className="text-white/70 text-lg leading-relaxed mb-6">
-                            A distinguished authority in the cosmic sciences, Pravin Shriram brings over two decades of profound expertise in <strong>Vedic Astrology</strong> and <strong>Numerology</strong>. Renowned for his perfectionism and deep insight, he bridges the gap between ancient wisdom and modern psychology to offer solutions that truly resonate.
+                        <p className="text-sm sm:text-base text-[#44403C] leading-relaxed">
+                            Welcome to <strong>Shriram Samupdeshan Kendra</strong>, Solapur's foremost center for Vedic Astrology, Kundli Analysis, and Vastu Shastra. Led by <strong>Pandit Pravin Shriram</strong> with over 25 years of devoted study and practical consultations, we offer authentic astrological guidance to help individuals, families, and businesses make empowered life decisions.
                         </p>
 
-                        <p className="text-white/70 text-lg leading-relaxed mb-8">
-                            Whether you seek clarity through a Kundli Analysis, harmony through Vastu Shastra, or spiritual peace through authentic <strong>Pooja services</strong> (available both at your home and online), Pravin ji's approach is rooted in trust and precision. He strictly adheres to the <strong>Date Panchang</strong> to ensure every ritual and remedy is performed at the most auspicious moment.
+                        <p className="text-sm sm:text-base text-[#78716C] leading-relaxed">
+                            Whether you seek clarity regarding marriage compatibility (Gun Milan), career shifts, financial stability, or Vastu energy alignment, our consultations are grounded strictly in authentic classical Sanskrit texts and proven remedial measures.
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {qualities.map((item, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.2 + (index * 0.1) }}
-                                    className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:border-secondary/30 transition-colors"
-                                >
-                                    <CheckCircle className="text-secondary shrink-0" size={18} />
-                                    <span className="text-white/90 text-sm font-medium">{item}</span>
-                                </motion.div>
+                        {/* Qualities Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            {qualities.map((q, idx) => (
+                                <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#EADCC8] shadow-sm">
+                                    <CheckCircle2 size={16} className="text-[#C2410C] shrink-0" />
+                                    <span className="text-xs sm:text-sm font-semibold text-[#1C1917]">{q}</span>
+                                </div>
                             ))}
                         </div>
                     </motion.div>
@@ -104,4 +99,4 @@ const AboutSection = () => {
     );
 };
 
-export default AboutSection;
+export default React.memo(AboutSection);

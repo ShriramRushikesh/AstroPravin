@@ -52,6 +52,15 @@ export const matrimonyAdminService = {
     return handleResponse(res);
   },
 
+  verifyMemberPayment: async (userId, approved, notes = '') => {
+    const res = await fetch(`${API_URL}/api/matrimony/admin/users/${userId}/verify-payment`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...getAdminAuthHeader() },
+      body: JSON.stringify({ approved, notes }),
+    });
+    return handleResponse(res);
+  },
+
   updateTier: async (userId, tier) => {
     const res = await fetch(`${API_URL}/api/matrimony/admin/users/${userId}/tier`, {
       method: 'PATCH',

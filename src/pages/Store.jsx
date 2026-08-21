@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Star, Search, Filter } from 'lucide-react';
+import { Sparkles, Star, Search, Filter, ShieldCheck, Award, CheckCircle2, HelpCircle, ChevronDown } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import ProductModal from '../components/ProductModal';
 import { API_URL } from '../config';
+import { products as fallbackProducts } from '../data/productData';
 import SEO from '../components/SEO';
+import { MandalaWatermark, LotusCrest } from '../components/VedicDecorativeArt';
 
 const Store = () => {
-    const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState(fallbackProducts);
+    const [filteredProducts, setFilteredProducts] = useState(fallbackProducts);
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [openFaq, setOpenFaq] = useState(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const apiUrl = API_URL;
-                const res = await fetch(`${apiUrl}/api/products`);
+                const res = await fetch(`${API_URL}/api/products`);
                 if (res.ok) {
                     const data = await res.json();
-                    const activeProducts = data.filter(p => p.inStock);
-                    setProducts(activeProducts);
-                    setFilteredProducts(activeProducts);
+                    if (Array.isArray(data) && data.length > 0) {
+                        const activeProducts = data.filter(p => p.inStock);
+                        if (activeProducts.length > 0) {
+                            setProducts(activeProducts);
+                            setFilteredProducts(activeProducts);
+                        }
+                    }
                 }
             } catch (error) {
-                console.error('Failed to fetch products', error);
-            } finally {
-                setLoading(false);
+                // Fallback kept
             }
         };
         fetchProducts();
@@ -42,74 +45,83 @@ const Store = () => {
         }
 
         if (searchQuery) {
-            result = result.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            result = result.filter(p =>
+                p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.desc?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.power?.toLowerCase().includes(searchQuery.toLowerCase())
+            );
         }
 
         setFilteredProducts(result);
     }, [activeCategory, searchQuery, products]);
 
     const categories = [
-        { id: 'all', label: 'All Treasures' },
-        { id: 'gemstones', label: 'Gemstones' },
-        { id: 'yantras', label: 'Yantras' },
-        { id: 'kawach', label: 'Kawach' },
-        { id: 'rudraksha', label: 'Rudraksha' }
+        { id: 'all', label: 'All Artifacts' },
+        { id: 'gemstones', label: 'Natural Gemstones (Ratna)' },
+        { id: 'rudraksha', label: 'Sacred Rudraksha' },
+        { id: 'yantras', label: 'Energized Yantras' }
+    ];
+
+    const storeFaqs = [
+        {
+            q: "Are the gemstones certified and 100% authentic natural?",
+            a: "Yes. Every single gemstone in our treasury is 100% natural, earth-mined, untreated, and accompanied by a recognized government-approved gemological laboratory test certificate."
+        },
+        {
+            q: "How does Pandit Pravin energize (Prana Pratishtha) the spiritual items?",
+            a: "Before dispatch, each item undergoes individualized Vedic consecration during auspicious planetary Horas using sacred Sanskrit Beej Mantras, holy Ganga water purification, and personalized intention rituals for the devotee."
+        },
+        {
+            q: "How can I order and receive delivery?",
+            a: "You can click on any product to enquire directly on WhatsApp (+91 99216 97908). We provide secure, insured, tamper-proof courier delivery across all states in India and worldwide."
+        }
     ];
 
     return (
-        <div className="min-h-screen bg-void text-white">
+        <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-24 px-4 sm:px-6 relative overflow-hidden font-sans">
             <SEO
-                title="Buy Gemstones & Rudraksha - Original Certified | Astro Pravin Store"
-                description="Buy 100% Original and Energized Gemstones, Rudraksha, and Yantras. Certified Pukhraj, Neelam, Manik, Moti, and Gomed stones in Solapur."
-                keywords="Buy Gemstones, Original Rudraksha, Pukhraj Stone, Yellow Sapphire, Neelam Stone, Blue Sapphire, Moti, Pearl, Manik, Ruby, Gomed, Hessonite, Gemstone Shop Solapur, Certified Gemstones, Astrological Rings"
+                title="Energized Gemstones, Rudraksha & Yantras | AstroPravin Store"
+                description="Buy 100% certified natural Vedic gemstones (Pukhraj, Neelam, Manik, Panna), genuine Nepali Rudraksha beads, and energized copper Yantras blessed by Pandit Pravin Shriram."
+                keywords="buy certified gemstones, original yellow sapphire, authentic blue sapphire, nepali rudraksha, energized yantras, astropravin store"
             />
 
-            {/* Hero Section */}
-            <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-void/50 to-void" />
-                    <img
-                        src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2694&auto=format&fit=crop"
-                        alt="Cosmic Store Background"
-                        className="w-full h-full object-cover opacity-40"
-                    />
-                </div>
-
-                <div className="relative z-10 text-center px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <span className="text-primary tracking-[0.4em] uppercase text-sm font-semibold mb-4 block">
-                            Energized Artifacts
-                        </span>
-                        <h1 className="text-5xl md:text-7xl font-serif mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-secondary to-white">
-                            Celestial Treasury
-                        </h1>
-                        <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light">
-                            Discover ancient tools for modern spiritual elevation. Each item is energized with Vedic mantras.
-                        </p>
-                    </motion.div>
-                </div>
+            {/* Background Decorative */}
+            <div className="absolute top-20 right-[-120px] opacity-[0.03] pointer-events-none">
+                <MandalaWatermark className="w-[600px] h-[600px]" spin={false} />
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-7xl mx-auto relative z-10">
+                {/* Header */}
+                <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Vedic Gemstone & Artifact Treasury
+                        </span>
+                    </div>
 
-                {/* Search & Filter Bar */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 sticky top-24 z-20 bg-void/80 backdrop-blur-xl p-4 rounded-2xl border border-white/5 shadow-2xl">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        Energized <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Gemstones & Rudraksha</span>
+                    </h1>
 
-                    {/* Categories - Desktop */}
-                    <div className="hidden md:flex gap-2">
-                        {categories.map(cat => (
+                    <p className="text-sm text-[#78716C] leading-relaxed">
+                        Conducted under rigorous Vedic traditions. Every gem is lab-tested and consecrated with Prana Pratishtha for planetary alignment and spiritual protection.
+                    </p>
+                </div>
+
+                {/* Filters & Search */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 bg-white p-4 rounded-2xl border border-[#EADCC8] shadow-sm">
+                    {/* Category Pills */}
+                    <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        {categories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
-                                className={`px-4 py-2 rounded-full text-sm transition-all border ${activeCategory === cat.id
-                                    ? 'bg-secondary text-black font-bold border-secondary'
-                                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
-                                    }`}
+                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                                    activeCategory === cat.id
+                                        ? 'bg-[#C2410C] text-white shadow-sm'
+                                        : 'bg-[#F5F0E8] text-[#44403C] hover:bg-[#EADCC8]'
+                                }`}
                             >
                                 {cat.label}
                             </button>
@@ -117,78 +129,82 @@ const Store = () => {
                     </div>
 
                     {/* Search Input */}
-                    <div className="relative w-full md:w-auto">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                    <div className="relative w-full md:w-72">
+                        <Search size={14} className="absolute left-3.5 top-3 text-[#78716C]" />
                         <input
                             type="text"
-                            placeholder="Search artifacts..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full md:w-64 bg-black/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-white focus:border-secondary outline-none transition-colors"
+                            placeholder="Search gemstones, yantras..."
+                            className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
                         />
-                    </div>
-
-                    {/* Mobile Category Scroll */}
-                    <div className="flex md:hidden w-full overflow-x-auto gap-2 no-scrollbar pb-2">
-                        {categories.map(cat => (
-                            <button
-                                key={cat.id}
-                                onClick={() => setActiveCategory(cat.id)}
-                                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all border ${activeCategory === cat.id
-                                    ? 'bg-secondary text-black font-bold border-secondary'
-                                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
-                                    }`}
-                            >
-                                {cat.label}
-                            </button>
-                        ))}
                     </div>
                 </div>
 
-                {/* Loading State */}
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-secondary"></div>
+                {/* Products Grid */}
+                {filteredProducts.length === 0 ? (
+                    <div className="text-center py-16 bg-white rounded-3xl border border-[#EADCC8] p-8">
+                        <p className="text-sm text-[#78716C]">No artifacts found matching your criteria.</p>
+                        <button
+                            onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
+                            className="mt-4 px-4 py-2 bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] rounded-xl text-xs font-bold"
+                        >
+                            Reset Filter
+                        </button>
                     </div>
                 ) : (
-                    /* Product Grid */
-                    <motion.div
-                        layout
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-                    >
-                        <AnimatePresence>
-                            {filteredProducts.length > 0 ? (
-                                filteredProducts.map(product => (
-                                    <ProductCard
-                                        key={product._id}
-                                        product={product}
-                                        onClick={() => setSelectedProduct(product)}
-                                    />
-                                ))
-                            ) : (
-                                <div className="col-span-full text-center py-20 text-white/30">
-                                    <Sparkles className="mx-auto mb-4 opacity-50" size={48} />
-                                    <p>No treasures found matching your quest.</p>
-                                </div>
-                            )}
-                        </AnimatePresence>
-                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+                        {filteredProducts.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                product={product}
+                                onClick={() => setSelectedProduct(product)}
+                            />
+                        ))}
+                    </div>
                 )}
+
+                {/* Store FAQs */}
+                <div className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury max-w-4xl mx-auto space-y-4">
+                    <h3 className="text-xl font-serif font-bold text-[#1C1917] mb-6 text-center">
+                        Frequently Asked Questions about Vedic Artifacts
+                    </h3>
+                    <div className="space-y-3">
+                        {storeFaqs.map((faq, idx) => (
+                            <div key={idx} className="border border-[#EADCC8] rounded-2xl overflow-hidden">
+                                <button
+                                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                                    className="w-full p-4 text-left font-serif font-bold text-xs sm:text-sm text-[#1C1917] flex items-center justify-between hover:bg-[#FAF8F5] transition-colors"
+                                >
+                                    <span>{faq.q}</span>
+                                    <ChevronDown size={16} className={`transform transition-transform ${openFaq === idx ? 'rotate-180 text-[#C2410C]' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {openFaq === idx && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="px-4 pb-4 text-xs text-[#78716C] leading-relaxed border-t border-[#EADCC8] pt-3"
+                                        >
+                                            {faq.a}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
 
-
-            {/* Product Detail Modal */}
-            <AnimatePresence>
-                {selectedProduct && (
-                    <ProductModal
-                        isOpen={!!selectedProduct}
-                        onClose={() => setSelectedProduct(null)}
-                        product={selectedProduct}
-                    />
-                )}
-            </AnimatePresence>
+            {/* Product Modal */}
+            <ProductModal
+                isOpen={!!selectedProduct}
+                product={selectedProduct}
+                onClose={() => setSelectedProduct(null)}
+            />
         </div>
     );
 };
 
-export default Store;
+export default React.memo(Store);

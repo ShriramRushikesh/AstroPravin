@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Star, Award, Shield, CheckCircle2, MapPin, Phone, Calendar, Heart, BookOpen, Sparkles } from 'lucide-react';
+import { Award, ShieldCheck, CheckCircle2, MapPin, Phone, Calendar, Heart, BookOpen, Sparkles } from 'lucide-react';
 import SEO from '../components/SEO';
 import BookingModal from '../components/BookingModal';
+import { MandalaWatermark, LotusCrest } from '../components/VedicDecorativeArt';
 
 const AboutUs = () => {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const pillars = [
         {
-            icon: <Award className="text-secondary" size={28} />,
+            icon: <Award className="text-[#C2410C]" size={24} />,
             title: "25+ Years Experience",
             desc: "Over two decades of dedicated study, classical chart interpretation, and counseling helping individuals navigate life transitions."
         },
         {
-            icon: <Shield className="text-secondary" size={28} />,
+            icon: <ShieldCheck className="text-[#C2410C]" size={24} />,
             title: "Strict Date Panchang",
             desc: "All calculations and remedial rituals adhere strictly to authentic astronomical panchang and auspicious planetary horas."
         },
         {
-            icon: <Heart className="text-secondary" size={28} />,
+            icon: <Heart className="text-[#C2410C]" size={24} />,
             title: "Empathetic Counseling",
             desc: "We practice fear-free, constructive astrology focusing on positive psychological empowerment and practical life remedies."
         },
         {
-            icon: <Sparkles className="text-secondary" size={28} />,
+            icon: <Sparkles className="text-[#C2410C]" size={24} />,
             title: "Authentic Remedies",
             desc: "Recommendations focus on pure gemstones, Vedic mantras, positive lifestyle alignment, and sacred Pooja rituals."
         }
@@ -42,161 +43,105 @@ const AboutUs = () => {
         title: "About Pandit Pravin Shriram | Best Astrologer in Solapur (25+ Yrs Exp)",
         description: "Learn about Pandit Pravin Shriram, founder of Shriram Samupdeshan Kendra. Over 25 years of mastery in Vedic Astrology, Kundli Matching, Vastu Shastra, and Gemology.",
         keywords: "Pandit Pravin Shriram, best astrologer in Solapur, Shriram Samupdeshan Kendra, Vedic astrologer Maharashtra, authentic kundli reading, vastu consultant Solapur",
-        schema: {
-            "@context": "https://schema.org",
-            "@type": "AboutPage",
-            "mainEntity": {
-                "@type": "Person",
-                "name": "Pandit Pravin Shriram",
-                "jobTitle": "Senior Vedic Astrologer & Vastu Consultant",
-                "worksFor": {
-                    "@type": "Organization",
-                    "name": "Shriram Samupdeshan Kendra - Astro Pravin",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "streetAddress": "Shop no.2,3, S.S Icon shopping complex, Gharkul road",
-                        "addressLocality": "Solapur",
-                        "addressRegion": "Maharashtra",
-                        "postalCode": "413006",
-                        "addressCountry": "IN"
-                    }
-                },
-                "image": "https://astropravin.com/pravin-shriram.png",
-                "description": "Renowned Vedic Astrologer, Numerologist, and Vastu Shastra consultant with over 25 years of experience."
-            }
-        }
     };
 
     return (
-        <div className="min-h-screen bg-void text-white pt-28 pb-20 px-6 font-sans">
+        <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-24 px-4 sm:px-6 relative overflow-hidden font-sans text-[#1C1917]">
             <SEO {...seoData} />
 
-            {/* Hero Section */}
-            <div className="max-w-7xl mx-auto">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <span className="text-secondary uppercase tracking-[0.3em] text-xs font-semibold">Our Heritage & Mission</span>
-                    <h1 className="text-4xl md:text-6xl font-serif text-white mt-3 mb-6 leading-tight">
-                        Bridging Ancient Cosmic Wisdom with Modern Clarity
+            {/* Background Decorative */}
+            <div className="absolute top-20 right-[-150px] opacity-[0.03] pointer-events-none">
+                <MandalaWatermark className="w-[600px] h-[600px]" spin={false} />
+            </div>
+
+            <div className="max-w-6xl mx-auto relative z-10">
+                {/* Hero Header */}
+                <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Vedic Scholarship & Legacy
+                        </span>
+                    </div>
+
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        About Pandit <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Pravin Shriram</span>
                     </h1>
-                    <p className="text-white/70 text-lg leading-relaxed">
-                        Welcome to <strong className="text-white">Astro Pravin</strong>, the online home of <strong className="text-white">Shriram Samupdeshan Kendra</strong>. For over 25 years, our mission has been to provide authentic, transparent, and transformative Vedic guidance to help you make informed decisions in life, love, career, and spiritual growth.
+
+                    <p className="text-sm sm:text-base text-[#78716C] leading-relaxed">
+                        Founder of <strong>Shriram Samupdeshan Kendra</strong>, Solapur. Devoting over a quarter-century to authentic Parashari Jyotish, Kundli Milan, and Vastu Shastra consultancy.
                     </p>
                 </div>
 
-                {/* Founder Feature Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24 bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12">
-                    <div className="lg:col-span-5 relative">
-                        <div className="relative z-10 rounded-2xl overflow-hidden border-2 border-secondary/40 shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-md mx-auto">
-                            <img
-                                src="/pravin-shriram.png"
-                                alt="Pandit Pravin Shriram - Vedic Astrologer Solapur"
-                                className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
-                            />
+                {/* Profile Grid */}
+                <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#EADCC8] shadow-luxury mb-16">
+                    <div className="grid lg:grid-cols-12 gap-10 items-center">
+                        <div className="lg:col-span-5">
+                            <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFF7ED] to-[#FAF8F5] border border-[#FED7AA] p-2 flex items-center justify-center">
+                                <img
+                                    src="/pravin-shriram.png"
+                                    alt="Pandit Pravin Shriram"
+                                    className="w-full h-full object-contain filter drop-shadow-md"
+                                />
+                            </div>
                         </div>
-                        <div className="absolute -bottom-4 -right-2 bg-gradient-to-br from-amber-400 to-amber-600 text-black px-6 py-3 rounded-2xl font-bold shadow-xl flex items-center gap-2">
-                            <Star size={18} fill="currentColor" />
-                            <span>25+ Years Mastery</span>
-                        </div>
-                    </div>
 
-                    <div className="lg:col-span-7 space-y-6">
-                        <div className="flex items-center gap-2 text-secondary text-sm font-semibold uppercase tracking-wider">
-                            <BookOpen size={18} />
-                            <span>Meet the Astrologer</span>
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-serif text-white leading-snug">
-                            Pandit Pravin Shriram
-                        </h2>
-                        <p className="text-white/80 leading-relaxed text-base">
-                            Pandit Pravin Shriram is a distinguished Vedic scholar, astrologer, and Vastu consultant based in Solapur, Maharashtra. Guided by deep reverence for classical scriptures such as <em>Brihat Parashara Hora Shastra</em>, <em>Jataka Parijata</em>, and <em>Muhurta Chintamani</em>, he has spent over two decades interpreting horoscopes with precision and psychological insight.
-                        </p>
-                        <p className="text-white/80 leading-relaxed text-base">
-                            Unlike fatalistic approaches that inspire fear, Pandit ji emphasizes the power of conscious decision-making (<em>Purushartha</em>) combined with accurate cosmic timing. His consultations blend rigorous mathematical calculations with compassionate listening, making complex planetary cycles understandable and actionable.
-                        </p>
+                        <div className="lg:col-span-7 space-y-4">
+                            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1917]">
+                                Devoted to Pure Vedic Wisdom & Ethical Life Guidance
+                            </h2>
 
-                        <div className="pt-4 flex flex-wrap gap-4">
-                            <button
-                                onClick={() => setIsBookingOpen(true)}
-                                className="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-black font-bold rounded-xl text-sm hover:brightness-110 transition-all shadow-lg"
-                            >
-                                Book Personal Consultation
-                            </button>
-                            <Link
-                                to="/blogs"
-                                className="px-6 py-3 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl text-sm transition-all border border-white/10"
-                            >
-                                Read Vedic Insights
-                            </Link>
+                            <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                                Pandit Pravin Shriram was initiated into the study of ancient Sanskrit Jyotish scriptures at an early age. Over the past 25+ years, he has analyzed tens of thousands of horoscopes, advising individuals on critical life milestones—marriage timing and matchmaking (Gun Milan), career shifts, financial decisions, and health remedies.
+                            </p>
+
+                            <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                                Unlike sensationalist astrology, his practice at <strong>Shriram Samupdeshan Kendra</strong> is rooted in ethical clarity, psychological positivity, and practical Vedic remedies (Upay) designed to mitigate karmic obstacles.
+                            </p>
+
+                            <div className="pt-2">
+                                <button
+                                    onClick={() => setIsBookingOpen(true)}
+                                    className="px-6 py-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-105 transition-transform"
+                                >
+                                    Book Personal Consultation
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 4 Pillars of Excellence */}
-                <div className="mb-24">
-                    <div className="text-center mb-12">
-                        <span className="text-secondary text-xs uppercase tracking-widest font-semibold">Our Principles</span>
-                        <h2 className="text-3xl md:text-4xl font-serif text-white mt-2">Why Families Trust Astro Pravin</h2>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {pillars.map((p, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-secondary/30 transition-all flex flex-col"
-                            >
-                                <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-xl w-fit mb-4">
+                {/* Core Pillars */}
+                <div className="mb-16">
+                    <h3 className="text-2xl font-serif font-bold text-[#1C1917] text-center mb-8">
+                        Our Guiding Principles
+                    </h3>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {pillars.map((p, i) => (
+                            <div key={i} className="bg-white rounded-3xl p-6 border border-[#EADCC8] shadow-luxury space-y-3">
+                                <div className="w-10 h-10 rounded-xl bg-[#FFF7ED] border border-[#FED7AA] flex items-center justify-center">
                                     {p.icon}
                                 </div>
-                                <h3 className="text-xl font-serif text-white mb-2">{p.title}</h3>
-                                <p className="text-white/60 text-sm leading-relaxed flex-1">{p.desc}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Timeline & Heritage */}
-                <div className="mb-24 bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12">
-                    <div className="text-center mb-12">
-                        <span className="text-secondary text-xs uppercase tracking-widest font-semibold">Our Journey</span>
-                        <h2 className="text-3xl md:text-4xl font-serif text-white mt-2">Two Decades of Service</h2>
-                    </div>
-
-                    <div className="grid md:grid-cols-4 gap-8">
-                        {milestones.map((m, idx) => (
-                            <div key={idx} className="relative border-l-2 border-secondary/30 pl-6 space-y-2">
-                                <span className="text-secondary font-serif text-2xl font-bold">{m.year}</span>
-                                <h4 className="text-white font-semibold text-lg">{m.title}</h4>
-                                <p className="text-white/60 text-sm leading-relaxed">{m.desc}</p>
+                                <h4 className="text-base font-serif font-bold text-[#1C1917]">{p.title}</h4>
+                                <p className="text-xs text-[#78716C] leading-relaxed">{p.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Physical Center Details */}
-                <div className="bg-gradient-to-r from-amber-500/10 via-purple-900/20 to-black border border-white/10 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-serif text-white">Visit Our Physical Center in Solapur</h3>
-                    <p className="text-white/70 max-w-xl mx-auto text-sm leading-relaxed">
-                        We welcome you to visit our consultation office for personal horoscope analysis, Vastu blueprint reviews, and authentic gemstone verification.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-white/80 pt-2">
-                        <span className="flex items-center gap-2">
-                            <MapPin size={16} className="text-secondary" /> Shop 2, 3, S.S Icon Complex, Gharkul Road, Solapur
-                        </span>
-                        <span className="flex items-center gap-2">
-                            <Phone size={16} className="text-secondary" /> +91 99216 97908
-                        </span>
-                    </div>
-                    <div className="pt-4">
-                        <Link
-                            to="/contact"
-                            className="inline-block px-8 py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 text-black font-bold rounded-full text-sm shadow-xl hover:scale-105 transition-all"
-                        >
-                            Get In Touch With Us
-                        </Link>
+                {/* Journey Milestones */}
+                <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#EADCC8] shadow-luxury space-y-8">
+                    <h3 className="text-2xl font-serif font-bold text-[#1C1917] text-center">
+                        Our 25+ Years Journey
+                    </h3>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {milestones.map((m, i) => (
+                            <div key={i} className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#EADCC8] space-y-2">
+                                <span className="text-lg font-serif font-bold text-[#C2410C]">{m.year}</span>
+                                <h4 className="text-sm font-bold text-[#1C1917]">{m.title}</h4>
+                                <p className="text-xs text-[#78716C] leading-relaxed">{m.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -206,4 +151,4 @@ const AboutUs = () => {
     );
 };
 
-export default AboutUs;
+export default React.memo(AboutUs);

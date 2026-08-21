@@ -19,22 +19,47 @@ export class MatrimonyUser {
 
   @Prop({
     type: String,
-    enum: ['pending_profile', 'pending_verification', 'verified', 'active', 'suspended', 'deleted'],
-    default: 'pending_profile',
+    enum: ['pending_payment', 'pending_profile', 'pending_verification', 'verified', 'active', 'suspended', 'deleted'],
+    default: 'pending_payment',
     index: true,
   })
   status: string;
 
+  @Prop()
+  fullName: string;
+
+  @Prop({ index: true })
+  phone: string;
+
+  @Prop()
+  email: string;
+
+  @Prop({ default: false })
+  isSelfRegistered: boolean;
+
+  @Prop({ type: String, enum: ['unpaid', 'submitted', 'verified'], default: 'unpaid', index: true })
+  paymentStatus: string;
+
+  @Prop({ type: Object, default: {} })
+  paymentDetails: {
+    amount?: number;
+    transactionId?: string;
+    paymentMode?: string;
+    submittedAt?: Date;
+    verifiedAt?: Date;
+    notes?: string;
+  };
+
   @Prop({ type: Types.ObjectId, ref: 'AdminUser' })
   createdByAdmin: Types.ObjectId;
 
-  @Prop({ default: Date.now })
+  @Prop()
   membershipPaidAt: Date;
 
-  @Prop({ default: 0 })
+  @Prop({ default: 1100 })
   membershipAmount: number;
 
-  @Prop({ type: String, enum: ['cash', 'online'], default: 'cash' })
+  @Prop({ type: String, enum: ['cash', 'online', 'upi'], default: 'upi' })
   membershipMode: string;
 
   @Prop()
@@ -46,3 +71,4 @@ export class MatrimonyUser {
 
 export const MatrimonyUserSchema = SchemaFactory.createForClass(MatrimonyUser);
 MatrimonyUserSchema.index({ status: 1, tier: 1 });
+MatrimonyUserSchema.index({ phone: 1 });

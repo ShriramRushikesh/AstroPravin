@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Calendar, RefreshCcw, BookOpen, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import SEO from './SEO';
 import AdSenseUnit from './AdSenseUnit';
+import { MandalaWatermark, LotusCrest } from './VedicDecorativeArt';
 
 const numerologyData = {
     1: {
@@ -59,298 +60,209 @@ const numerologyData = {
         luckyColor: "Cat's Eye, Grey, Multi-colored",
         luckyDay: "Monday",
         traits: ["Spirituality", "Analysis", "Intuition"],
-        career: "Research, Occult, Philosophy, Tech"
+        career: "Research, Occult Sciences, Philosophy, Investigation"
     },
     8: {
         planet: "Saturn (Shani)",
-        description: "Governed by Saturn, you are the karma yogi. Number 8 symbolizes power, material success, and justice. You are resilient, ambitious, and achieve great heights through persistence and hard work.",
-        luckyColor: "Black, Dark Blue, Violet",
+        description: "Ruled by Saturn, you are the powerhouse of karma and manifestation. Number 8 represents material success, endurance, and justice. You achieve greatness through perseverance and overcoming life tests.",
+        luckyColor: "Dark Blue, Black, Purple",
         luckyDay: "Saturday",
-        traits: ["Authority", "Persistence", "Justice"],
-        career: "Law, Real Estate, Finance, Administration"
+        traits: ["Perseverance", "Justice", "Manifestation"],
+        career: "Law, Real Estate, Heavy Industry, Banking"
     },
     9: {
         planet: "Mars (Mangal)",
-        description: "Ruled by Mars, you are the warrior with a compassionate heart. Number 9 embodies courage, energy, and humanitarianism. You are dynamic, selfless, and driven to make a positive impact on the world.",
-        luckyColor: "Red, Coral, Maroon",
+        description: "Governed by Mars, you are the passionate warrior. Number 9 symbolizes courage, universal brotherhood, and humanitarian service. You possess immense physical energy and a protective instinct.",
+        luckyColor: "Deep Red, Coral, Maroon",
         luckyDay: "Tuesday",
-        traits: ["Courage", "Humanitarianism", "Energy"],
-        career: "Defense, Sports, Social Work, Surgery"
+        traits: ["Courage", "Generosity", "Dynamism"],
+        career: "Defense, Surgery, Sports, Social Work"
     }
 };
 
 const NumerologyGenerator = () => {
-    const [formData, setFormData] = useState({
-        day: '',
-        month: '',
-        year: ''
-    });
+    const [birthDate, setBirthDate] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        if (value.length <= 4) { // Basic length check
-            setFormData({ ...formData, [name]: value });
-        }
-    };
-
-    const calculateSum = (num) => {
-        let sum = num;
-        while (sum > 9) {
-            sum = sum.toString().split('').reduce((acc, curr) => acc + parseInt(curr), 0);
-        }
-        return sum;
-    };
-
-    const generateNumerology = (e) => {
+    const calculateNumerology = (e) => {
         e.preventDefault();
+        if (!birthDate) return;
+
         setLoading(true);
-
         setTimeout(() => {
-            const { day, month, year } = formData;
+            const dateParts = birthDate.split('-');
+            const year = dateParts[0];
+            const month = dateParts[1];
+            const day = dateParts[2];
 
-            // Calculate Mulank (Birth Number) - Sum of day only
-            const mulank = calculateSum(parseInt(day));
+            // Calculate Mulank (Day of birth)
+            const sumDigits = (numStr) => {
+                let sum = numStr.split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+                while (sum > 9) {
+                    sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+                }
+                return sum;
+            };
 
-            // Calculate Bhagyank (Life Path Number) - Sum of day + month + year
-            const fullDateSum = parseInt(day) + parseInt(month) + parseInt(year);
-            const bhagyank = calculateSum(fullDateSum);
+            const mulank = sumDigits(day);
+            const bhagyank = sumDigits(year + month + day);
 
             setResult({
-                mulank: {
-                    number: mulank,
-                    data: numerologyData[mulank]
-                },
-                bhagyank: {
-                    number: bhagyank,
-                    data: numerologyData[bhagyank]
-                }
+                mulank,
+                bhagyank,
+                mulankData: numerologyData[mulank],
+                bhagyankData: numerologyData[bhagyank]
             });
             setLoading(false);
-        }, 1500); // Fake delay for effect
+        }, 300);
     };
 
-    const resetForm = () => {
+    const resetCalc = () => {
+        setBirthDate('');
         setResult(null);
-        setFormData({ day: '', month: '', year: '' });
     };
-
-    const inputClass = "w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:border-secondary outline-none md:text-lg text-center font-bold tracking-wider placeholder:font-normal placeholder:text-sm";
 
     return (
-        <section className="min-h-screen py-20 bg-void relative overflow-hidden flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-24 px-4 sm:px-6 relative overflow-hidden font-sans">
             <SEO
-                title="Numerology Calculator | Mulank & Bhagyank"
-                description="Discover your Life Path Number (Bhagyank) and Birth Number (Mulank) with our Vedic Numerology Calculator. Get insights into your personality and destiny."
-                keywords="numerology calculator, mulank calculator, bhagyank calculator, vedic numerology, life path number, destiny number"
+                title="Vedic Numerology Calculator (Mulank & Bhagyank) | AstroPravin"
+                description="Calculate your Vedic Root Number (Mulank) and Destiny Number (Bhagyank) for free. Discover your ruling planet, lucky colors, compatible careers, and character traits."
+                keywords="vedic numerology calculator, mulank calculator, bhagyank calculator, birth date numerology, lucky color by date of birth, astro pravin"
             />
 
-            {/* Background Effects */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.05),_transparent_70%)]" />
-            {/* Background Effects */}
+            <div className="max-w-4xl mx-auto relative z-10">
+                {/* Header */}
+                <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Sankhya Shastra
+                        </span>
+                    </div>
 
-            <div className="max-w-4xl mx-auto px-4 relative z-10 w-full">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className="text-center mb-12"
-                >
-                    <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 py-1">
-                        Vedic Numerology
-                    </h2>
-                    <p className="text-white/60 text-lg max-w-2xl mx-auto">
-                        Reveal the hidden patterns of your life through the power of numbers. Calculate your Mulank (Birth Number) and Bhagyank (Destiny Number).
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        Vedic Numerology <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Calculator</span>
+                    </h1>
+
+                    <p className="text-sm text-[#78716C]">
+                        Enter your date of birth to calculate your <strong>Mulank (Root Number)</strong> and <strong>Bhagyank (Destiny Number)</strong> based on authentic Vedic principles.
                     </p>
-                </motion.div>
+                </div>
 
-                {!result ? (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-3xl max-w-lg mx-auto shadow-2xl"
-                    >
-                        <form onSubmit={generateNumerology} className="space-y-6">
-                            <div className="grid grid-cols-3 gap-4">
-                                <div>
-                                    <label className="block text-white/70 mb-2 text-xs uppercase tracking-wider text-center">Day</label>
-                                    <input
-                                        type="number"
-                                        name="day"
-                                        placeholder="DD"
-                                        value={formData.day}
-                                        onChange={handleInputChange}
-                                        className={inputClass}
-                                        min="1" max="31"
-                                        required
-                                    />
+                {/* Input Card */}
+                <div className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury mb-12 max-w-lg mx-auto">
+                    <form onSubmit={calculateNumerology} className="space-y-4">
+                        <div>
+                            <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-2">
+                                Select Your Date of Birth
+                            </label>
+                            <div className="relative">
+                                <Calendar size={16} className="absolute left-3.5 top-3 text-[#78716C]" />
+                                <input
+                                    type="date"
+                                    required
+                                    value={birthDate}
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                type="submit"
+                                disabled={loading || !birthDate}
+                                className="flex-1 py-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                                <Sparkles size={14} />
+                                {loading ? 'Calculating Numbers...' : 'Calculate Vedic Numbers'}
+                            </button>
+
+                            {result && (
+                                <button
+                                    type="button"
+                                    onClick={resetCalc}
+                                    className="px-4 py-3 rounded-xl bg-[#F5F0E8] text-[#78716C] hover:text-[#1C1917] hover:bg-[#EADCC8] transition-colors"
+                                    title="Reset"
+                                >
+                                    <RefreshCcw size={16} />
+                                </button>
+                            )}
+                        </div>
+                    </form>
+                </div>
+
+                {/* Results Section */}
+                <AnimatePresence>
+                    {result && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="space-y-8"
+                        >
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {/* Mulank Card */}
+                                <div className="bg-white rounded-3xl p-8 border border-[#FED7AA] shadow-luxury space-y-4 relative overflow-hidden">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                                            Root Number (Mulank)
+                                        </span>
+                                        <div className="w-12 h-12 rounded-2xl bg-[#FFF7ED] border border-[#FED7AA] flex items-center justify-center text-2xl font-serif font-bold text-[#C2410C]">
+                                            {result.mulank}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-serif font-bold text-[#1C1917]">
+                                            Governed by {result.mulankData.planet}
+                                        </h3>
+                                        <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                                            {result.mulankData.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-3 border-t border-[#EADCC8] space-y-1.5 text-xs text-[#44403C]">
+                                        <p><strong>Lucky Colors:</strong> {result.mulankData.luckyColor}</p>
+                                        <p><strong>Auspicious Day:</strong> {result.mulankData.luckyDay}</p>
+                                        <p><strong>Ideal Careers:</strong> {result.mulankData.career}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-white/70 mb-2 text-xs uppercase tracking-wider text-center">Month</label>
-                                    <input
-                                        type="number"
-                                        name="month"
-                                        placeholder="MM"
-                                        value={formData.month}
-                                        onChange={handleInputChange}
-                                        className={inputClass}
-                                        min="1" max="12"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-white/70 mb-2 text-xs uppercase tracking-wider text-center">Year</label>
-                                    <input
-                                        type="number"
-                                        name="year"
-                                        placeholder="YYYY"
-                                        value={formData.year}
-                                        onChange={handleInputChange}
-                                        className={inputClass}
-                                        min="1900" max="2100"
-                                        required
-                                    />
+
+                                {/* Bhagyank Card */}
+                                <div className="bg-white rounded-3xl p-8 border border-[#FDE68A] shadow-luxury space-y-4 relative overflow-hidden">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold uppercase tracking-wider text-[#B45309]">
+                                            Destiny Number (Bhagyank)
+                                        </span>
+                                        <div className="w-12 h-12 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-center text-2xl font-serif font-bold text-[#B45309]">
+                                            {result.bhagyank}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-serif font-bold text-[#1C1917]">
+                                            Destiny Guide: {result.bhagyankData.planet}
+                                        </h3>
+                                        <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                                            {result.bhagyankData.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-3 border-t border-[#EADCC8] space-y-1.5 text-xs text-[#44403C]">
+                                        <p><strong>Key Strengths:</strong> {result.bhagyankData.traits.join(', ')}</p>
+                                        <p><strong>Favorable Day:</strong> {result.bhagyankData.luckyDay}</p>
+                                        <p><strong>Life Path Alignment:</strong> {result.bhagyankData.career}</p>
+                                    </div>
                                 </div>
                             </div>
-
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                disabled={loading}
-                                className="w-full py-4 bg-gradient-to-r from-primary to-secondary text-black font-bold text-lg uppercase tracking-wide rounded-xl shadow-[0_0_20px_rgba(255,165,0,0.3)] flex justify-center items-center gap-2"
-                            >
-                                {loading ? <Sparkles className="animate-spin" /> : <Star className="fill-current" />}
-                                {loading ? "Calculating..." : "Reveal Your Numbers"}
-                            </motion.button>
-                        </form>
-                    </motion.div>
-                ) : (
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* Mulank Card */}
-                        <ResultCard
-                            title="Mulank (Birth Number)"
-                            number={result.mulank.number}
-                            data={result.mulank.data}
-                            delay={0.1}
-                            color="from-orange-400 to-red-500"
-                        />
-
-                        {/* Bhagyank Card */}
-                        <ResultCard
-                            title="Bhagyank (Destiny Number)"
-                            number={result.bhagyank.number}
-                            data={result.bhagyank.data}
-                            delay={0.2}
-                            color="from-blue-400 to-purple-500"
-                        />
-
-                        <div className="md:col-span-2 flex justify-center mt-8">
-                            <motion.button
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                                onClick={resetForm}
-                                className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center gap-2 transition-colors border border-white/20"
-                            >
-                                <RefreshCcw size={18} /> Calculate Another
-                            </motion.button>
-                        </div>
-                    </div>
-                )}
-
-                {/* Compliant Ad Unit */}
-                <AdSenseUnit slot="auto" format="horizontal" className="my-12 max-w-4xl mx-auto" />
-
-                {/* Educational Numerology Guide (High-Value Content) */}
-                <div className="mt-16 bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12 space-y-8 max-w-4xl mx-auto text-left">
-                    <div className="flex items-center gap-2 text-secondary text-xs uppercase tracking-widest font-semibold">
-                        <BookOpen size={16} />
-                        <span>Vedic Numerology (Sankhya Shastra) Guide</span>
-                    </div>
-
-                    <h3 className="text-2xl md:text-3xl font-serif text-white">
-                        Understanding Mulank (Driver) & Bhagyank (Destiny) Numbers
-                    </h3>
-
-                    <p className="text-white/70 text-sm md:text-base leading-relaxed">
-                        In Vedic Sankhya Shastra, your date of birth is an energetic imprint of planetary frequencies at the moment of your birth. The two primary pillars calculated by this tool are:
-                    </p>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3">
-                            <h4 className="text-lg font-serif text-amber-400 font-bold">1. Mulank (Driver / Psychic Number)</h4>
-                            <p className="text-white/70 text-xs md:text-sm leading-relaxed">
-                                Calculated strictly from the <strong>Day of Birth</strong> (1–31). It represents your internal self, personality traits, subconscious desires, and behavioral instincts, governing major decisions up to age 35.
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3">
-                            <h4 className="text-lg font-serif text-blue-400 font-bold">2. Bhagyank (Destiny / Life Path)</h4>
-                            <p className="text-white/70 text-xs md:text-sm leading-relaxed">
-                                Calculated from the <strong>Sum of the entire Date of Birth (DD+MM+YYYY)</strong>. It represents your worldly mission, career trajectory, karmic lessons, and mature potential post age 35.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4 pt-4 border-t border-white/10 text-white/80 text-sm leading-relaxed">
-                        <h4 className="text-xl font-serif text-white">How Numerology Optimizes Your Life</h4>
-                        <ul className="list-disc pl-5 space-y-2 text-white/70">
-                            <li><strong>Name Correction:</strong> Harmonizing the vibrational value of your name to align with your friendly planetary numbers removes subconscious friction.</li>
-                            <li><strong>Career Guidance:</strong> Matching your dominant planet with suitable industries (e.g., Sun for Leadership, Mercury for Trade/Marketing, Jupiter for Education).</li>
-                            <li><strong>Auspicious Timings:</strong> Selecting lucky dates for new business inaugurations, property purchases, and major contracts based on your personal number vibrations.</li>
-                        </ul>
-                    </div>
-                </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-        </section>
+        </div>
     );
 };
 
-const ResultCard = ({ title, number, data, delay, color }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay, duration: 0.5 }}
-        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative group hover:border-white/30 transition-colors"
-    >
-        <div className={`h-2 w-full bg-gradient-to-r ${color}`} />
-        <div className="p-8">
-            <h3 className="text-white/60 text-sm uppercase tracking-widest text-center mb-2">{title}</h3>
-
-            <div className="flex justify-center items-center mb-6 relative">
-                <div className="w-24 h-24 rounded-full border-2 border-white/20 flex items-center justify-center text-5xl font-serif text-secondary font-bold relative z-10 bg-black/50">
-                    {number}
-                </div>
-                <div className={`absolute w-32 h-32 bg-gradient-to-r ${color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
-            </div>
-
-            <h4 className="text-center text-xl font-bold text-white mb-1">{data.planet}</h4>
-            <p className="text-center text-white/50 text-sm mb-6">Ruling Planet</p>
-
-            <div className="space-y-4 text-center">
-                <p className="text-white/90 leading-relaxed italic">"{data.description}"</p>
-
-                <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
-                    <div className="bg-black/20 p-3 rounded-lg">
-                        <p className="text-xs text-white/50 uppercase mb-1">Lucky Color</p>
-                        <p className="text-white font-medium">{data.luckyColor}</p>
-                    </div>
-                    <div className="bg-black/20 p-3 rounded-lg">
-                        <p className="text-xs text-white/50 uppercase mb-1">Lucky Day</p>
-                        <p className="text-white font-medium">{data.luckyDay}</p>
-                    </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 justify-center mt-4">
-                    {data.traits.map((trait, i) => (
-                        <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs text-secondary border border-secondary/20">
-                            {trait}
-                        </span>
-                    ))}
-                </div>
-            </div>
-        </div>
-    </motion.div>
-);
-
-export default NumerologyGenerator;
+export default React.memo(NumerologyGenerator);

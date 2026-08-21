@@ -4,9 +4,10 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "concurrently \"vite --cors --host --clearScreen false\" \"cd server && npm run start:dev\" --names \"vite,nest\" --prefix-colors \"cyan,magenta\"",
+        "start": "node scripts/dev.mjs",
+        "dev": "node scripts/dev.mjs",
         "server": "cd server && npm run start:dev",
-        "client": "vite --host --clearScreen false",
+        "client": "vite --host",
         "build": "cd server && npm run build && cd .. && vite build",
         "lint": "eslint .",
         "preview": "vite preview"

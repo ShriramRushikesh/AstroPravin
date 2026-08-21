@@ -25,8 +25,94 @@
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://astropravin.com/planets</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/numerology</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/matrimony</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/store</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/videos</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.75</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- High-Value Vedic Knowledge Guides -->
+  <!-- 9 Individual Navagraha Encyclopedic Profiles -->
+  <url>
+    <loc>https://astropravin.com/planet/surya</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/chandra</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/mangal</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/budh</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/guru</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/shukra</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/shani</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/rahu</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/planet/ketu</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- 20 High-Value Vedic Knowledge Guides -->
   <url>
     <loc>https://astropravin.com/blog/complete-guide-kundli-milan-gun-milan-marriage</loc>
     <lastmod>2026-08-19</lastmod>
@@ -75,37 +161,77 @@
     <priority>0.85</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Interactive Vedic Calculators & Features -->
   <url>
-    <loc>https://astropravin.com/numerology</loc>
+    <loc>https://astropravin.com/blog/kaal-sarp-dosh-types-symptoms-vedic-remedies</loc>
     <lastmod>2026-08-19</lastmod>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://astropravin.com/planets</loc>
+    <loc>https://astropravin.com/blog/pitra-dosh-causes-effects-remedies-shradh-rituals</loc>
     <lastmod>2026-08-19</lastmod>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://astropravin.com/matrimony</loc>
+    <loc>https://astropravin.com/blog/vimshottari-dasha-system-planetary-periods-prediction-guide</loc>
     <lastmod>2026-08-19</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://astropravin.com/videos</loc>
+    <loc>https://astropravin.com/blog/dhana-yoga-wealth-combinations-career-astrology-kundli</loc>
     <lastmod>2026-08-19</lastmod>
-    <priority>0.75</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://astropravin.com/store</loc>
+    <loc>https://astropravin.com/blog/gemstone-compatibility-rules-combinations-to-avoid</loc>
     <lastmod>2026-08-19</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/rudraksha-science-1-to-14-mukhi-beads-identification-benefits</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/panchang-five-limbs-tithi-vara-nakshatra-yoga-karana</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/commercial-vastu-offices-shops-factories-growth</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/marriage-delay-astrological-reasons-7th-house-remedies</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/grahan-yoga-guru-chandal-yoga-astrological-remedies</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/gemstone-energization-prana-pratishtha-step-by-step</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/rahu-ketu-transit-karmic-nodes-psychological-impact</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
   </url>
 
   <!-- Legal & Compliance Pages -->

@@ -60,24 +60,20 @@ const CrmPipelineSection = () => {
     fetchLeadsAndStats();
   }, []);
 
-  const handleOpenLeadDrawer = async (lead) => {
-    setSelectedLead(lead);
-    setTimelineLoading(true);
-    try {
-      const data = await matrimonyAdminService.getLeadTimeline(lead._id);
-      setLeadTimeline(data.timeline || []);
-    } catch (err) {
-      console.error('Failed to load timeline', err);
-    } finally {
-      setTimelineLoading(false);
-    }
-  };
-
   const handleCreateLead = async (e) => {
     e.preventDefault();
     try {
       await matrimonyAdminService.createLead(leadForm);
       setShowAddLeadModal(false);
+      setLeadForm({
+        name: '',
+        phone: '',
+        email: '',
+        city: 'Solapur',
+        source: 'shop_visit',
+        priority: 'medium',
+        notes: '',
+      });
       fetchLeadsAndStats();
     } catch (err) {
       alert(err.message || 'Failed to create lead');
@@ -86,13 +82,24 @@ const CrmPipelineSection = () => {
 
   const handleStageChange = async (leadId, newStage) => {
     try {
-      await matrimonyAdminService.updateLead(leadId, { stage: newStage });
+      await matrimonyAdminService.updateLeadStage(leadId, newStage);
       fetchLeadsAndStats();
-      if (selectedLead && selectedLead._id === leadId) {
-        setSelectedLead(prev => ({ ...prev, stage: newStage }));
-      }
+      if (selectedLead) setSelectedLead(prev => ({ ...prev, stage: newStage }));
     } catch (err) {
       alert(err.message || 'Failed to update stage');
+    }
+  };
+
+  const handleOpenLeadDrawer = async (lead) => {
+    setSelectedLead(lead);
+    setTimelineLoading(true);
+    try {
+      const timeline = await matrimonyAdminService.getLeadTimeline(lead._id);
+      setLeadTimeline(timeline || []);
+    } catch (err) {
+      console.error('Failed to load lead timeline', err);
+    } finally {
+      setTimelineLoading(false);
     }
   };
 
@@ -122,19 +129,19 @@ const CrmPipelineSection = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#1C1917]">
       {/* ── Top Header & Stats ── */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-[#EADCC8] p-5 rounded-3xl shadow-luxury">
         <div>
-          <h3 className="text-lg font-serif font-bold text-white">Matrimony CRM & Sales Pipeline</h3>
-          <p className="text-xs text-white/50">
-            Conversion Rate: <strong className="text-emerald-400 font-mono">{dashboardStats?.conversionRate || '0%'}</strong> • Overdue Follow-ups: <strong className="text-rose-400 font-mono">{dashboardStats?.overdueCount || 0}</strong>
+          <h3 className="text-lg font-serif font-bold text-[#1C1917]">Matrimony CRM & Sales Pipeline</h3>
+          <p className="text-xs text-[#78716C]">
+            Conversion Rate: <strong className="text-emerald-700 font-mono font-bold">{dashboardStats?.conversionRate || '0%'}</strong> • Overdue Follow-ups: <strong className="text-rose-700 font-mono font-bold">{dashboardStats?.overdueCount || 0}</strong>
           </p>
         </div>
 
         <button
           onClick={() => setShowAddLeadModal(true)}
-          className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-400 text-black font-bold text-xs rounded-xl shadow-lg hover:brightness-110 flex items-center gap-1.5"
+          className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold text-xs rounded-xl shadow-sm hover:scale-105 transition-transform flex items-center gap-1.5"
         >
           <Plus size={15} />
           <span>+ Add New Lead</span>
@@ -148,43 +155,43 @@ const CrmPipelineSection = () => {
           return (
             <div
               key={st.id}
-              className="bg-neutral-900/80 border border-white/10 rounded-2xl p-3 flex flex-col min-w-[220px]"
+              className="bg-white border border-[#EADCC8] rounded-3xl p-4 flex flex-col min-w-[220px] shadow-sm"
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${st.color}`}>
+              <div className="flex items-center justify-between border-b border-[#EADCC8] pb-2 mb-3">
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border bg-[#FAF8F5] text-[#1C1917]`}>
                   {st.label}
                 </span>
-                <span className="text-xs font-mono font-bold text-white/50">{stageLeads.length}</span>
+                <span className="text-xs font-mono font-bold text-[#78716C]">{stageLeads.length}</span>
               </div>
 
               {/* Cards */}
               <div className="space-y-2.5 flex-1 overflow-y-auto max-h-[60vh]">
                 {stageLeads.length === 0 ? (
-                  <div className="p-4 text-center text-[11px] text-white/20">No leads in stage</div>
+                  <div className="p-4 text-center text-[11px] text-[#A8A29E]">No leads in stage</div>
                 ) : (
                   stageLeads.map((lead) => (
                     <div
                       key={lead._id}
                       onClick={() => handleOpenLeadDrawer(lead)}
-                      className="bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 rounded-xl p-3 cursor-pointer transition-all space-y-2"
+                      className="bg-[#FAF8F5] hover:bg-[#FFF7ED] border border-[#EADCC8] hover:border-[#FED7AA] rounded-2xl p-3.5 cursor-pointer transition-all space-y-2"
                     >
                       <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-serif font-bold text-white truncate">{lead.name}</h4>
+                        <h4 className="text-xs font-serif font-bold text-[#1C1917] truncate">{lead.name}</h4>
                         <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase ${
-                          lead.priority === 'high' ? 'bg-rose-500/20 text-rose-300' : 'text-white/40'
+                          lead.priority === 'high' ? 'bg-rose-50 text-rose-700' : 'text-[#78716C]'
                         }`}>
                           {lead.priority}
                         </span>
                       </div>
 
-                      <div className="text-[11px] text-white/60 flex items-center gap-1.5">
-                        <PhoneCall size={11} className="text-amber-400" />
-                        <span>{lead.phone}</span>
+                      <div className="text-[11px] text-[#44403C] flex items-center gap-1.5">
+                        <PhoneCall size={11} className="text-[#C2410C]" />
+                        <span className="font-mono">{lead.phone}</span>
                       </div>
 
                       {lead.nextFollowUpAt && (
-                        <div className="text-[10px] text-amber-400/80 flex items-center gap-1">
+                        <div className="text-[10px] text-[#C2410C] flex items-center gap-1 font-semibold">
                           <Clock size={10} />
                           <span>Next: {new Date(lead.nextFollowUpAt).toLocaleDateString()}</span>
                         </div>
@@ -200,54 +207,54 @@ const CrmPipelineSection = () => {
 
       {/* ── Modal: Add New Lead ── */}
       {showAddLeadModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-neutral-900 border border-emerald-500/40 rounded-3xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="font-serif font-bold text-white text-base">Add New CRM Lead</h3>
-              <button onClick={() => setShowAddLeadModal(false)} className="text-white/40 hover:text-white"><X size={18} /></button>
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#FAF8F5] border border-[#EADCC8] rounded-3xl p-6 shadow-luxury space-y-4">
+            <div className="flex items-center justify-between border-b border-[#EADCC8] pb-3">
+              <h3 className="font-serif font-bold text-[#1C1917] text-base">Add New CRM Lead</h3>
+              <button onClick={() => setShowAddLeadModal(false)} className="text-[#78716C] hover:text-[#1C1917]"><X size={18} /></button>
             </div>
             <form onSubmit={handleCreateLead} className="space-y-3 text-xs">
               <div>
-                <label className="block text-white/60 mb-1">Lead / Candidate Name *</label>
+                <label className="block text-[#44403C] font-bold mb-1">Lead / Candidate Name *</label>
                 <input
                   type="text"
                   required
                   value={leadForm.name}
                   onChange={e => setLeadForm({ ...leadForm, name: e.target.value })}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                  className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
                 />
               </div>
               <div>
-                <label className="block text-white/60 mb-1">Phone Number *</label>
+                <label className="block text-[#44403C] font-bold mb-1">Phone Number *</label>
                 <input
                   type="text"
                   required
                   value={leadForm.phone}
                   onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                  className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
                 />
               </div>
               <div>
-                <label className="block text-white/60 mb-1">City</label>
+                <label className="block text-[#44403C] font-bold mb-1">City</label>
                 <input
                   type="text"
                   value={leadForm.city}
                   onChange={e => setLeadForm({ ...leadForm, city: e.target.value })}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                  className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
                 />
               </div>
               <div>
-                <label className="block text-white/60 mb-1">Notes / Astrological Preference</label>
+                <label className="block text-[#44403C] font-bold mb-1">Notes / Astrological Preference</label>
                 <textarea
                   value={leadForm.notes}
                   onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}
                   placeholder="Looking for Maratha bride, software engineer in Pune..."
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white h-20"
+                  className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917] h-20"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-3 bg-emerald-500 text-black font-bold rounded-xl hover:brightness-110"
+                className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-xl shadow-sm hover:scale-[1.01] transition-transform"
               >
                 Save Lead to Pipeline
               </button>
@@ -258,23 +265,23 @@ const CrmPipelineSection = () => {
 
       {/* ── Lead Detail Drawer ── */}
       {selectedLead && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end">
-          <div className="w-full max-w-lg bg-neutral-900 border-l border-white/10 h-full p-6 overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex justify-end">
+          <div className="w-full max-w-lg bg-[#FAF8F5] border-l border-[#EADCC8] h-full p-6 overflow-y-auto space-y-6 text-xs text-[#1C1917]">
+            <div className="flex items-center justify-between border-b border-[#EADCC8] pb-4">
               <div>
-                <h3 className="font-serif font-bold text-white text-lg">{selectedLead.name}</h3>
-                <p className="text-xs text-white/50">{selectedLead.phone} • {selectedLead.city}</p>
+                <h3 className="font-serif font-bold text-[#1C1917] text-lg">{selectedLead.name}</h3>
+                <p className="text-xs text-[#78716C]">{selectedLead.phone} • {selectedLead.city}</p>
               </div>
-              <button onClick={() => setSelectedLead(null)} className="text-white/40 hover:text-white"><X size={18} /></button>
+              <button onClick={() => setSelectedLead(null)} className="text-[#78716C] hover:text-[#1C1917]"><X size={18} /></button>
             </div>
 
             {/* Stage Selector */}
             <div className="space-y-1.5">
-              <label className="block text-xs text-white/60">Pipeline Stage</label>
+              <label className="block font-bold text-[#44403C] uppercase text-[11px]">Pipeline Stage</label>
               <select
                 value={selectedLead.stage}
                 onChange={(e) => handleStageChange(selectedLead._id, e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
               >
                 {CRM_STAGES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
               </select>
@@ -284,13 +291,13 @@ const CrmPipelineSection = () => {
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setShowCallModal(true)}
-                className="py-2.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
+                className="py-2.5 bg-[#EFF6FF] text-blue-700 border border-blue-200 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
               >
                 <PhoneCall size={14} /> Log Call
               </button>
               <button
                 onClick={() => setShowFollowUpModal(true)}
-                className="py-2.5 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
+                className="py-2.5 bg-[#FAF5FF] text-purple-700 border border-purple-200 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
               >
                 <Calendar size={14} /> Schedule Follow-up
               </button>
@@ -298,20 +305,20 @@ const CrmPipelineSection = () => {
 
             {/* Timeline */}
             <div className="space-y-3">
-              <h4 className="text-xs font-serif font-bold text-white/80 uppercase tracking-wider">History & Calls</h4>
+              <h4 className="text-xs font-serif font-bold text-[#1C1917] uppercase tracking-wider">History & Calls</h4>
               {timelineLoading ? (
-                <div className="text-xs text-white/40">Loading history...</div>
+                <div className="text-xs text-[#78716C]">Loading history...</div>
               ) : leadTimeline.length === 0 ? (
-                <div className="p-4 text-center text-xs text-white/30 bg-black/30 rounded-xl">No logs recorded yet.</div>
+                <div className="p-4 text-center text-xs text-[#A8A29E] bg-white rounded-2xl border border-[#EADCC8]">No logs recorded yet.</div>
               ) : (
                 <div className="space-y-2">
                   {leadTimeline.map((item) => (
-                    <div key={item.id} className="p-3 bg-black/40 rounded-xl border border-white/5 text-xs space-y-1">
-                      <div className="flex justify-between items-center text-white/40 text-[10px]">
-                        <span className="uppercase font-bold text-amber-400">{item.type}</span>
+                    <div key={item.id} className="p-3 bg-white rounded-2xl border border-[#EADCC8] text-xs space-y-1">
+                      <div className="flex justify-between items-center text-[#78716C] text-[10px]">
+                        <span className="uppercase font-bold text-[#C2410C]">{item.type}</span>
                         <span>{new Date(item.timestamp).toLocaleString()}</span>
                       </div>
-                      <p className="text-white/80">{item.data.notes || item.data.nextAction || item.data.outcome}</p>
+                      <p className="text-[#1C1917]">{item.data.notes || item.data.nextAction || item.data.outcome}</p>
                     </div>
                   ))}
                 </div>
@@ -323,14 +330,14 @@ const CrmPipelineSection = () => {
 
       {/* Modal: Log Call */}
       {showCallModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-neutral-900 border border-white/10 rounded-2xl p-5 space-y-3 text-xs">
-            <h4 className="font-bold text-white text-sm">Log Phone Call</h4>
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-[#FAF8F5] border border-[#EADCC8] rounded-3xl p-5 space-y-3 text-xs">
+            <h4 className="font-bold text-[#1C1917] text-sm">Log Phone Call</h4>
             <form onSubmit={handleLogCall} className="space-y-3">
               <select
                 value={callForm.outcome}
                 onChange={e => setCallForm({ ...callForm, outcome: e.target.value })}
-                className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2 text-[#1C1917]"
               >
                 <option value="answered">Answered / Discussed</option>
                 <option value="no_answer">No Answer</option>
@@ -341,11 +348,11 @@ const CrmPipelineSection = () => {
                 value={callForm.notes}
                 onChange={e => setCallForm({ ...callForm, notes: e.target.value })}
                 placeholder="Call notes..."
-                className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-white h-20"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2 text-[#1C1917] h-20"
               />
               <div className="flex justify-end gap-2">
-                <button onClick={() => setShowCallModal(false)} type="button" className="px-3 py-1.5 bg-white/5 rounded-lg text-white">Cancel</button>
-                <button type="submit" className="px-3 py-1.5 bg-amber-500 text-black font-bold rounded-lg">Save Call</button>
+                <button onClick={() => setShowCallModal(false)} type="button" className="px-3 py-1.5 bg-[#F5F0E8] rounded-xl text-[#44403C]">Cancel</button>
+                <button type="submit" className="px-3 py-1.5 bg-[#C2410C] text-white font-bold rounded-xl">Save Call</button>
               </div>
             </form>
           </div>
@@ -354,18 +361,18 @@ const CrmPipelineSection = () => {
 
       {/* Modal: Schedule Follow-up */}
       {showFollowUpModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-neutral-900 border border-white/10 rounded-2xl p-5 space-y-3 text-xs">
-            <h4 className="font-bold text-white text-sm">Schedule Follow-up Task</h4>
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-[#FAF8F5] border border-[#EADCC8] rounded-3xl p-5 space-y-3 text-xs">
+            <h4 className="font-bold text-[#1C1917] text-sm">Schedule Follow-up Task</h4>
             <form onSubmit={handleScheduleFollowUp} className="space-y-3">
               <div>
-                <label className="block text-white/60 mb-1">Date & Time *</label>
+                <label className="block text-[#44403C] font-bold mb-1">Date & Time *</label>
                 <input
                   type="datetime-local"
                   required
                   value={followUpForm.scheduledAt}
                   onChange={e => setFollowUpForm({ ...followUpForm, scheduledAt: e.target.value })}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-white"
+                  className="w-full bg-white border border-[#EADCC8] rounded-xl p-2 text-[#1C1917]"
                 />
               </div>
               <input
@@ -373,11 +380,11 @@ const CrmPipelineSection = () => {
                 value={followUpForm.nextAction}
                 onChange={e => setFollowUpForm({ ...followUpForm, nextAction: e.target.value })}
                 placeholder="Next action description..."
-                className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2 text-[#1C1917]"
               />
               <div className="flex justify-end gap-2">
-                <button onClick={() => setShowFollowUpModal(false)} type="button" className="px-3 py-1.5 bg-white/5 rounded-lg text-white">Cancel</button>
-                <button type="submit" className="px-3 py-1.5 bg-purple-500 text-white font-bold rounded-lg">Schedule</button>
+                <button onClick={() => setShowFollowUpModal(false)} type="button" className="px-3 py-1.5 bg-[#F5F0E8] rounded-xl text-[#44403C]">Cancel</button>
+                <button type="submit" className="px-3 py-1.5 bg-purple-700 text-white font-bold rounded-xl">Schedule</button>
               </div>
             </form>
           </div>

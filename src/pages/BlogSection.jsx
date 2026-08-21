@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Calendar, User, Clock, BookOpen, Search, Sparkles } from 'lucide-react';
+import { ChevronRight, Calendar, User, Clock, BookOpen, Search, Sparkles, ArrowRight } from 'lucide-react';
 import { API_URL } from '../config';
 import { staticBlogPosts } from '../data/blogData';
 import SEO from '../components/SEO';
 import BookingModal from '../components/BookingModal';
-import AdSenseUnit from '../components/AdSenseUnit';
+import { MandalaWatermark, LotusCrest } from '../components/VedicDecorativeArt';
 
 const BlogSection = () => {
     const [posts, setPosts] = useState(staticBlogPosts);
@@ -21,36 +21,22 @@ const BlogSection = () => {
                 if (res.ok) {
                     const apiPosts = await res.json();
                     if (Array.isArray(apiPosts) && apiPosts.length > 0) {
-                        // Merge without duplicate slugs
                         const existingSlugs = new Set(apiPosts.map(p => p.slug));
                         const filteredStatic = staticBlogPosts.filter(p => !existingSlugs.has(p.slug));
                         setPosts([...apiPosts, ...filteredStatic]);
                     }
                 }
             } catch (error) {
-                // Silently fallback to static rich posts — guarantees high value content is always rendered
-                console.debug('Blog fetch fallback active');
+                // Fallback kept
             }
         };
         fetchBlogs();
     }, []);
 
-    // SEO Data
     const seoData = {
         title: 'Vedic Astrology Blog & Guides | Kundli, Vastu, Gemology & Remedies - Astro Pravin',
-        description: 'Explore comprehensive Vedic astrology articles by Pandit Pravin Shriram. In-depth guides on Kundli Milan (Gun Milan), planetary transits, Vastu Shastra, Gemstones, and Sade Sati remedies.',
+        description: 'Explore comprehensive Vedic astrology articles by Pandit Pravin Shriram. In-depth guides on Kundli Milan, planetary transits, Vastu Shastra, Gemstones, and Sade Sati remedies.',
         keywords: 'astrology blog, vedic astrology articles, kundli matching guide, vastu tips home, gemstone wearing rules, numerology destiny numbers, sade sati remedies, shani transit, mangal dosha facts',
-        schema: {
-            "@context": "https://schema.org",
-            "@type": "Blog",
-            "name": "Astro Pravin Vedic Wisdom Hub",
-            "description": "Authentic Vedic Astrology, Vastu Shastra, and Numerology Guides",
-            "publisher": {
-                "@type": "Organization",
-                "name": "Astro Pravin - Shriram Samupdeshan Kendra",
-                "logo": "https://astropravin.com/pravin-shriram.png"
-            }
-        }
     };
 
     const categories = [
@@ -58,153 +44,134 @@ const BlogSection = () => {
         { id: 'Astrology', label: 'Kundli & Astrology' },
         { id: 'Vastu', label: 'Vastu Shastra' },
         { id: 'Gemstones', label: 'Gemstones (Ratna)' },
-        { id: 'Numerology', label: 'Numerology' },
-        { id: 'Remedies', label: 'Upay & Remedies' },
-        { id: 'Festivals', label: 'Muhurta & Panchang' }
+        { id: 'Numerology', label: 'Vedic Numerology' },
+        { id: 'Remedies', label: 'Vedic Remedies' }
     ];
 
     const filteredPosts = posts.filter(post => {
-        const matchesCategory = filter === 'all' || post.category === filter;
+        const matchesCat = filter === 'all' || (post.category && post.category.toLowerCase().includes(filter.toLowerCase()));
         const matchesSearch = searchTerm === '' ||
             post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.subtitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.summary?.toLowerCase().includes(searchTerm.toLowerCase());
-        return matchesCategory && matchesSearch;
+            post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCat && matchesSearch;
     });
 
-    // Helper to strip HTML tags for preview
-    const stripHtml = (html) => {
-        if (!html) return '';
-        return html.replace(/<[^>]*>?/gm, '');
-    };
-
     return (
-        <div className="min-h-screen bg-void pt-28 pb-20 px-6 font-sans">
+        <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-24 px-4 sm:px-6 relative overflow-hidden font-sans">
             <SEO {...seoData} />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="text-center max-w-3xl mx-auto mb-12">
-                    <span className="text-secondary tracking-[0.3em] uppercase text-xs font-semibold flex items-center justify-center gap-2">
-                        <Sparkles size={14} /> Vedic Wisdom & Knowledge Base
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-serif text-white mt-3 mb-6 leading-tight">
-                        Astrological Insights & Guides
+                <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Vedic Jnana & Wisdom
+                        </span>
+                    </div>
+
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        Authentic Vedic Astrology <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Articles & Guides</span>
                     </h1>
-                    <p className="text-white/70 text-lg leading-relaxed">
-                        Deep dive into the ancient science of stars, planetary transits, and classical Vedic remedies curated by Pandit Pravin Shriram (25+ Years Experience).
+
+                    <p className="text-sm text-[#78716C] leading-relaxed">
+                        Authored by Pandit Pravin Shriram. Deep dives into Kundli Milan, Navamsha chart readings, Vastu Shastra rules, and remedial gemstone recommendations.
                     </p>
                 </div>
 
-                {/* Top Compliant Ad Unit */}
-                <AdSenseUnit slot="auto" format="horizontal" className="max-w-4xl mx-auto" />
-
-                {/* Search & Category Filter Bar */}
-                <div className="max-w-4xl mx-auto mb-12 space-y-6">
-                    {/* Search Input */}
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
-                        <input
-                            type="text"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            placeholder="Search topics (e.g. Kundli Milan, Sade Sati, Vastu, Gemstones, Numerology)..."
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3.5 text-white placeholder-white/40 focus:outline-none focus:border-secondary transition-colors text-sm"
-                        />
-                    </div>
-
-                    {/* Category Buttons */}
-                    <div className="flex flex-wrap justify-center gap-3">
-                        {categories.map(cat => (
+                {/* Filters & Search */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 bg-white p-4 rounded-2xl border border-[#EADCC8] shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        {categories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => setFilter(cat.id)}
-                                className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all border ${
+                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                                     filter === cat.id
-                                        ? 'bg-secondary/20 border-secondary text-secondary shadow-[0_0_15px_rgba(255,215,0,0.15)]'
-                                        : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                        ? 'bg-[#C2410C] text-white shadow-sm'
+                                        : 'bg-[#F5F0E8] text-[#44403C] hover:bg-[#EADCC8]'
                                 }`}
                             >
                                 {cat.label}
                             </button>
                         ))}
                     </div>
+
+                    <div className="relative w-full md:w-72">
+                        <Search size={14} className="absolute left-3.5 top-3 text-[#78716C]" />
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Search Vedic articles..."
+                            className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
+                        />
+                    </div>
                 </div>
 
                 {/* Blog Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                    {filteredPosts.length > 0 ? (
-                        filteredPosts.map((post, i) => (
-                            <Link to={`/blog/${post.slug}`} key={post._id || post.slug} className="group block">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                    className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-secondary/40 transition-all h-full flex flex-col hover:shadow-2xl hover:-translate-y-1"
-                                >
-                                    {/* Image Wrapper */}
-                                    <div className="h-52 relative overflow-hidden bg-zinc-900">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    {filteredPosts.map((post, idx) => (
+                        <motion.div
+                            key={post.slug || post._id || idx}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="bg-white rounded-3xl overflow-hidden border border-[#EADCC8] shadow-luxury hover:shadow-luxury-hover transition-all flex flex-col justify-between group"
+                        >
+                            <div>
+                                <div className="relative aspect-[16/9] overflow-hidden bg-[#FAF8F5]">
+                                    {post.image ? (
                                         <img
-                                            src={post.image || "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1000&auto=format&fit=crop"}
+                                            src={post.image}
                                             alt={post.title}
                                             loading="lazy"
-                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
-                                        <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-[11px] text-amber-300 border border-amber-400/30 uppercase tracking-widest font-semibold">
-                                            {post.category || 'Vedic Guide'}
+                                    ) : (
+                                        <div className="w-full h-full bg-gradient-to-br from-[#FFF7ED] to-[#FAF8F5] flex items-center justify-center">
+                                            <BookOpen className="w-12 h-12 text-[#C2410C]" />
                                         </div>
+                                    )}
+
+                                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-0.5 rounded-full border border-[#FED7AA] text-[10px] font-bold text-[#C2410C]">
+                                        {post.category || 'Vedic Shastra'}
+                                    </div>
+                                </div>
+
+                                <div className="p-6 space-y-2.5">
+                                    <div className="flex items-center gap-3 text-[11px] text-[#78716C]">
+                                        <span className="flex items-center gap-1">
+                                            <Calendar size={12} /> {post.date || 'Vedic Archive'}
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <Clock size={12} /> {post.readTime || '5 min read'}
+                                        </span>
                                     </div>
 
-                                    {/* Content Info */}
-                                    <div className="p-6 flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <div className="flex items-center gap-4 text-xs text-white/50 mb-3">
-                                                <span className="flex items-center gap-1.5">
-                                                    <Calendar size={13} /> {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <Clock size={13} /> {post.readTime || '8 min read'}
-                                                </span>
-                                            </div>
+                                    <h2 className="text-lg font-serif font-bold text-[#1C1917] group-hover:text-[#C2410C] transition-colors line-clamp-2">
+                                        {post.title}
+                                    </h2>
 
-                                            <h2 className="text-xl font-serif text-white mb-3 group-hover:text-secondary transition-colors leading-snug">
-                                                {post.title}
-                                            </h2>
+                                    <p className="text-xs sm:text-sm text-[#44403C] line-clamp-3 leading-relaxed">
+                                        {post.excerpt}
+                                    </p>
+                                </div>
+                            </div>
 
-                                            <p className="text-white/60 text-sm mb-6 line-clamp-3 leading-relaxed">
-                                                {post.subtitle || post.summary || stripHtml(post.content).substring(0, 140) + '...'}
-                                            </p>
-                                        </div>
-
-                                        <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                                            <span className="text-xs text-white/50 flex items-center gap-1.5">
-                                                <User size={13} className="text-secondary" /> {post.author || 'Pandit Pravin Shriram'}
-                                            </span>
-                                            <div className="flex items-center gap-1 text-secondary text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                                                Read Guide <ChevronRight size={14} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </Link>
-                        ))
-                    ) : (
-                        <div className="col-span-full text-center py-16 bg-white/5 border border-white/10 rounded-3xl">
-                            <BookOpen size={48} className="mx-auto text-white/30 mb-4" />
-                            <h3 className="text-xl font-serif text-white">No articles found matching "{searchTerm}"</h3>
-                            <p className="text-white/60 text-sm mt-2">Try clearing your search query or selecting a different category.</p>
-                            <button
-                                onClick={() => { setSearchTerm(''); setFilter('all'); }}
-                                className="mt-4 px-6 py-2 bg-secondary/20 border border-secondary text-secondary rounded-xl text-xs font-semibold"
-                            >
-                                Reset Filters
-                            </button>
-                        </div>
-                    )}
+                            <div className="p-6 pt-0 border-t border-[#EADCC8]/60 mt-4">
+                                <Link
+                                    to={`/blog/${post.slug}`}
+                                    className="inline-flex items-center gap-1 text-xs font-bold text-[#C2410C] hover:underline"
+                                >
+                                    <span>Read Full Guide</span>
+                                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
-
-                {/* Bottom In-Feed Ad Unit */}
-                <AdSenseUnit slot="auto" format="rectangle" className="max-w-3xl mx-auto" />
             </div>
 
             <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
@@ -212,4 +179,4 @@ const BlogSection = () => {
     );
 };
 
-export default BlogSection;
+export default React.memo(BlogSection);

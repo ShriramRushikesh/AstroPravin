@@ -1,4 +1,4 @@
-/* Google Fonts are now loaded via <link> in index.html for non-blocking rendering */
+/* Google Fonts loaded via <link> in index.html for non-blocking rendering */
 
 @tailwind base;
 @tailwind components;
@@ -6,37 +6,47 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+    @apply bg-white/80 backdrop-blur-md border border-[#EADCC8] shadow-luxury;
   }
 
   .glass-card {
-    @apply bg-cosmic-blue/30 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl;
+    @apply bg-white/90 backdrop-blur-md border border-[#EADCC8] rounded-2xl shadow-luxury hover:shadow-luxury-hover transition-all duration-300;
+  }
+
+  .parchment-card {
+    @apply bg-[#FFFFFF] border border-[#EADCC8] rounded-2xl shadow-luxury;
   }
 
   .text-gradient-gold {
-    @apply bg-gradient-to-r from-hero-saffron to-hero-gold bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] bg-clip-text text-transparent;
   }
 
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent;
   }
 
-  .bg-venus-glow {
-    @apply bg-gradient-to-b from-transparent via-pink-900/20 to-transparent;
+  .bg-terracotta-gradient {
+    @apply bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white shadow-md hover:from-[#9A3412] hover:to-[#C2410C];
   }
 
-  .bg-saturn-gold {
-    @apply bg-gradient-to-b from-transparent via-yellow-900/20 to-transparent;
+  .bg-saffron-gradient {
+    @apply bg-gradient-to-r from-[#EA580C] to-[#D97706] text-white shadow-md hover:from-[#C2410C] hover:to-[#B45309];
   }
 
-  .bg-mystic-deep {
-    @apply bg-gradient-to-b from-cosmic-blue via-purple-900/20 to-cosmic-blue;
+  .gold-pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FFFBEB] text-[#B45309] border border-[#FDE68A];
+  }
+
+  .terracotta-pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA];
   }
 }
 
 body {
-  @apply bg-void text-white overflow-x-hidden;
+  @apply bg-[#FAF8F5] text-[#1C1917] overflow-x-hidden antialiased;
   font-family: 'Inter', sans-serif;
+  background-color: #FAF8F5;
+  color: #1C1917;
 }
 
 h1,
@@ -46,49 +56,44 @@ h4,
 h5,
 h6 {
   font-family: 'Playfair Display', serif;
+  color: #1C1917;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Warm Terracotta & Saffron Gold */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0F172A;
+  background: #F5F0E8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d946ef; /* Primary */
+  background: #EADCC8;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4; /* Secondary */
+  background: #C2410C;
 }
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Pulse animation for CSS star fallback */
-@keyframes pulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.8; }
-}
-
-/* Skeleton loading animation */
+/* Shimmer animation */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background: linear-gradient(90deg, rgba(194,65,12,0.04) 25%, rgba(194,65,12,0.08) 50%, rgba(194,65,12,0.04) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }

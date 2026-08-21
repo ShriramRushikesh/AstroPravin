@@ -119,18 +119,18 @@ const SearchMatches = () => {
   return (
     <div className="space-y-6">
       {/* ── Header & Mobile Filter Trigger ── */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white border border-[#EADCC8] p-4 sm:p-5 rounded-3xl shadow-sm">
         <div>
-          <h2 className="text-xl font-serif font-bold text-white">Find Your Vedic Match</h2>
-          <p className="text-xs text-white/50">
-            Showing <strong className="text-amber-400">{profiles.length}</strong> of <strong className="text-white">{total}</strong> verified active profiles
+          <h2 className="text-xl font-serif font-bold text-[#1C1917]">Find Your Vedic Match</h2>
+          <p className="text-xs text-[#78716C]">
+            Showing <strong className="text-[#C2410C]">{profiles.length}</strong> of <strong className="text-[#1C1917]">{total}</strong> verified active profiles
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowFiltersMobile(!showFiltersMobile)}
-            className="md:hidden px-3.5 py-2 bg-amber-500/20 text-amber-300 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-amber-500/30"
+            className="md:hidden px-3.5 py-2 bg-[#FEF3C7] text-[#B45309] rounded-xl text-xs font-bold flex items-center gap-1.5 border border-[#FDE68A]"
           >
             <SlidersHorizontal size={14} />
             <span>Filters</span>
@@ -138,7 +138,7 @@ const SearchMatches = () => {
 
           <button
             onClick={() => fetchProfiles(filters, page)}
-            className="p-2 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-xl border border-white/10 transition-colors"
+            className="p-2.5 bg-[#FAF8F5] hover:bg-[#F5EFE6] text-[#574F47] hover:text-[#1C1917] rounded-xl border border-[#EADCC8] transition-colors"
             title="Refresh"
           >
             <RefreshCw size={16} />
@@ -147,30 +147,30 @@ const SearchMatches = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* ── Filter Sidebar ──────────────────────────────────────────────── */}
+        {/* ── Filter Sidebar (Luxury Light Card) ─────────────────────────── */}
         <div
-          className={`w-full md:w-72 bg-neutral-900/90 border border-white/10 rounded-3xl p-5 space-y-4 backdrop-blur-xl h-fit ${
+          className={`w-full md:w-72 bg-white border border-[#EADCC8] rounded-3xl p-5 space-y-4 shadow-sm h-fit shrink-0 ${
             showFiltersMobile ? 'block' : 'hidden md:block'
           }`}
         >
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <span className="text-xs font-serif font-bold text-amber-300 flex items-center gap-1.5">
+          <div className="flex items-center justify-between border-b border-[#F5EFE6] pb-3">
+            <span className="text-xs font-serif font-bold text-[#C2410C] flex items-center gap-1.5">
               <Filter size={14} /> Filter Candidates
             </span>
-            <button onClick={handleResetFilters} className="text-[10px] text-white/40 hover:text-white underline">
+            <button onClick={handleResetFilters} className="text-[10px] text-[#78716C] hover:text-[#C2410C] underline cursor-pointer">
               Reset All
             </button>
           </div>
 
           {/* Gender */}
           <div>
-            <label className="block text-[11px] font-medium text-white/60 mb-1">Gender</label>
+            <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">Gender</label>
             <select
               value={filters.gender}
               onChange={e => handleFilterChange('gender', e.target.value)}
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-2 text-xs text-white focus:outline-none"
+              className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 text-xs text-[#1C1917] focus:border-[#C2410C] focus:outline-none"
             >
-              <option value="">All</option>
+              <option value="">All Candidates</option>
               <option value="female">Brides (Female)</option>
               <option value="male">Grooms (Male)</option>
             </select>
@@ -178,11 +178,11 @@ const SearchMatches = () => {
 
           {/* Religion */}
           <div>
-            <label className="block text-[11px] font-medium text-white/60 mb-1">Religion</label>
+            <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">Religion</label>
             <select
               value={filters.religion}
               onChange={e => handleFilterChange('religion', e.target.value)}
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-2 text-xs text-white focus:outline-none"
+              className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 text-xs text-[#1C1917] focus:border-[#C2410C] focus:outline-none"
             >
               <option value="">All Religions</option>
               {RELIGIONS.map(r => <option key={r} value={r}>{r}</option>)}
@@ -191,35 +191,35 @@ const SearchMatches = () => {
 
           {/* Caste */}
           <div>
-            <label className="block text-[11px] font-medium text-white/60 mb-1">Caste / Community</label>
+            <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">Caste / Community</label>
             <input
               type="text"
               value={filters.caste}
               onChange={e => handleFilterChange('caste', e.target.value)}
               placeholder="e.g. Maratha, Brahmin"
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-2 text-xs text-white focus:outline-none"
+              className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 text-xs text-[#1C1917] focus:border-[#C2410C] focus:outline-none"
             />
           </div>
 
           {/* City */}
           <div>
-            <label className="block text-[11px] font-medium text-white/60 mb-1">City / Location</label>
+            <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">City / Location</label>
             <input
               type="text"
               value={filters.city}
               onChange={e => handleFilterChange('city', e.target.value)}
               placeholder="e.g. Solapur, Pune"
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-2 text-xs text-white focus:outline-none"
+              className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 text-xs text-[#1C1917] focus:border-[#C2410C] focus:outline-none"
             />
           </div>
 
           {/* Manglik */}
           <div>
-            <label className="block text-[11px] font-medium text-white/60 mb-1">Manglik Status</label>
+            <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">Manglik Status</label>
             <select
               value={filters.manglik}
               onChange={e => handleFilterChange('manglik', e.target.value)}
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-2 text-xs text-white focus:outline-none"
+              className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 text-xs text-[#1C1917] focus:border-[#C2410C] focus:outline-none"
             >
               <option value="any">Doesn't Matter</option>
               <option value="no">Non-Manglik</option>
@@ -229,9 +229,9 @@ const SearchMatches = () => {
 
           {/* Age Range Slider */}
           <div>
-            <div className="flex justify-between text-[11px] text-white/60 mb-1">
+            <div className="flex justify-between text-[11px] text-[#574F47] mb-1 font-medium">
               <span>Age Range</span>
-              <span className="font-bold text-amber-400">{filters.ageMin} - {filters.ageMax} yrs</span>
+              <span className="font-bold text-[#C2410C] font-mono">{filters.ageMin} - {filters.ageMax} yrs</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -240,7 +240,7 @@ const SearchMatches = () => {
                 max="70"
                 value={filters.ageMin}
                 onChange={e => handleFilterChange('ageMin', Number(e.target.value))}
-                className="w-1/2 bg-black/40 border border-white/10 rounded-lg p-1.5 text-xs text-white text-center"
+                className="w-1/2 bg-[#FAF8F5] border border-[#EADCC8] rounded-lg p-2 text-xs text-[#1C1917] text-center font-mono"
               />
               <input
                 type="number"
@@ -248,14 +248,14 @@ const SearchMatches = () => {
                 max="70"
                 value={filters.ageMax}
                 onChange={e => handleFilterChange('ageMax', Number(e.target.value))}
-                className="w-1/2 bg-black/40 border border-white/10 rounded-lg p-1.5 text-xs text-white text-center"
+                className="w-1/2 bg-[#FAF8F5] border border-[#EADCC8] rounded-lg p-2 text-xs text-[#1C1917] text-center font-mono"
               />
             </div>
           </div>
 
           <button
             onClick={handleApplyFilters}
-            className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-400 text-black font-bold text-xs rounded-xl shadow-lg hover:brightness-110 transition-all uppercase tracking-wider mt-2"
+            className="w-full py-3 bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white font-bold text-xs rounded-xl shadow-md shadow-[#C2410C]/20 hover:brightness-105 active:scale-95 transition-all uppercase tracking-wider mt-2 cursor-pointer"
           >
             Apply Filters
           </button>
@@ -264,7 +264,7 @@ const SearchMatches = () => {
         {/* ── Profiles Grid ───────────────────────────────────────────────── */}
         <div className="flex-1">
           {error && (
-            <div className="p-4 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-rose-300 text-xs mb-6">
+            <div className="p-4 bg-[#FEF2F2] border border-[#FECACA] rounded-2xl text-[#B91C1C] text-xs mb-6">
               {error}
             </div>
           )}
@@ -273,27 +273,27 @@ const SearchMatches = () => {
             /* Skeleton Loader */
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-3xl p-4 space-y-4 animate-pulse">
-                  <div className="aspect-[4/5] bg-white/10 rounded-2xl" />
-                  <div className="h-4 bg-white/10 rounded w-3/4" />
-                  <div className="h-3 bg-white/5 rounded w-1/2" />
-                  <div className="h-8 bg-white/10 rounded-xl" />
+                <div key={i} className="bg-white border border-[#EADCC8] rounded-3xl p-4 space-y-4 animate-pulse">
+                  <div className="aspect-[4/5] bg-[#FAF8F5] rounded-2xl" />
+                  <div className="h-4 bg-[#F5EFE6] rounded w-3/4" />
+                  <div className="h-3 bg-[#FAF8F5] rounded w-1/2" />
+                  <div className="h-8 bg-[#F5EFE6] rounded-xl" />
                 </div>
               ))}
             </div>
           ) : profiles.length === 0 ? (
             /* Empty State */
-            <div className="bg-neutral-900/60 border border-white/10 rounded-3xl p-12 text-center space-y-4">
-              <div className="p-4 bg-white/5 text-amber-400 rounded-full w-fit mx-auto border border-white/10">
+            <div className="bg-white border border-[#EADCC8] rounded-3xl p-12 text-center space-y-4 shadow-sm">
+              <div className="p-4 bg-[#FFFBEB] text-[#C2410C] rounded-full w-fit mx-auto border border-[#FDE68A]">
                 <Search size={28} />
               </div>
-              <h3 className="text-lg font-serif font-bold text-white">No Profiles Found</h3>
-              <p className="text-xs text-white/50 max-w-sm mx-auto">
+              <h3 className="text-lg font-serif font-bold text-[#1C1917]">No Profiles Found</h3>
+              <p className="text-xs text-[#78716C] max-w-sm mx-auto">
                 No verified profiles matched your active filter criteria. Try broadening your age range or clearing caste/location filters.
               </p>
               <button
                 onClick={handleResetFilters}
-                className="px-5 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 rounded-xl text-xs font-bold transition-all"
+                className="px-5 py-2.5 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] text-[#C2410C] rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer"
               >
                 Clear All Filters
               </button>

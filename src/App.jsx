@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react"
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import HeroSection from './components/HeroSection';
 import { API_URL } from './config';
 import Navbar from './components/Navbar';
@@ -11,12 +11,12 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 import BookingModal from './components/BookingModal';
 import SEO from './components/SEO';
 import AboutSection from './components/AboutSection';
+import MatrimonyTeaser from './components/MatrimonyTeaser';
 import ErrorBoundary from './components/ErrorBoundary';
 import WelcomeIntro from './components/WelcomeIntro';
 import PricingSection from './components/PricingSection';
 import ReviewsSection from './components/ReviewsSection';
 import StoreTeaser from './components/StoreTeaser';
-
 import CookieConsent from './components/CookieConsent';
 
 // ─── Lazy-loaded route components (only download when navigated to) ───
@@ -37,10 +37,10 @@ const Disclaimer = lazy(() => import('./pages/Disclaimer'));
 
 // ─── Minimal loading fallback ───
 const PageLoader = () => (
-    <div className="min-h-screen bg-void flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-            <div className="w-10 h-10 border-2 border-secondary border-t-transparent rounded-full animate-spin" />
-            <span className="text-white/40 text-sm tracking-widest uppercase">Loading...</span>
+    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-3 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
+            <span className="text-[#78716C] text-xs font-bold tracking-widest uppercase">Loading AstroPravin...</span>
         </div>
     </div>
 );
@@ -48,11 +48,12 @@ const PageLoader = () => (
 const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
-            title="Best Astrologer in Solapur - Astro Pravin | Kundli & Vastu Consultant"
-            description="jyotish/astrologer Pravin: Verified Astrologer in Solapur. Specialist in Kundli Matching, Marriage Problems, Career Guidance, and Vastu Shastra. 25+ Years Experience. Book consultation online."
-            keywords="best astrologer near me, astrologer in Solapur, online kundli matching, free astrology consultation, vastu consultant Maharashtra, gemstone recommendation, vedic astrology India, marriage prediction by date of birth, love problem solution, career astrology"
+            title="AstroPravin - Best Astrologer in Solapur | Vedic Kundli, Matrimony, Vastu & Gemstones"
+            description="Leading Vedic Astrologer Pandit Pravin Shriram. Online Kundli Matching (Gun Milan), Vedic Matrimony Portal, Certified Gemstones (Pukhraj, Neelam, Manik), Vastu Shastra, and Career Predictions. 25+ Years Experience."
+            keywords="astrotalk, astrosage, instraastro, ganeshaspeaks, best astrologer near me, astrologer in Solapur, best astrologer in Maharashtra, online kundli matching free, free astrology consultation, vedic matrimony portal, marathi matrimony kundli matching, 36 guna milan, buy certified gemstones online, pukhraj stone price, neelam gemstone, rudraksha original, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, shani sade sati remedies, mangal dosha nivaran, astro pravin"
         />
         <HeroSection onBookClick={onBookClick} />
+        <MatrimonyTeaser />
         <AboutSection />
         <PricingSection />
         <StoreTeaser />
@@ -87,7 +88,7 @@ const AppContent = () => {
     }, []);
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-[#FAF8F5]">
             <WelcomeIntro />
             {!isAdmin && <Navbar onBookClick={() => setIsBookingOpen(true)} />}
             <main className="flex-grow">
@@ -100,26 +101,26 @@ const AppContent = () => {
                         <Route path="/planet/:id" element={<ErrorBoundary><PlanetDetail /></ErrorBoundary>} />
                         <Route path="/blogs" element={<ErrorBoundary><BlogSection /></ErrorBoundary>} />
                         <Route path="/blog/:slug" element={<ErrorBoundary><BlogPost /></ErrorBoundary>} />
-                        <Route path="/admin" element={<ErrorBoundary><AdminDashboard /></ErrorBoundary>} />
-                        <Route path="/about" element={<ErrorBoundary><AboutUs /></ErrorBoundary>} />
-                        <Route path="/contact" element={<ErrorBoundary><ContactUs /></ErrorBoundary>} />
-                        <Route path="/disclaimer" element={<ErrorBoundary><Disclaimer /></ErrorBoundary>} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="/terms-conditions" element={<TermsConditions />} />
                         <Route path="/store" element={<ErrorBoundary><Store /></ErrorBoundary>} />
                         <Route path="/matrimony" element={<ErrorBoundary><Matrimony /></ErrorBoundary>} />
+                        <Route path="/about" element={<ErrorBoundary><AboutUs /></ErrorBoundary>} />
+                        <Route path="/contact" element={<ErrorBoundary><ContactUs /></ErrorBoundary>} />
+                        <Route path="/privacy-policy" element={<ErrorBoundary><PrivacyPolicy /></ErrorBoundary>} />
+                        <Route path="/terms-conditions" element={<ErrorBoundary><TermsConditions /></ErrorBoundary>} />
+                        <Route path="/disclaimer" element={<ErrorBoundary><Disclaimer /></ErrorBoundary>} />
+                        <Route path="/admin/*" element={<ErrorBoundary><AdminDashboard /></ErrorBoundary>} />
                     </Routes>
                 </Suspense>
             </main>
             {!isAdmin && <Footer />}
             <FloatingWhatsApp />
-            <CookieConsent />
             <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+            <CookieConsent />
         </div>
     );
 };
 
-function App() {
+export default function App() {
     return (
         <HelmetProvider>
             <Router>
@@ -130,5 +131,3 @@ function App() {
         </HelmetProvider>
     );
 }
-
-export default App;

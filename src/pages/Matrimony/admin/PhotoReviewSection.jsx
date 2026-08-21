@@ -33,36 +33,36 @@ const PhotoReviewSection = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+    <div className="space-y-6 text-[#1C1917]">
+      <div className="flex items-center justify-between bg-white border border-[#EADCC8] p-5 rounded-3xl shadow-luxury">
         <div>
-          <h3 className="text-lg font-serif font-bold text-white">Photo Moderation Queue</h3>
-          <p className="text-xs text-white/50">Approve or reject newly submitted candidate photographs</p>
+          <h3 className="text-lg font-serif font-bold text-[#1C1917]">Photo Moderation Queue</h3>
+          <p className="text-xs text-[#78716C]">Approve or reject newly submitted candidate photographs</p>
         </div>
         <button
           onClick={fetchPhotos}
-          className="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-white/80 rounded-xl border border-white/10 text-xs flex items-center gap-1.5 transition-colors"
+          className="px-3.5 py-2 bg-white hover:bg-[#FFF7ED] text-[#44403C] hover:text-[#C2410C] rounded-xl border border-[#EADCC8] text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
         >
           <RefreshCw size={13} /> Refresh
         </button>
       </div>
 
       {loading ? (
-        <div className="py-16 text-center text-xs text-white/40">Loading pending photos...</div>
+        <div className="py-16 text-center text-xs text-[#78716C]">Loading pending photos...</div>
       ) : photos.length === 0 ? (
-        <div className="bg-neutral-900/60 border border-white/10 rounded-3xl p-12 text-center space-y-3">
-          <ShieldCheck size={36} className="mx-auto text-emerald-400" />
-          <h3 className="text-base font-serif font-bold text-white">No Pending Photos</h3>
-          <p className="text-xs text-white/40">All member profile photos have been reviewed and approved.</p>
+        <div className="bg-white border border-[#EADCC8] rounded-3xl p-12 text-center space-y-3 shadow-sm">
+          <ShieldCheck size={36} className="mx-auto text-emerald-600" />
+          <h3 className="text-base font-serif font-bold text-[#1C1917]">No Pending Photos</h3>
+          <p className="text-xs text-[#78716C]">All member profile photos have been reviewed and approved.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {photos.map((ph) => (
             <div
               key={ph._id || ph.id}
-              className="bg-neutral-900/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl flex flex-col justify-between"
+              className="bg-white border border-[#EADCC8] rounded-3xl overflow-hidden shadow-luxury flex flex-col justify-between"
             >
-              <div className="aspect-square bg-black relative">
+              <div className="aspect-square bg-[#FAF8F5] relative border-b border-[#EADCC8]">
                 <img
                   src={`${API_URL}${ph.url}`}
                   alt="Candidate"
@@ -72,10 +72,10 @@ const PhotoReviewSection = () => {
 
               <div className="p-3 space-y-2">
                 <div>
-                  <h4 className="text-xs font-serif font-bold text-white truncate">
+                  <h4 className="text-xs font-serif font-bold text-[#1C1917] truncate">
                     {ph.profile?.fullName || 'Member'}
                   </h4>
-                  <span className="text-[10px] text-white/40 block">
+                  <span className="text-[10px] text-[#78716C] block">
                     {new Date(ph.uploadedAt).toLocaleDateString()}
                   </span>
                 </div>
@@ -83,7 +83,7 @@ const PhotoReviewSection = () => {
                 <div className="grid grid-cols-2 gap-1.5 pt-1">
                   <button
                     onClick={() => handleReview(ph._id || ph.id, 'approved')}
-                    className="py-1.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[10px] rounded-lg shadow flex items-center justify-center gap-1 transition-all"
+                    className="py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] rounded-lg shadow-sm flex items-center justify-center gap-1 transition-all"
                   >
                     <Check size={12} /> Approve
                   </button>
@@ -92,7 +92,7 @@ const PhotoReviewSection = () => {
                       const reason = window.prompt('Enter rejection reason (optional):');
                       handleReview(ph._id || ph.id, 'rejected', reason || '');
                     }}
-                    className="py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 text-[10px] rounded-lg flex items-center justify-center gap-1 transition-all"
+                    className="py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-[10px] font-bold rounded-lg flex items-center justify-center gap-1 transition-all"
                   >
                     <X size={12} /> Reject
                   </button>

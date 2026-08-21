@@ -1,75 +1,63 @@
 import path from "path";
 import { fileURLToPath } from 'url';
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import fs from 'fs';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        react(),
-        {
-            name: 'copy-ads-txt',
-            closeBundle() {
-                try {
-                    const src = path.resolve(__dirname, 'public/ads.txt');
-                    const dest = path.resolve(__dirname, 'dist/ads.txt');
-                    if (fs.existsSync(src)) {
-                        fs.copyFileSync(src, dest);
-                        console.log('Successfully copied ads.txt to dist/');
-                    }
-                } catch (e) {
-                    console.error('Failed to copy ads.txt:', e);
-                }
-            }
-        }
-    ],
-
+    plugins: [react()],
     server: {
         port: 5173,
-        host: true, // Expose to network (0.0.0.0)
+        host: '127.0.0.1',
+        strictPort: true,
         watch: {
             ignored: [
                 '**/server/**',
                 '**/server-express-backup/**',
                 '**/audit-system/**',
-                '**/dist/**',
-                '**/public/kundlis/**',
-                '**/public/matrimony-photos/**',
-                '**/.git/**'
-            ]
-        }
+                '**/audit-system*/**',
+                '**/logs/**',
+                '**/.git/**',
+                '**/node_modules/**',
+            ],
+        },
     },
     optimizeDeps: {
+        entries: ['index.html', 'src/**/*.{js,jsx}'],
         include: [
             'react',
             'react-dom',
             'react-router-dom',
             'react-helmet-async',
             'framer-motion',
-            'lucide-react'
-        ]
+            'lucide-react',
+            'clsx',
+            'tailwind-merge'
+        ],
+        exclude: [
+            'express',
+            'mongoose',
+            'twilio',
+            'nodemailer',
+            'pdfkit',
+            'bcryptjs',
+            'jsonwebtoken'
+        ],
     },
     build: {
         rollupOptions: {
             output: {
                 manualChunks: {
-                    // Core React — cached long-term, rarely changes
                     'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
-                    // Three.js stack — heavy (~500KB), only needed for StarField on landing page
-                    'vendor-three': ['three', '@react-three/fiber', '@react-three/drei', 'maath'],
-                    // Framer Motion — moderate size, used across pages
                     'vendor-motion': ['framer-motion'],
-                    // Icons — loaded on demand
                     'vendor-icons': ['lucide-react'],
                 },
             },
         },
-        chunkSizeWarningLimit: 600, // Reduced from 1600 to catch regressions
-        // Enable source maps for debugging in production (optional)
+        chunkSizeWarningLimit: 800,
         sourcemap: false,
     },
-})
+});

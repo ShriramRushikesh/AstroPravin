@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, MessageSquare, Send, CheckCircle2, HelpCircle } from 'lucide-react';
 import SEO from '../components/SEO';
+import { MandalaWatermark, LotusCrest } from '../components/VedicDecorativeArt';
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -15,7 +16,6 @@ const ContactUs = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Construct WhatsApp message URL for direct instant routing
         const text = `*New Website Inquiry*\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email}\n*Service:* ${formData.service}\n*Message:* ${formData.message}`;
         const waUrl = `https://wa.me/919921697908?text=${encodeURIComponent(text)}`;
         window.open(waUrl, '_blank');
@@ -41,275 +41,200 @@ const ContactUs = () => {
         title: "Contact Astro Pravin | Best Astrologer in Solapur - Phone & Office",
         description: "Get in touch with Pandit Pravin Shriram at Shriram Samupdeshan Kendra, Solapur. Call +91 99216 97908 for Vedic Astrology, Kundli Matching & Vastu consultations.",
         keywords: "contact astrologer Solapur, Astro Pravin phone number, Shriram Samupdeshan Kendra address, book astrology appointment Solapur, WhatsApp astrology consultation",
-        schema: {
-            "@context": "https://schema.org",
-            "@type": "ContactPage",
-            "name": "Contact Astro Pravin",
-            "url": "https://astropravin.com/contact",
-            "mainEntity": {
-                "@type": "LocalBusiness",
-                "name": "Astro Pravin - Shriram Samupdeshan Kendra",
-                "telephone": "+919921697908",
-                "email": "pravin.shriram@gmail.com",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Shop no.2,3, S.S Icon shopping complex, Gharkul road",
-                    "addressLocality": "Solapur",
-                    "addressRegion": "Maharashtra",
-                    "postalCode": "413006",
-                    "addressCountry": "IN"
-                },
-                "openingHours": "Mo-Sa 09:00-20:00"
-            }
-        }
     };
 
     return (
-        <div className="min-h-screen bg-void text-white pt-28 pb-20 px-6 font-sans">
+        <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-24 px-4 sm:px-6 relative overflow-hidden font-sans text-[#1C1917]">
             <SEO {...seoData} />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <span className="text-secondary uppercase tracking-[0.3em] text-xs font-semibold">Get In Touch</span>
-                    <h1 className="text-4xl md:text-6xl font-serif text-white mt-3 mb-6">
-                        We Are Here to Guide You
+                <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Kendra Connect
+                        </span>
+                    </div>
+
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        Connect with <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Pandit Pravin Shriram</span>
                     </h1>
-                    <p className="text-white/70 text-lg leading-relaxed">
-                        Have questions about your horoscope, marital compatibility, or Vastu alignment? Contact Pandit Pravin Shriram for personalized, confidential counseling.
+
+                    <p className="text-sm text-[#78716C] leading-relaxed">
+                        Visit us at our Solapur Kendra or schedule an immediate online consultation via Phone or WhatsApp.
                     </p>
                 </div>
 
-                {/* Main Contact Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
-                    {/* Left: Contact Directory */}
+                <div className="grid lg:grid-cols-12 gap-10 items-start mb-16">
+                    {/* Left: Contact Info */}
                     <div className="lg:col-span-5 space-y-6">
-                        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 space-y-8">
-                            <h2 className="text-2xl font-serif text-white border-b border-white/10 pb-4">
+                        <div className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury space-y-6">
+                            <h2 className="text-xl font-serif font-bold text-[#1C1917]">
                                 Consultation Center
                             </h2>
 
-                            {/* Address */}
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-2xl text-secondary shrink-0 mt-1">
-                                    <MapPin size={22} />
+                            <div className="space-y-5 text-xs sm:text-sm text-[#44403C]">
+                                <div className="flex items-start gap-3">
+                                    <MapPin size={18} className="text-[#C2410C] shrink-0 mt-0.5" />
+                                    <div>
+                                        <strong className="block text-[#1C1917] mb-0.5">Shriram Samupdeshan Kendra</strong>
+                                        <span>Shop no.2,3, S.S Icon shopping complex, Gharkul road, Solapur - 413006, Maharashtra</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Physical Office</h3>
-                                    <p className="text-white font-medium text-base mt-1 leading-relaxed">
-                                        Shop no.2, 3, S.S Icon Shopping Complex,<br />
-                                        Gharkul Road, Solapur,<br />
-                                        Maharashtra - 413006, India
-                                    </p>
-                                </div>
-                            </div>
 
-                            {/* Phone */}
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-2xl text-secondary shrink-0 mt-1">
-                                    <Phone size={22} />
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Phone & WhatsApp</h3>
-                                    <p className="text-white font-medium text-base mt-1">
-                                        <a href="tel:+919921697908" className="hover:text-secondary transition-colors block">
+                                <div className="flex items-center gap-3">
+                                    <Phone size={18} className="text-[#C2410C] shrink-0" />
+                                    <div>
+                                        <strong className="block text-[#1C1917] mb-0.5">Helpline / WhatsApp</strong>
+                                        <a href="tel:+919921697908" className="text-[#C2410C] font-bold hover:underline">
                                             +91 99216 97908
                                         </a>
-                                    </p>
-                                    <p className="text-xs text-white/50 mt-0.5">Direct line to Pandit Pravin Shriram</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Email */}
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-2xl text-secondary shrink-0 mt-1">
-                                    <Mail size={22} />
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Email Inquiry</h3>
-                                    <p className="text-white font-medium text-base mt-1">
-                                        <a href="mailto:pravin.shriram@gmail.com" className="hover:text-secondary transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <Mail size={18} className="text-[#C2410C] shrink-0" />
+                                    <div>
+                                        <strong className="block text-[#1C1917] mb-0.5">Email Inquiries</strong>
+                                        <a href="mailto:pravin.shriram@gmail.com" className="text-[#78716C] hover:text-[#C2410C]">
                                             pravin.shriram@gmail.com
                                         </a>
-                                    </p>
-                                    <p className="text-xs text-white/50 mt-0.5">Response within 24 business hours</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Hours */}
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-2xl text-secondary shrink-0 mt-1">
-                                    <Clock size={22} />
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Consultation Timings</h3>
-                                    <p className="text-white font-medium text-base mt-1">
-                                        Monday – Saturday: 09:00 AM – 08:00 PM IST
-                                    </p>
-                                    <p className="text-xs text-secondary mt-0.5">Sunday: Advance appointments only</p>
+                                <div className="flex items-start gap-3">
+                                    <Clock size={18} className="text-[#C2410C] shrink-0 mt-0.5" />
+                                    <div>
+                                        <strong className="block text-[#1C1917] mb-0.5">Consultation Timings</strong>
+                                        <span>Monday – Sunday: 10:00 AM – 8:00 PM IST (Prior Appointment Preferred)</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* WhatsApp Direct Action */}
-                        <a
-                            href="https://wa.me/919921697908?text=Hello%20Pandit%20Pravin%20ji,%20I%20would%20like%20to%20book%20a%20consultation."
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full flex items-center justify-center gap-3 py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold rounded-2xl transition-all shadow-lg text-sm"
-                        >
-                            <MessageSquare size={18} />
-                            Chat with Pandit Ji on WhatsApp
-                        </a>
+                        {/* Direct WhatsApp Box */}
+                        <div className="bg-gradient-to-br from-[#FFF7ED] to-[#FAF8F5] rounded-3xl p-6 border border-[#FED7AA] shadow-sm flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-serif font-bold text-[#1C1917]">Instant WhatsApp Consultation</h3>
+                                <p className="text-xs text-[#78716C]">Connect directly with Guruji</p>
+                            </div>
+                            <a
+                                href="https://wa.me/919921697908?text=Namaste%20Pandit%20Pravin%20Ji,%20I%20would%20like%20to%20consult%20you."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-4 py-2 bg-[#25D366] text-white text-xs font-bold rounded-xl shadow-sm hover:scale-105 transition-transform"
+                            >
+                                WhatsApp
+                            </a>
+                        </div>
                     </div>
 
-                    {/* Right: Interactive Inquiry Form */}
-                    <div className="lg:col-span-7 bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-10">
-                        <h2 className="text-2xl md:text-3xl font-serif text-white mb-2">Send an Inquiry</h2>
-                        <p className="text-white/60 text-sm mb-8">
-                            Fill out the form below to receive consultation details and appointment scheduling assistance.
-                        </p>
+                    {/* Right: Message Form */}
+                    <div className="lg:col-span-7">
+                        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#EADCC8] shadow-luxury">
+                            <h2 className="text-xl font-serif font-bold text-[#1C1917] mb-6">
+                                Send Consultation Request
+                            </h2>
 
-                        {submitted ? (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className="bg-emerald-500/10 border border-emerald-500/30 p-8 rounded-2xl text-center space-y-4"
-                            >
-                                <CheckCircle2 className="text-emerald-400 mx-auto" size={48} />
-                                <h3 className="text-xl font-serif text-white">Inquiry Sent Successfully!</h3>
-                                <p className="text-white/70 text-sm max-w-md mx-auto">
-                                    Your request has been initiated. Pandit Pravin Shriram's team will connect with you shortly on WhatsApp/Phone.
-                                </p>
-                                <button
-                                    onClick={() => setSubmitted(false)}
-                                    className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold text-white transition-colors"
-                                >
-                                    Send Another Inquiry
-                                </button>
-                            </motion.div>
-                        ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
+                            <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
+                                <div>
+                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
+                                        Your Full Name *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        placeholder="E.g. Shriram Deshmukh"
+                                        className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                    />
+                                </div>
+
+                                <div className="grid sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">
-                                            Your Full Name *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            required
-                                            value={formData.name}
-                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            placeholder="e.g. Rushikesh Shriram"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-secondary transition-colors text-sm"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">
-                                            Phone / WhatsApp Number *
+                                        <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
+                                            Phone / WhatsApp *
                                         </label>
                                         <input
                                             type="tel"
                                             required
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            placeholder="e.g. +91 99216 97908"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-secondary transition-colors text-sm"
+                                            placeholder="10-digit number"
+                                            className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
                                         />
                                     </div>
-                                </div>
 
-                                <div className="grid md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">
+                                        <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
                                             Email Address
                                         </label>
                                         <input
                                             type="email"
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            placeholder="e.g. client@example.com"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-secondary transition-colors text-sm"
+                                            placeholder="you@email.com"
+                                            className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
                                         />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">
-                                            Service Required
-                                        </label>
-                                        <select
-                                            value={formData.service}
-                                            onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                                            className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-secondary transition-colors text-sm"
-                                        >
-                                            <option value="Kundli Analysis & Horoscope Reading">Kundli Analysis & Horoscope Reading</option>
-                                            <option value="Kundli Matching (Gun Milan) for Marriage">Kundli Matching (Gun Milan) for Marriage</option>
-                                            <option value="Vastu Shastra Consultation (Home / Commercial)">Vastu Shastra Consultation</option>
-                                            <option value="Numerology Name & Business Alignment">Numerology Name & Business Alignment</option>
-                                            <option value="Gemstone Recommendation & Energization">Gemstone Recommendation</option>
-                                            <option value="Pooja / Anushthan Services">Pooja / Anushthan Services</option>
-                                        </select>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">
-                                        Your Query / Birth Details (Optional)
+                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
+                                        Interested Service
+                                    </label>
+                                    <select
+                                        value={formData.service}
+                                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                                        className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                    >
+                                        <option value="Kundli Milan & Marriage Match">Kundli Milan & Marriage Match</option>
+                                        <option value="Complete Horoscope & Career Analysis">Complete Horoscope & Career Analysis</option>
+                                        <option value="Vastu Shastra Consultation">Vastu Shastra Consultation</option>
+                                        <option value="Gemstones & Rudraksha Guidance">Gemstones & Rudraksha Guidance</option>
+                                        <option value="Navagraha Shanti Poojas">Navagraha Shanti Poojas</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
+                                        Brief Question / Birth Details
                                     </label>
                                     <textarea
                                         rows={4}
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        placeholder="Describe your questions or provide Date, Time, and Place of Birth if known..."
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-secondary transition-colors text-sm"
+                                        placeholder="Include Date, Time & Place of Birth if asking for horoscope analysis..."
+                                        className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-bold rounded-2xl transition-all shadow-xl flex items-center justify-center gap-2 text-sm"
+                                    className="w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-sm hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
                                 >
-                                    <Send size={18} />
-                                    Submit Consultation Inquiry
+                                    <Send size={15} />
+                                    Send Inquiry via WhatsApp
                                 </button>
                             </form>
-                        )}
+                        </div>
                     </div>
                 </div>
 
-                {/* Map & FAQs */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
-                    {/* Google Map */}
-                    <div className="lg:col-span-6 bg-white/5 border border-white/10 rounded-3xl p-6 overflow-hidden">
-                        <h3 className="text-xl font-serif text-white mb-4 flex items-center gap-2">
-                            <MapPin size={20} className="text-secondary" /> Location Map
-                        </h3>
-                        <div className="rounded-2xl overflow-hidden h-80 w-full border border-white/10">
-                            <iframe
-                                title="Office Location Solapur"
-                                src="https://www.google.com/maps/embed?pb=!4v1767349561152!6m8!1m7!1sTkv02Rj-fmGREl8uvnfHmQ!2m2!1d17.67872176018039!2d75.93450994017743!3f204.90698098286538!4f10.498427275404723!5f1.0641078130381885"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Consultation FAQs */}
-                    <div className="lg:col-span-6 space-y-4">
-                        <h3 className="text-xl font-serif text-white mb-4 flex items-center gap-2">
-                            <HelpCircle size={20} className="text-secondary" /> Frequently Asked Questions
-                        </h3>
-                        <div className="space-y-4">
-                            {contactFaqs.map((faq, idx) => (
-                                <div key={idx} className="bg-white/5 border border-white/10 p-5 rounded-2xl space-y-2">
-                                    <h4 className="font-semibold text-white text-base">{faq.q}</h4>
-                                    <p className="text-white/70 text-sm leading-relaxed">{faq.a}</p>
-                                </div>
-                            ))}
-                        </div>
+                {/* Contact FAQs */}
+                <div className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury max-w-4xl mx-auto space-y-4">
+                    <h3 className="text-xl font-serif font-bold text-[#1C1917] mb-4 text-center">
+                        Frequently Asked Questions
+                    </h3>
+                    <div className="space-y-4">
+                        {contactFaqs.map((faq, idx) => (
+                            <div key={idx} className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#EADCC8]">
+                                <h4 className="font-serif font-bold text-sm text-[#1C1917] mb-1">{faq.q}</h4>
+                                <p className="text-xs text-[#78716C] leading-relaxed">{faq.a}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -317,4 +242,4 @@ const ContactUs = () => {
     );
 };
 
-export default ContactUs;
+export default React.memo(ContactUs);

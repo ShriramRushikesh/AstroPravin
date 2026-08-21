@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, Instagram } from 'lucide-react';
+import { Play, X, Youtube, ExternalLink } from 'lucide-react';
 import SEO from './SEO';
-
-import AdSenseUnit from './AdSenseUnit';
+import { LotusCrest } from './VedicDecorativeArt';
 
 const defaultVideos = [
     {
@@ -12,7 +11,7 @@ const defaultVideos = [
         title: "Vedic Remedies for Navagraha Shanti (नवग्रह शांती उपाय)",
         desc: "Essential Vedic remedies and mantras to pacify planetary afflictions and bring positive energy into your life.",
         platform: "youtube",
-        ytId: "dQw4w9WgXcQ", // fallback placeholder ID
+        ytId: "dQw4w9WgXcQ",
         views: "15.4K",
         date: "Vedic Insights"
     },
@@ -39,7 +38,6 @@ const defaultVideos = [
 const VideoGallery = () => {
     const [selectedVideo, setSelectedVideo] = useState(null);
     const [videos, setVideos] = useState(defaultVideos);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -52,134 +50,88 @@ const VideoGallery = () => {
                     }
                 }
             } catch (error) {
-                // Keep defaultVideos
+                // Keep default
             }
         };
         fetchVideos();
     }, []);
 
-    // Video Object Schema for SEO
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": videos.map((v, i) => ({
-            "@type": "VideoObject",
-            "position": i + 1,
-            "name": v.title,
-            "description": v.desc,
-            "thumbnailUrl": v.image || (v.platform === 'instagram' ? 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png' : `https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg`),
-            "uploadDate": v.date || "2024-01-01",
-            "contentUrl": v.platform === 'instagram' ? `https://www.instagram.com/reel/${v.ytId}/` : `https://www.youtube.com/watch?v=${v.ytId}`
-        }))
-    };
-
     return (
-        <section className="relative py-24 bg-void overflow-hidden">
-            <SEO
-                title="Astrology Videos & Remedies (Upay) - Astro Pravin"
-                description="Watch simple remedies (Upay) for money, marriage, and health problems. Daily horoscope (Rashi Bhavishya) and planetary changes explained in simple language."
-                keywords="Astrology Videos, Upay, Totke, Remedies, Rashi Bhavishya, Grah Gochar, Planetary Transit, Solapur Astrologer Video, Marathi Astrology, Daily Horoscope"
-                schema={schema}
-            />
-
-            {/* Background Decor */}
-            <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-red-900/10 blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
-
+        <section className="py-24 bg-[#FAF8F5] border-t border-[#EADCC8] relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center mb-16">
-                    <span className="text-primary tracking-[0.3em] uppercase text-sm font-semibold">Free Wisdom</span>
-                    <h2 className="text-4xl md:text-5xl font-serif text-white mt-2 mb-6">Latest Vedic Insights</h2>
-                    <p className="text-white/60 max-w-2xl mx-auto">
-                        Watch our latest videos on planetary transits, remedies, and astrological predictions to transform your life.
+                <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
+                        <LotusCrest className="w-4 h-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Vedic Media Satsang
+                        </span>
+                    </div>
+
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1C1917]">
+                        Video Satsang & <span className="bg-gradient-to-r from-[#C2410C] to-[#D97706] bg-clip-text text-transparent">Spiritual Discourses</span>
+                    </h2>
+
+                    <p className="text-sm text-[#78716C]">
+                        Watch Pandit Pravin Shriram's authentic lectures on Kundli analysis, Vastu Shastra remedies, and Navagraha shanti.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {videos.map((video, index) => (
+                {/* Videos Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {videos.map((vid, idx) => (
                         <motion.div
-                            key={video._id || index}
+                            key={vid._id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="group cursor-pointer"
-                            onClick={() => setSelectedVideo(video)}
+                            transition={{ delay: idx * 0.1 }}
+                            className="bg-white rounded-3xl overflow-hidden border border-[#EADCC8] shadow-luxury hover:shadow-luxury-hover transition-all flex flex-col justify-between"
                         >
-                            {/* Thumbnail Wrapper */}
-                            <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors shadow-2xl">
-                                <img
-                                    src={video.image || (video.platform === 'instagram' ? 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg' : `https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`)}
-                                    alt={video.title}
-                                    loading="lazy"
-                                    decoding="async"
-                                    className={`w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ${video.platform === 'instagram' && !video.image ? 'p-12 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500' : ''}`}
-                                />
-                                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                                    <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
-                                        {video.platform === 'instagram' ? <Instagram className="text-white fill-white" /> : <Play className="fill-white text-white ml-1" />}
-                                    </div>
+                            <div>
+                                <div className="relative aspect-video bg-[#1C1917] flex items-center justify-center group overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 to-transparent z-10" />
+                                    
+                                    <a
+                                        href="https://www.youtube.com/@PRAVINSHRIRAM-hi9zo"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative z-20 w-12 h-12 rounded-full bg-[#C2410C] text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
+                                    >
+                                        <Play size={20} className="ml-0.5 fill-white" />
+                                    </a>
+                                </div>
+
+                                <div className="p-6 space-y-2">
+                                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#C2410C] px-2 py-0.5 rounded bg-[#FFF7ED] border border-[#FED7AA]">
+                                        {vid.date}
+                                    </span>
+                                    <h3 className="text-base font-serif font-bold text-[#1C1917] line-clamp-2">
+                                        {vid.title}
+                                    </h3>
+                                    <p className="text-xs text-[#78716C] line-clamp-2 leading-relaxed">
+                                        {vid.desc}
+                                    </p>
                                 </div>
                             </div>
 
-                            {/* Content */}
-                            <div className="mt-4">
-                                <h3 className="text-xl font-serif text-white group-hover:text-secondary transition-colors line-clamp-2">{video.title}</h3>
-                                <p className="text-white/50 text-sm mt-2 line-clamp-2">{video.desc}</p>
-                                <div className="flex items-center gap-4 mt-3 text-xs text-white/30 uppercase tracking-wider">
-                                    <span>{video.views} Views</span>
-                                    <span>•</span>
-                                    <span>{video.date}</span>
-                                </div>
+                            <div className="p-6 pt-0 border-t border-[#EADCC8]/60 mt-2">
+                                <a
+                                    href="https://www.youtube.com/@PRAVINSHRIRAM-hi9zo"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-xs font-bold text-[#C2410C] hover:underline"
+                                >
+                                    <Youtube size={14} />
+                                    <span>Watch on YouTube</span>
+                                    <ExternalLink size={12} />
+                                </a>
                             </div>
                         </motion.div>
                     ))}
                 </div>
-
-                {/* Compliant Ad Placement */}
-                <AdSenseUnit slot="auto" format="horizontal" className="mt-12 max-w-4xl mx-auto" />
             </div>
-
-            {/* Video Modal */}
-            <AnimatePresence>
-                {selectedVideo && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-lg flex items-center justify-center p-4"
-                        onClick={() => setSelectedVideo(null)}
-                    >
-                        <div className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                            <button
-                                onClick={() => setSelectedVideo(null)}
-                                className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-white/10 rounded-full text-white transition-colors"
-                            >
-                                <X />
-                            </button>
-                            {selectedVideo.platform === 'instagram' ? (
-                                <iframe
-                                    className="w-full h-full"
-                                    src={`https://www.instagram.com/reel/${selectedVideo.ytId}/embed`}
-                                    frameBorder="0"
-                                    allowFullScreen
-                                ></iframe>
-                            ) : (
-                                <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${selectedVideo.ytId}?autoplay=1`}
-                                    title={selectedVideo.title}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            )}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </section>
     );
 };
 
-export default VideoGallery;
+export default React.memo(VideoGallery);

@@ -14,7 +14,7 @@ const AuditLogSection = lazy(() => import('./AuditLogSection'));
 const AnalyticsSection = lazy(() => import('./AnalyticsSection'));
 
 const SubTabLoader = () => (
-  <div className="py-16 text-center text-xs text-white/40">Loading section...</div>
+  <div className="py-16 text-center text-xs text-[#78716C]">Loading section...</div>
 );
 
 const MatrimonyAdminTab = () => {
@@ -34,7 +34,7 @@ const MatrimonyAdminTab = () => {
   return (
     <div className="space-y-6">
       {/* ── Sub Navigation Switcher ─────────────────────────────────────── */}
-      <div className="flex items-center gap-1.5 overflow-x-auto bg-white/5 border border-white/10 p-2 rounded-2xl backdrop-blur-md pb-2">
+      <div className="flex items-center gap-1.5 overflow-x-auto bg-white border border-[#EADCC8] p-2 rounded-3xl shadow-sm pb-2">
         {subTabs.map((t) => {
           const Icon = t.icon;
           const isActive = activeSubTab === t.id;
@@ -42,10 +42,10 @@ const MatrimonyAdminTab = () => {
             <button
               key={t.id}
               onClick={() => setActiveSubTab(t.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
+              className={`px-3.5 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                 isActive
-                  ? 'bg-gradient-to-r from-amber-500/30 to-amber-600/30 text-amber-300 border border-amber-500/40 shadow-lg'
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
+                  ? 'bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white shadow-sm'
+                  : 'text-[#44403C] hover:text-[#C2410C] hover:bg-[#FFF7ED]'
               }`}
             >
               <Icon size={14} />

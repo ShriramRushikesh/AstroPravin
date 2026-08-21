@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Sparkles, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { X, ShoppingBag, Sparkles, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { LotusCrest } from './VedicDecorativeArt';
 
 const ProductModal = ({ isOpen, onClose, product }) => {
-    // Lock Body Scroll when Modal is Open
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -18,9 +18,8 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     if (!isOpen || !product) return null;
 
     const handleWhatsAppEnquiry = () => {
-        const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price.toLocaleString()}\n*Category:* ${product.category || 'Spiritual Artifiact'}\n\n*Hello Astro Pravin Ji,*\nI am interested in buying this spiritual artifact. Please share availability and payment details. \n\n🙏`;
-        const waUrl = `https://wa.me/919921697908?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, '_blank');
+        const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price?.toLocaleString('en-IN')}\n*Category:* ${product.category || 'Vedic Artifact'}\n\n*Namaste Pandit Pravin Ji,*\nI want to order this energized spiritual product. Please guide me with payment and delivery details.\n🙏`;
+        window.open(`https://wa.me/919921697908?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
     return (
@@ -30,79 +29,74 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={onClose}
-                className="absolute inset-0 bg-black/90 backdrop-blur-md"
+                className="absolute inset-0 bg-[#1C1917]/60 backdrop-blur-sm"
             />
 
             <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{ scale: 0.95, opacity: 0, y: 15 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                className="relative bg-[#050510] border border-white/10 w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+                exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                className="relative bg-[#FAF8F5] border border-[#EADCC8] w-full max-w-3xl max-h-[90vh] rounded-3xl overflow-hidden shadow-luxury-hover flex flex-col md:flex-row z-10"
             >
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 z-[110] p-2 bg-black/50 hover:bg-white/10 rounded-full transition-colors text-white"
+                    className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white border border-[#EADCC8] flex items-center justify-center text-[#78716C] hover:text-[#C2410C] transition-colors shadow-sm"
                 >
-                    <X size={24} />
+                    <X size={16} />
                 </button>
 
-                {/* Left: Image Container */}
-                <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-void">
+                {/* Left: Image */}
+                <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-[#F5F0E8] flex items-center justify-center">
                     {product.image && (product.image.startsWith('http') || product.image.startsWith('/')) ? (
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                     ) : (
-                        <div className={`w-full h-full bg-gradient-to-br ${product.image || 'from-gray-800 to-gray-900'} flex items-center justify-center`}>
-                            <Sparkles className="text-white/20" size={64} />
+                        <div className="w-full h-full bg-gradient-to-br from-[#FFF7ED] to-[#FAF8F5] flex items-center justify-center">
+                            <Sparkles className="text-[#C2410C] w-16 h-16" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-transparent to-transparent md:hidden" />
                 </div>
 
-                {/* Right: Content Container */}
-                <div className="w-full md:w-1/2 p-6 md:p-10 overflow-y-auto custom-scrollbar flex flex-col">
-                    <div className="mb-2">
-                        <span className="text-secondary text-xs font-bold uppercase tracking-widest bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">
-                            {product.category || 'Energized Artifact'}
-                        </span>
-                    </div>
-
-                    <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 leading-tight">
-                        {product.name}
-                    </h2>
-
-                    <div className="flex items-center gap-2 mb-6 text-primary">
-                        <div className="flex">
-                            {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
+                {/* Right: Details */}
+                <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+                    <div className="space-y-4">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FFF7ED] border border-[#FED7AA] text-[10px] font-bold uppercase text-[#C2410C]">
+                            <ShieldCheck size={12} /> Certified & Consecrated
                         </div>
-                        <span className="text-xs text-white/40 uppercase tracking-tighter">Premium Vedic Tool</span>
-                    </div>
 
-                    <div className="text-2xl font-bold text-white mb-6">
-                        ₹{product.price.toLocaleString()}
-                    </div>
+                        <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1C1917]">
+                            {product.name}
+                        </h2>
 
-                    <div className="border-t border-white/10 pt-6 mb-8 flex-grow">
-                        <h4 className="text-white/40 text-xs uppercase font-bold mb-4 tracking-widest flex items-center gap-2">
-                            <Sparkles size={14} /> Description & Benefits
-                        </h4>
-                        <p className="text-white/80 leading-relaxed font-light whitespace-pre-wrap">
-                            {product.description || product.desc}
+                        <div className="text-2xl font-serif font-bold text-[#C2410C]">
+                            ₹{typeof product.price === 'number' ? product.price.toLocaleString('en-IN') : product.price}
+                        </div>
+
+                        {product.power && (
+                            <p className="text-xs font-semibold text-[#B45309]">
+                                ✦ Astrological Power: {product.power}
+                            </p>
+                        )}
+
+                        <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                            {product.desc || product.description}
                         </p>
+
+                        <div className="space-y-1.5 text-xs text-[#78716C] pt-2 border-t border-[#EADCC8]">
+                            <p>• 100% Original & Certified Natural</p>
+                            <p>• Consecrated with Vedic Vedic Mantras</p>
+                            <p>• Dispatched in Secured Tamper-Proof Packaging</p>
+                        </div>
                     </div>
 
-                    {/* Footer Actions */}
-                    <div className="mt-auto pt-6 flex flex-col gap-4">
+                    <div className="pt-6">
                         <button
                             onClick={handleWhatsAppEnquiry}
-                            className="w-full py-4 bg-gradient-to-r from-primary to-secondary rounded-2xl text-cosmic-blue font-bold text-lg uppercase tracking-wide hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(255,153,51,0.3)] flex items-center justify-center gap-3"
+                            className="w-full py-3.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                         >
-                            <ShoppingBag size={22} />
-                            Enquire on WhatsApp
+                            <ShoppingBag size={15} />
+                            Order Instantly on WhatsApp
                         </button>
-                        <p className="text-center text-[10px] text-white/30 uppercase tracking-[0.2em]">
-                            Direct consultation with Astro Pravin Ji for initialization
-                        </p>
                     </div>
                 </div>
             </motion.div>
@@ -110,4 +104,4 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     );
 };
 
-export default ProductModal;
+export default React.memo(ProductModal);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Sparkles } from 'lucide-react';
+import { ShoppingBag, Sparkles, ShieldCheck } from 'lucide-react';
 
 const ProductCard = ({ product, onClick }) => {
     return (
@@ -8,49 +8,64 @@ const ProductCard = ({ product, onClick }) => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            whileHover={{ y: -10 }}
+            whileHover={{ y: -6 }}
             onClick={onClick}
-            className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-secondary/30 transition-all duration-500 cursor-pointer"
+            className="group relative bg-white border border-[#EADCC8] rounded-3xl overflow-hidden shadow-luxury hover:shadow-luxury-hover transition-all duration-300 cursor-pointer flex flex-col justify-between"
         >
-            {/* Holographic Gradient Overlay on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10" />
-
-            {/* Product Visual */}
-            <div className="h-48 w-full bg-black/20 relative overflow-hidden group-hover:scale-105 transition-transform duration-700">
+            {/* Visual */}
+            <div className="h-52 w-full bg-[#FAF8F5] relative overflow-hidden">
                 {product.image && (product.image.startsWith('http') || product.image.startsWith('/')) ? (
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                 ) : (
-                    <div className={`w-full h-full bg-gradient-to-br ${product.image || 'from-gray-800 to-gray-900'}`} />
+                    <div className="w-full h-full bg-gradient-to-br from-[#FFF7ED] to-[#FAF8F5] flex items-center justify-center">
+                        <Sparkles className="w-12 h-12 text-[#C2410C]" />
+                    </div>
                 )}
 
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
-
-                <div className="absolute top-2 right-2">
-                    {product.inStock === false && (
-                        <span className="px-2 py-1 bg-red-500/80 rounded text-[10px] text-white font-bold uppercase">
-                            Sold Out
-                        </span>
-                    )}
+                <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-full border border-[#FED7AA] text-[10px] font-bold text-[#C2410C] flex items-center gap-1 shadow-sm">
+                    <ShieldCheck size={11} /> Certified
                 </div>
             </div>
 
             {/* Content */}
-            <div className="p-5">
-                <h3 className="text-white font-serif text-lg truncate group-hover:text-secondary transition-colors">{product.name}</h3>
-                <p className="text-white/40 text-sm mt-1 mb-4 h-10 overflow-hidden line-clamp-2">{product.description || product.desc}</p>
+            <div className="p-6 flex flex-col flex-1 justify-between">
+                <div>
+                    <h3 className="text-base font-serif font-bold text-[#1C1917] group-hover:text-[#C2410C] transition-colors line-clamp-1">
+                        {product.name}
+                    </h3>
+                    
+                    {product.power && (
+                        <p className="text-xs text-[#C2410C] font-semibold mt-1">
+                            ✦ {product.power}
+                        </p>
+                    )}
 
-                <div className="flex items-center justify-between mt-4 border-t border-white/5 pt-4">
-                    <span className="text-primary font-bold">₹{product.price.toLocaleString()}</span>
+                    <p className="text-xs text-[#78716C] mt-1.5 line-clamp-2 leading-relaxed">
+                        {product.desc || product.description}
+                    </p>
+                </div>
+
+                <div className="flex items-center justify-between mt-5 pt-4 border-t border-[#EADCC8]">
+                    <span className="text-base font-serif font-bold text-[#1C1917]">
+                        ₹{typeof product.price === 'number' ? product.price.toLocaleString('en-IN') : product.price}
+                    </span>
+
                     <button
-                        onClick={() => {
-                            const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price.toLocaleString()}\n*Category:* ${product.category || 'Start'}\n\n*Hello Astro Pravin Ji,*\nI am interested in buying this spiritual artifact. Please share availability and payment details. \n\n🙏`;
-                            const waUrl = `https://wa.me/919921697908?text=${encodeURIComponent(msg)}`;
-                            window.open(waUrl, '_blank');
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price?.toLocaleString('en-IN')}\n\n*Namaste Pandit Pravin Ji,*\nI am interested in ordering this energized spiritual artifact. Please share availability and delivery process.\n🙏`;
+                            window.open(`https://wa.me/919921697908?text=${encodeURIComponent(msg)}`, '_blank');
                         }}
-                        className="p-2 rounded-full bg-white/5 hover:bg-secondary hover:text-cosmic-blue text-secondary transition-all"
-                        title="Buy on WhatsApp"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] hover:bg-[#C2410C] hover:text-white transition-all text-xs font-bold shadow-sm"
+                        title="Order via WhatsApp"
                     >
-                        <ShoppingBag size={18} />
+                        <ShoppingBag size={13} />
+                        <span>Order</span>
                     </button>
                 </div>
             </div>
@@ -58,4 +73,4 @@ const ProductCard = ({ product, onClick }) => {
     );
 };
 
-export default ProductCard;
+export default React.memo(ProductCard);

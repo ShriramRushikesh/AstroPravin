@@ -15,12 +15,35 @@ const handleResponse = async (res) => {
 };
 
 export const matrimonyApi = {
-  // ── Auth ───────────────────────────────────────────────────────────────────
+  // ── Auth & Registration ───────────────────────────────────────────────────
+  getPaymentConfig: async () => {
+    const res = await fetch(`${API_URL}/api/matrimony/auth/payment-config`);
+    return handleResponse(res);
+  },
+
+  register: async (formData) => {
+    const res = await fetch(`${API_URL}/api/matrimony/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+    return handleResponse(res);
+  },
+
   login: async (username, password) => {
     const res = await fetch(`${API_URL}/api/matrimony/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
+    });
+    return handleResponse(res);
+  },
+
+  submitPayment: async (paymentData) => {
+    const res = await fetch(`${API_URL}/api/matrimony/auth/submit-payment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify(paymentData),
     });
     return handleResponse(res);
   },

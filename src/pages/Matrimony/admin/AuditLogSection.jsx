@@ -52,36 +52,36 @@ const AuditLogSection = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+    <div className="space-y-6 text-[#1C1917]">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-[#EADCC8] p-5 rounded-3xl shadow-luxury">
         <div>
-          <h3 className="text-lg font-serif font-bold text-white">Staff Action Audit Log</h3>
-          <p className="text-xs text-white/50">Immutable trail of all admin and staff changes</p>
+          <h3 className="text-lg font-serif font-bold text-[#1C1917]">Staff Action Audit Log</h3>
+          <p className="text-xs text-[#78716C]">Immutable trail of all admin and staff changes</p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={handleExportCsv}
             disabled={logs.length === 0}
-            className="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 text-xs font-bold flex items-center gap-1.5 transition-colors disabled:opacity-30"
+            className="px-3.5 py-2 bg-[#FFF7ED] text-[#C2410C] rounded-xl border border-[#FED7AA] text-xs font-bold flex items-center gap-1.5 transition-colors disabled:opacity-30 shadow-sm"
           >
             <Download size={13} />
             <span>Export to Excel</span>
           </button>
           <button
             onClick={fetchLogs}
-            className="p-2 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-xl border border-white/10 transition-colors"
+            className="p-2 bg-white hover:bg-[#FFF7ED] text-[#44403C] hover:text-[#C2410C] rounded-xl border border-[#EADCC8] transition-colors shadow-sm"
           >
             <RefreshCw size={15} />
           </button>
         </div>
       </div>
 
-      <div className="bg-neutral-900/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl">
+      <div className="bg-white border border-[#EADCC8] rounded-3xl overflow-hidden shadow-luxury">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5 text-white/50 uppercase tracking-wider text-[10px]">
+              <tr className="border-b border-[#EADCC8] bg-[#F5F0E8] text-[#44403C] uppercase tracking-wider text-[10px] font-bold">
                 <th className="p-3.5">Timestamp</th>
                 <th className="p-3.5">Action</th>
                 <th className="p-3.5">Target Member</th>
@@ -89,25 +89,25 @@ const AuditLogSection = () => {
                 <th className="p-3.5">IP Address</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-[#EADCC8]/60">
               {loading ? (
-                <tr><td colSpan={5} className="p-8 text-center text-white/40">Loading audit log...</td></tr>
+                <tr><td colSpan={5} className="p-8 text-center text-[#78716C]">Loading audit log...</td></tr>
               ) : logs.length === 0 ? (
-                <tr><td colSpan={5} className="p-8 text-center text-white/40">No audit events recorded yet.</td></tr>
+                <tr><td colSpan={5} className="p-8 text-center text-[#78716C]">No audit events recorded yet.</td></tr>
               ) : (
                 logs.map((l) => (
-                  <tr key={l._id} className="hover:bg-white/[0.02]">
-                    <td className="p-3.5 text-white/60 font-mono text-[11px]">
+                  <tr key={l._id} className="hover:bg-[#FAF8F5]">
+                    <td className="p-3.5 text-[#78716C] font-mono text-[11px]">
                       {new Date(l.timestamp).toLocaleString()}
                     </td>
                     <td className="p-3.5">
-                      <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold rounded font-mono uppercase">
+                      <span className="px-2 py-0.5 bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] text-[10px] font-bold rounded-full font-mono uppercase">
                         {l.action}
                       </span>
                     </td>
-                    <td className="p-3.5 font-mono text-white/80">{l.targetUserId || '-'}</td>
-                    <td className="p-3.5 text-white/70 max-w-xs truncate">{l.notes || JSON.stringify(l.after || {})}</td>
-                    <td className="p-3.5 text-white/40 font-mono text-[10px]">{l.ipAddress || '127.0.0.1'}</td>
+                    <td className="p-3.5 font-mono text-[#1C1917] font-bold">{l.targetUserId || '-'}</td>
+                    <td className="p-3.5 text-[#44403C] max-w-xs truncate">{l.notes || JSON.stringify(l.after || {})}</td>
+                    <td className="p-3.5 text-[#78716C] font-mono text-[10px]">{l.ipAddress || '127.0.0.1'}</td>
                   </tr>
                 ))
               )}

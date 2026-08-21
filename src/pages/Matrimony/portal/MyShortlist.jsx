@@ -47,21 +47,23 @@ const MyShortlist = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
-        <h2 className="text-xl font-serif font-bold text-white">My Shortlisted Profiles</h2>
-        <p className="text-xs text-white/50">Bookmarked candidates saved for quick review</p>
+      <div className="bg-white border border-[#EADCC8] p-4 sm:p-5 rounded-3xl shadow-sm">
+        <h2 className="text-xl font-serif font-bold text-[#1C1917]">My Shortlisted Profiles</h2>
+        <p className="text-xs text-[#78716C]">Bookmarked candidates saved for quick review</p>
       </div>
 
       {loading ? (
         <div className="py-16 flex flex-col items-center justify-center gap-3">
-          <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-xs text-white/40 uppercase tracking-widest font-mono">Loading Shortlist...</span>
+          <div className="w-8 h-8 border-2 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs text-[#78716C] uppercase tracking-widest font-mono">Loading Shortlist...</span>
         </div>
       ) : profiles.length === 0 ? (
-        <div className="bg-neutral-900/60 border border-white/10 rounded-3xl p-12 text-center space-y-3">
-          <Star size={32} className="mx-auto text-white/20" />
-          <h3 className="text-base font-serif font-bold text-white">Your shortlist is empty</h3>
-          <p className="text-xs text-white/40 max-w-sm mx-auto">
+        <div className="bg-white border border-[#EADCC8] rounded-3xl p-12 text-center space-y-3 shadow-sm">
+          <div className="p-3 bg-[#FFFBEB] text-[#B45309] rounded-full w-fit mx-auto border border-[#FDE68A]">
+            <Star size={28} />
+          </div>
+          <h3 className="text-base font-serif font-bold text-[#1C1917]">Your shortlist is empty</h3>
+          <p className="text-xs text-[#78716C] max-w-sm mx-auto">
             Click the star icon on any profile card to save profiles you like here.
           </p>
         </div>

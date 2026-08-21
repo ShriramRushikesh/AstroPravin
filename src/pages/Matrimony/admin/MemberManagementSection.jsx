@@ -69,19 +69,12 @@ const MemberManagementSection = () => {
     }
   };
 
-  const handleCopyCredentials = () => {
-    if (!createdCredentials) return;
-    const text = `AstroPravin Vedic Matrimony Login Credentials:\nUsername: ${createdCredentials.username}\nTemp Password: ${createdCredentials.tempPassword}\nPortal Link: https://astropravin.com/matrimony`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
-
   const handleResetPassword = async (userId) => {
-    if (!window.confirm('Generate a new temporary password for this user?')) return;
+    if (!confirm('Generate a new random password for this member?')) return;
     try {
-      const res = await matrimonyAdminService.resetPassword(userId);
-      alert(`New Temporary Password Generated:\nUsername: ${res.username}\nPassword: ${res.tempPassword}`);
+      const res = await matrimonyAdminService.resetMemberPassword(userId);
+      setCreatedCredentials(res.member);
+      fetchUsers();
     } catch (err) {
       alert(err.message || 'Failed to reset password');
     }
@@ -123,12 +116,12 @@ const MemberManagementSection = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#1C1917]">
       {/* ── Header & Action Bar ── */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-[#EADCC8] p-5 rounded-3xl shadow-luxury">
         <div>
-          <h3 className="text-lg font-serif font-bold text-white">Member Directory</h3>
-          <p className="text-xs text-white/50">Total enrolled members: <strong className="text-amber-400">{total}</strong></p>
+          <h3 className="text-lg font-serif font-bold text-[#1C1917]">Member Directory</h3>
+          <p className="text-xs text-[#78716C]">Total enrolled members: <strong className="text-[#C2410C] font-bold">{total}</strong></p>
         </div>
 
         <button
@@ -147,7 +140,7 @@ const MemberManagementSection = () => {
             });
             setShowCreateModal(true);
           }}
-          className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-400 text-black font-bold text-xs rounded-xl shadow-lg hover:brightness-110 flex items-center gap-1.5 uppercase tracking-wider"
+          className="px-4 py-2.5 bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white font-bold text-xs rounded-xl shadow-sm hover:scale-105 transition-transform flex items-center gap-1.5 uppercase tracking-wider"
         >
           <UserPlus size={15} />
           <span>+ Enroll New Paid Member</span>
@@ -155,23 +148,23 @@ const MemberManagementSection = () => {
       </div>
 
       {/* ── Search & Filter Controls ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-neutral-900/60 border border-white/10 p-4 rounded-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-white border border-[#EADCC8] p-4 rounded-3xl shadow-sm">
         <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#78716C]" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter') fetchUsers(); }}
             placeholder="Search by name / user / phone..."
-            className="w-full bg-black/40 border border-white/10 rounded-xl py-2 pl-9 pr-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-amber-500/50"
+            className="w-full bg-[#FAF8F5] border border-[#EADCC8] rounded-xl py-2 pl-9 pr-3 text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
           />
         </div>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+          className="bg-[#FAF8F5] border border-[#EADCC8] rounded-xl px-3 py-2 text-xs text-[#1C1917] focus:outline-none"
         >
           <option value="all">All Statuses</option>
           <option value="pending_profile">Pending Profile Setup</option>
@@ -184,7 +177,7 @@ const MemberManagementSection = () => {
         <select
           value={tierFilter}
           onChange={(e) => setTierFilter(e.target.value)}
-          className="bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+          className="bg-[#FAF8F5] border border-[#EADCC8] rounded-xl px-3 py-2 text-xs text-[#1C1917] focus:outline-none"
         >
           <option value="all">All Tiers</option>
           <option value="basic">Basic Tier</option>
@@ -194,7 +187,7 @@ const MemberManagementSection = () => {
         <select
           value={genderFilter}
           onChange={(e) => setGenderFilter(e.target.value)}
-          className="bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+          className="bg-[#FAF8F5] border border-[#EADCC8] rounded-xl px-3 py-2 text-xs text-[#1C1917] focus:outline-none"
         >
           <option value="all">All Genders</option>
           <option value="female">Brides (Female)</option>
@@ -203,11 +196,11 @@ const MemberManagementSection = () => {
       </div>
 
       {/* ── Members Table ── */}
-      <div className="bg-neutral-900/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl">
+      <div className="bg-white border border-[#EADCC8] rounded-3xl overflow-hidden shadow-luxury">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5 text-white/50 uppercase tracking-wider text-[10px]">
+              <tr className="border-b border-[#EADCC8] bg-[#F5F0E8] text-[#44403C] uppercase tracking-wider text-[10px] font-bold">
                 <th className="p-3.5">Member Name / Username</th>
                 <th className="p-3.5">Gender / Age</th>
                 <th className="p-3.5">Contact</th>
@@ -217,64 +210,64 @@ const MemberManagementSection = () => {
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-[#EADCC8]/60">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-white/40">Loading members...</td>
+                  <td colSpan={7} className="p-8 text-center text-[#78716C]">Loading members...</td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-white/40">No members found.</td>
+                  <td colSpan={7} className="p-8 text-center text-[#78716C]">No members found.</td>
                 </tr>
               ) : (
                 users.map((u) => {
                   const p = u.profile;
                   return (
-                    <tr key={u._id} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={u._id} className="hover:bg-[#FAF8F5] transition-colors">
                       <td className="p-3.5">
-                        <div className="font-bold text-white font-serif">{p?.fullName || 'No Profile Yet'}</div>
-                        <div className="text-[10px] text-amber-400 font-mono">{u.username}</div>
+                        <div className="font-bold text-[#1C1917] font-serif">{p?.fullName || 'No Profile Yet'}</div>
+                        <div className="text-[10px] text-[#C2410C] font-mono font-bold">{u.username}</div>
                       </td>
                       <td className="p-3.5">
-                        <span className="capitalize">{p?.gender || '-'}</span>
+                        <span className="capitalize text-[#1C1917]">{p?.gender || '-'}</span>
                         {p?.dateOfBirth && (
-                          <span className="text-white/40 text-[10px] block">
+                          <span className="text-[#78716C] text-[10px] block">
                             {Math.floor((new Date() - new Date(p.dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000))} yrs
                           </span>
                         )}
                       </td>
                       <td className="p-3.5">
-                        <div>{p?.mobile || '-'}</div>
-                        <div className="text-[10px] text-white/40 truncate max-w-[120px]">{p?.currentCity || '-'}</div>
+                        <div className="font-semibold text-[#1C1917]">{p?.mobile || '-'}</div>
+                        <div className="text-[10px] text-[#78716C] truncate max-w-[120px]">{p?.currentCity || '-'}</div>
                       </td>
                       <td className="p-3.5">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                          u.tier === 'premium' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-white/10 text-white/70'
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                          u.tier === 'premium' ? 'bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A]' : 'bg-[#F5F0E8] text-[#44403C]'
                         }`}>
                           {u.tier}
                         </span>
                       </td>
                       <td className="p-3.5">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                           u.status === 'verified' || u.status === 'active'
-                            ? 'bg-emerald-500/20 text-emerald-300'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : u.status === 'pending_verification'
-                            ? 'bg-amber-500/20 text-amber-300'
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
                             : u.status === 'suspended'
-                            ? 'bg-rose-500/20 text-rose-300'
-                            : 'bg-white/10 text-white/60'
+                            ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                            : 'bg-stone-50 text-stone-700 border border-stone-200'
                         }`}>
                           {u.status?.replace('_', ' ')}
                         </span>
                       </td>
                       <td className="p-3.5">
-                        <div className="font-mono text-emerald-400">₹{u.membershipAmount || 0}</div>
-                        <div className="text-[9px] text-white/40 uppercase">{u.membershipReceiptNumber || u.membershipMode}</div>
+                        <div className="font-mono font-bold text-emerald-700">₹{u.membershipAmount || 0}</div>
+                        <div className="text-[9px] text-[#78716C] uppercase">{u.membershipReceiptNumber || u.membershipMode}</div>
                       </td>
                       <td className="p-3.5 text-right space-x-1">
                         <button
                           onClick={() => setSelectedUser(u)}
-                          className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white/80 hover:text-white transition-colors"
+                          className="px-2.5 py-1 bg-[#FFF7ED] hover:bg-[#FFEDD5] border border-[#FED7AA] rounded-lg text-[#C2410C] font-bold transition-colors"
                         >
                           Manage
                         </button>
@@ -290,122 +283,91 @@ const MemberManagementSection = () => {
 
       {/* ── Modal: Create New Member ── */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-lg bg-neutral-900 border border-amber-500/40 rounded-3xl p-6 md:p-8 backdrop-blur-xl shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="text-base font-serif font-bold text-white flex items-center gap-2">
-                <UserPlus size={18} className="text-amber-400" />
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-[#FAF8F5] border border-[#EADCC8] rounded-3xl p-6 md:p-8 shadow-luxury-hover space-y-5">
+            <div className="flex items-center justify-between border-b border-[#EADCC8] pb-3">
+              <h3 className="text-base font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                <UserPlus size={18} className="text-[#C2410C]" />
                 <span>Enroll New Offline Member</span>
               </h3>
-              <button onClick={() => setShowCreateModal(false)} className="text-white/40 hover:text-white">
+              <button onClick={() => setShowCreateModal(false)} className="text-[#78716C] hover:text-[#1C1917]">
                 <X size={18} />
               </button>
             </div>
 
             {createdCredentials ? (
-              <div className="p-5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl space-y-4">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                  <ShieldCheck size={18} />
-                  <span>Member Account Created Successfully!</span>
+              <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-3">
+                <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm">
+                  <Check size={16} /> Member Enrolled Successfully!
                 </div>
-                <div className="bg-black/60 p-4 rounded-xl space-y-2 text-xs font-mono">
-                  <div><span className="text-white/40">Username: </span><strong className="text-amber-400">{createdCredentials.username}</strong></div>
-                  <div><span className="text-white/40">Temp Password: </span><strong className="text-amber-400">{createdCredentials.tempPassword}</strong></div>
-                  <div><span className="text-white/40">Receipt No: </span><span className="text-white/80">{createdCredentials.receiptNumber}</span></div>
+                <div className="p-3 bg-white rounded-xl border border-emerald-200 space-y-1 font-mono text-xs text-[#1C1917]">
+                  <div><strong>Username:</strong> {createdCredentials.username}</div>
+                  <div><strong>Temporary Password:</strong> {createdCredentials.tempPassword}</div>
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleCopyCredentials}
-                    className="flex-1 py-2.5 bg-amber-500 text-black font-bold text-xs rounded-xl shadow hover:brightness-110 flex items-center justify-center gap-1.5"
-                  >
-                    <Copy size={13} />
-                    <span>{copied ? 'Copied to Clipboard!' : 'Copy Credentials'}</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const msg = `Hello ${createdCredentials.fullName}, your AstroPravin Matrimony account is ready.\nUsername: ${createdCredentials.username}\nPassword: ${createdCredentials.tempPassword}\nLogin: https://astropravin.com/matrimony`;
-                      window.open(`https://wa.me/91${createdCredentials.mobile}?text=${encodeURIComponent(msg)}`, '_blank');
-                    }}
-                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1"
-                  >
-                    <Smartphone size={13} /> WhatsApp
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`AstroPravin Matrimony Login:\nUsername: ${createdCredentials.username}\nPassword: ${createdCredentials.tempPassword}\nLogin at: https://astropravin.com/matrimony`);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="w-full py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  <Copy size={13} /> {copied ? 'Credentials Copied!' : 'Copy Login Details for Devotee'}
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleCreateMember} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <form onSubmit={handleCreateMember} className="space-y-4 text-xs">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Full Name *</label>
+                    <label className="block text-[#44403C] font-bold mb-1">Full Name *</label>
                     <input
                       type="text"
                       required
                       value={createForm.fullName}
-                      onChange={e => setCreateForm({ ...createForm, fullName: e.target.value })}
-                      placeholder="e.g. Anand Kulkarni"
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                      onChange={(e) => setCreateForm({ ...createForm, fullName: e.target.value })}
+                      className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Mobile (WhatsApp) *</label>
+                    <label className="block text-[#44403C] font-bold mb-1">Mobile / WhatsApp *</label>
                     <input
-                      type="text"
+                      type="tel"
                       required
                       value={createForm.mobile}
-                      onChange={e => setCreateForm({ ...createForm, mobile: e.target.value })}
-                      placeholder="e.g. 9876543210"
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                      onChange={(e) => setCreateForm({ ...createForm, mobile: e.target.value })}
+                      className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917] focus:outline-none"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Gender *</label>
+                    <label className="block text-[#44403C] font-bold mb-1">Gender *</label>
                     <select
                       value={createForm.gender}
-                      onChange={e => setCreateForm({ ...createForm, gender: e.target.value })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                      onChange={(e) => setCreateForm({ ...createForm, gender: e.target.value })}
+                      className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917] focus:outline-none"
                     >
-                      <option value="male">Male (Groom)</option>
-                      <option value="female">Female (Bride)</option>
+                      <option value="male">Groom (Male)</option>
+                      <option value="female">Bride (Female)</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Membership Plan</label>
-                    <select
-                      value={createForm.tier}
-                      onChange={e => setCreateForm({ ...createForm, tier: e.target.value })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
-                    >
-                      <option value="basic">Basic (Standard 1-Time Fee)</option>
-                      <option value="premium">Premium (Featured & Gun Milan)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Amount Paid (₹)</label>
+                    <label className="block text-[#44403C] font-bold mb-1">Membership Fee (₹) *</label>
                     <input
                       type="number"
                       value={createForm.membershipAmount}
-                      onChange={e => setCreateForm({ ...createForm, membershipAmount: Number(e.target.value) })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                      onChange={(e) => setCreateForm({ ...createForm, membershipAmount: Number(e.target.value) })}
+                      className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917] focus:outline-none"
                     />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-white/60 mb-1">Payment Mode</label>
-                    <select
-                      value={createForm.membershipMode}
-                      onChange={e => setCreateForm({ ...createForm, membershipMode: e.target.value })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
-                    >
-                      <option value="cash">Cash at Shop</option>
-                      <option value="online">Online / UPI / POS</option>
-                    </select>
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-400 text-black font-bold text-xs rounded-xl shadow-lg hover:brightness-110 uppercase tracking-wider mt-2"
+                  className="w-full py-3 bg-gradient-to-r from-[#C2410C] to-[#EA580C] text-white font-bold rounded-xl text-xs shadow-sm hover:scale-[1.01] transition-transform"
                 >
-                  Generate Credentials & Enroll Member
+                  Generate Credentials & Enroll
                 </button>
               </form>
             )}
@@ -413,71 +375,56 @@ const MemberManagementSection = () => {
         </div>
       )}
 
-      {/* ── Side Drawer: Manage Member ── */}
+      {/* ── Drawer: Manage Member ── */}
       {selectedUser && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end">
-          <div className="w-full max-w-md bg-neutral-900 border-l border-white/10 h-full p-6 overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <h3 className="font-serif font-bold text-white text-base">{selectedUser.profile?.fullName}</h3>
-                <span className="text-xs text-amber-400 font-mono">{selectedUser.username}</span>
-              </div>
-              <button onClick={() => setSelectedUser(null)} className="text-white/40 hover:text-white">
+        <div className="fixed inset-0 z-50 bg-[#1C1917]/60 backdrop-blur-sm flex justify-end">
+          <div className="w-full max-w-md bg-[#FAF8F5] border-l border-[#EADCC8] p-6 h-full overflow-y-auto space-y-6 text-xs text-[#1C1917]">
+            <div className="flex items-center justify-between border-b border-[#EADCC8] pb-3">
+              <h3 className="text-base font-serif font-bold">Manage Member</h3>
+              <button onClick={() => setSelectedUser(null)} className="text-[#78716C] hover:text-[#1C1917]">
                 <X size={18} />
               </button>
             </div>
 
-            {/* Status Control */}
-            <div className="space-y-2">
-              <label className="block text-xs font-medium text-white/60">Account Status</label>
+            <div className="p-4 bg-white rounded-2xl border border-[#EADCC8] space-y-2">
+              <div className="text-base font-bold font-serif">{selectedUser.profile?.fullName || selectedUser.username}</div>
+              <div className="text-xs text-[#C2410C] font-mono font-bold">Username: {selectedUser.username}</div>
+              <div className="text-xs text-[#78716C]">Phone: {selectedUser.profile?.mobile}</div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="block font-bold text-[#44403C] uppercase text-[11px]">Membership Status</label>
               <select
                 value={selectedUser.status}
                 onChange={(e) => handleStatusChange(selectedUser._id, e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
               >
-                <option value="pending_profile">Pending Profile</option>
+                <option value="pending_profile">Pending Profile Setup</option>
                 <option value="pending_verification">Pending Verification</option>
-                <option value="verified">Verified (Active)</option>
+                <option value="verified">Verified</option>
                 <option value="active">Active</option>
                 <option value="suspended">Suspended</option>
               </select>
             </div>
 
-            {/* Tier Control */}
-            <div className="space-y-2">
-              <label className="block text-xs font-medium text-white/60">Access Tier</label>
+            <div className="space-y-3">
+              <label className="block font-bold text-[#44403C] uppercase text-[11px]">Tier</label>
               <select
                 value={selectedUser.tier}
                 onChange={(e) => handleTierChange(selectedUser._id, e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs text-white"
+                className="w-full bg-white border border-[#EADCC8] rounded-xl p-2.5 text-[#1C1917]"
               >
-                <option value="basic">Basic (Standard)</option>
+                <option value="basic">Basic (Standard Matchmaking)</option>
                 <option value="premium">Premium (Featured & Priority)</option>
               </select>
             </div>
 
-            {/* Contact Visibility Toggle */}
-            <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-              <div>
-                <span className="text-xs font-bold text-white block">Contact Info Visibility</span>
-                <span className="text-[10px] text-white/40">Reveal mobile to mutual matches</span>
-              </div>
-              <input
-                type="checkbox"
-                checked={selectedUser.profile?.isContactVisible || false}
-                onChange={(e) => handleToggleContact(selectedUser._id, e.target.checked)}
-                className="w-4 h-4 accent-amber-500 cursor-pointer"
-              />
-            </div>
-
-            {/* Password Reset */}
-            <div className="pt-4 border-t border-white/10 space-y-2">
+            <div className="pt-4 border-t border-[#EADCC8]">
               <button
                 onClick={() => handleResetPassword(selectedUser._id)}
-                className="w-full py-2.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                className="w-full py-2.5 bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] font-bold rounded-xl text-xs flex items-center justify-center gap-1.5"
               >
-                <KeyRound size={14} />
-                <span>Regenerate Temp Password</span>
+                <KeyRound size={14} /> Reset Password
               </button>
             </div>
           </div>
