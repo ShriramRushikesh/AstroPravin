@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Patch, Delete, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -19,7 +19,13 @@ export class BookingController {
 
     @UseGuards(AuthGuard('jwt'))
     @Put(':id')
-    update(@Param('id') id: string, @Body('status') status: string) {
+    updatePut(@Param('id') id: string, @Body('status') status: string) {
+        return this.bookingService.updateStatus(id, status);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch(':id/status')
+    updateStatusPatch(@Param('id') id: string, @Body('status') status: string) {
         return this.bookingService.updateStatus(id, status);
     }
 
@@ -29,3 +35,4 @@ export class BookingController {
         return this.bookingService.remove(id);
     }
 }
+

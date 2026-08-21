@@ -1,6 +1,7 @@
 import { Module, Global } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SharedController } from './shared.controller';
+import { UploadController } from './upload.controller';
 import { SharedService } from './shared.service';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { Video, VideoSchema } from './schemas/video.schema';
@@ -20,8 +21,9 @@ import { EmailService } from './email.service';
       { name: Visitor.name, schema: VisitorSchema },
     ]),
   ],
-  controllers: [SharedController],
+  controllers: [SharedController, UploadController],
   providers: [SharedService, EmailService],
   exports: [SharedService, EmailService, MongooseModule], // Export MongooseModule if needed elsewhere
 })
 export class SharedModule { }
+

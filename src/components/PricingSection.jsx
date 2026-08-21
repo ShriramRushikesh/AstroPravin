@@ -107,7 +107,7 @@ const PricingSection = () => {
 
                                 <div>
                                     <h3 className="text-xl font-serif font-bold text-[#1C1917] mb-2">
-                                        {service.name}
+                                        {service.name || service.title}
                                     </h3>
                                     
                                     <div className="flex items-baseline gap-1 mb-4">
@@ -134,7 +134,7 @@ const PricingSection = () => {
                                 </div>
 
                                 <a
-                                    href={`https://wa.me/919921697908?text=${encodeURIComponent(`Namaste Pandit Pravin, I would like to book a consultation for ${service.name}.`)}`}
+                                    href={`https://wa.me/919921697908?text=${encodeURIComponent(`Namaste Pandit Pravin, I would like to book a consultation for ${service.name || service.title}.`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`w-full py-3.5 rounded-xl text-center text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${

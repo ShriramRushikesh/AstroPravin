@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Sparkles, ShieldCheck } from 'lucide-react';
+import { API_URL } from '../config';
 
 const ProductCard = ({ product, onClick }) => {
+    const rawImage = product.image;
+    const imageSrc = rawImage && rawImage.startsWith('/public') ? `${API_URL}${rawImage}` : rawImage;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -14,9 +18,9 @@ const ProductCard = ({ product, onClick }) => {
         >
             {/* Visual */}
             <div className="h-52 w-full bg-[#FAF8F5] relative overflow-hidden">
-                {product.image && (product.image.startsWith('http') || product.image.startsWith('/')) ? (
+                {imageSrc && (imageSrc.startsWith('http') || imageSrc.startsWith('/')) ? (
                     <img
-                        src={product.image}
+                        src={imageSrc}
                         alt={product.name}
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -26,6 +30,7 @@ const ProductCard = ({ product, onClick }) => {
                         <Sparkles className="w-12 h-12 text-[#C2410C]" />
                     </div>
                 )}
+
 
                 <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-full border border-[#FED7AA] text-[10px] font-bold text-[#C2410C] flex items-center gap-1 shadow-sm">
                     <ShieldCheck size={11} /> Certified

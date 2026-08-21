@@ -54,4 +54,17 @@ export class KundliService {
 
         return { success: true, kundliData, pdfUrl };
     }
+
+    async findAllLeads(): Promise<Lead[]> {
+        return this.leadModel.find().sort({ createdAt: -1 }).exec();
+    }
+
+    async updateLeadStatus(id: string, status: string): Promise<Lead | null> {
+        return this.leadModel.findByIdAndUpdate(id, { status, whatsappStatus: status }, { new: true }).exec();
+    }
+
+    async deleteLead(id: string): Promise<Lead | null> {
+        return this.leadModel.findByIdAndDelete(id).exec();
+    }
 }
+

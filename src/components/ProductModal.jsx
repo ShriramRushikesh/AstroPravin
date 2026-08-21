@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, ShoppingBag, Sparkles, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { LotusCrest } from './VedicDecorativeArt';
+import { API_URL } from '../config';
 
 const ProductModal = ({ isOpen, onClose, product }) => {
     useEffect(() => {
@@ -16,6 +17,9 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     }, [isOpen]);
 
     if (!isOpen || !product) return null;
+
+    const rawImage = product.image;
+    const imageSrc = rawImage && rawImage.startsWith('/public') ? `${API_URL}${rawImage}` : rawImage;
 
     const handleWhatsAppEnquiry = () => {
         const msg = `*New Order Enquiry* 🛍️\n\n*Product:* ${product.name}\n*Price:* ₹${product.price?.toLocaleString('en-IN')}\n*Category:* ${product.category || 'Vedic Artifact'}\n\n*Namaste Pandit Pravin Ji,*\nI want to order this energized spiritual product. Please guide me with payment and delivery details.\n🙏`;
@@ -48,14 +52,15 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 
                 {/* Left: Image */}
                 <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-[#F5F0E8] flex items-center justify-center">
-                    {product.image && (product.image.startsWith('http') || product.image.startsWith('/')) ? (
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    {imageSrc && (imageSrc.startsWith('http') || imageSrc.startsWith('/')) ? (
+                        <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
                     ) : (
                         <div className="w-full h-full bg-gradient-to-br from-[#FFF7ED] to-[#FAF8F5] flex items-center justify-center">
                             <Sparkles className="text-[#C2410C] w-16 h-16" />
                         </div>
                     )}
                 </div>
+
 
                 {/* Right: Details */}
                 <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">

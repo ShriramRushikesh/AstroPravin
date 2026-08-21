@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type BookingDocument = Booking & Document;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, strict: false })
 export class Booking {
     @Prop({ required: true })
     name: string;
@@ -12,40 +12,61 @@ export class Booking {
     phone: string;
 
     @Prop()
-    email: string;
+    mobile?: string;
 
     @Prop()
-    date: string;
+    email?: string;
 
     @Prop()
-    time: string;
+    date?: string;
 
     @Prop()
-    birthDate: string;
+    time?: string;
 
     @Prop()
-    birthTime: string;
+    birthDate?: string;
 
     @Prop()
-    birthPlace: string;
+    dob?: string;
 
     @Prop()
-    topic: string;
+    birthTime?: string;
 
     @Prop()
-    astrologer: string;
+    tob?: string;
 
     @Prop()
-    gender: string;
+    birthPlace?: string;
 
     @Prop()
-    preferredDate: string; // Renamed from 'date' to match frontend
+    pob?: string;
 
     @Prop()
-    preferredTime: string; // Renamed from 'time' to match frontend
+    topic?: string;
+
+    @Prop()
+    astrologer?: string;
+
+    @Prop()
+    gender?: string;
+
+    @Prop()
+    preferredDate?: string;
+
+    @Prop()
+    preferredTime?: string;
 
     @Prop({ default: 'Pending' })
     status: string;
+
+    @Prop()
+    type?: string;
+
+    @Prop()
+    notes?: string;
+
+    @Prop()
+    createdAt?: Date;
 }
 
 export const BookingSchema = SchemaFactory.createForClass(Booking);

@@ -56,6 +56,36 @@ const TermsConditions = () => {
                         Consultation slots are reserved upon mutual confirmation over WhatsApp/Phone. Natural gemstones and Rudraksha items dispatched from our Solapur Kendra are 100% lab-certified and consecrated through personalized Vedic rituals.
                     </p>
                 </section>
+
+                {/* 4. Cancellation and Rescheduling */}
+                <section className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury space-y-4">
+                    <h2 className="text-xl font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                        <RefreshCw size={18} className="text-[#C2410C]" /> 4. Rescheduling & Cancellation Policy
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                        Clients may reschedule their consultation appointment at least 24 hours prior to the scheduled slot by contacting us directly via WhatsApp or phone. In the event of unforeseen Kendra delays, full priority rescheduling or prompt resolution is guaranteed.
+                    </p>
+                </section>
+
+                {/* 5. Intellectual Property */}
+                <section className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury space-y-4">
+                    <h2 className="text-xl font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                        <BookOpen size={18} className="text-[#C2410C]" /> 5. Intellectual Property & Content Usage
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                        All original articles, planetary calculators, proprietary software algorithms, astrological guides, logos, and branding on <strong>Astro Pravin</strong> are the intellectual property of Shriram Samupdeshan Kendra and protected under applicable copyright laws. Reproduction without written consent is strictly prohibited.
+                    </p>
+                </section>
+
+                {/* 6. Contact & Support */}
+                <section className="bg-[#FFFDF9] rounded-3xl p-8 border border-[#FED7AA] shadow-luxury space-y-4">
+                    <h2 className="text-xl font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                        <HelpCircle size={18} className="text-[#C2410C]" /> 6. Questions & Legal Inquiries
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                        For any queries regarding these Terms & Conditions, please contact us at <a href="mailto:pravin.shriram@gmail.com" className="text-[#C2410C] font-semibold underline">pravin.shriram@gmail.com</a> or call <a href="tel:+919921697908" className="text-[#C2410C] font-semibold underline">+91 99216 97908</a>.
+                    </p>
+                </section>
             </div>
         </div>
     );

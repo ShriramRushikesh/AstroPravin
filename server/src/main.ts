@@ -52,13 +52,17 @@ async function bootstrap() {
     app.setGlobalPrefix('api'); // Standardize all backend routes to /api/...
 
     // Serve static assets (uploads, kundlis)
-    const publicPath = path.join(__dirname, '..', 'public');
-    if (!fs.existsSync(publicPath)) {
-      fs.mkdirSync(publicPath, { recursive: true });
-    }
+    const publicPath = path.join(process.cwd(), 'public');
+    const uploadsDir = path.join(publicPath, 'uploads');
+    const kundlisDir = path.join(publicPath, 'kundlis');
+    if (!fs.existsSync(publicPath)) fs.mkdirSync(publicPath, { recursive: true });
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+    if (!fs.existsSync(kundlisDir)) fs.mkdirSync(kundlisDir, { recursive: true });
+
     app.useStaticAssets(publicPath, {
       prefix: '/public',
     });
+
 
     const port = Number(process.env.PORT) || 5002;
     await app.listen(port, '0.0.0.0');

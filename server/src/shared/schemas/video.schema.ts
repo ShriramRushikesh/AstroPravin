@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type VideoDocument = Video & Document;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, strict: false })
 export class Video {
     @Prop({ required: true })
     title: string;
@@ -20,6 +20,9 @@ export class Video {
     @Prop()
     description: string;
 
+    @Prop()
+    desc?: string;
+
     @Prop({ default: '0' })
     views: string;
 
@@ -28,3 +31,4 @@ export class Video {
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);
+

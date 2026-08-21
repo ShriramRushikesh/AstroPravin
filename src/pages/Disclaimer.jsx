@@ -70,6 +70,16 @@ const Disclaimer = () => {
                         </div>
                     </div>
                 </section>
+
+                {/* 4. Advertising and Third-Party Links */}
+                <section className="bg-white rounded-3xl p-8 border border-[#EADCC8] shadow-luxury space-y-4">
+                    <h2 className="text-xl font-serif font-bold text-[#1C1917] flex items-center gap-2">
+                        <ExternalLink size={18} className="text-[#C2410C]" /> 4. Third-Party Advertisements & External Links
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed">
+                        This website may display advertisements served by Google AdSense and third-party advertising networks. The appearance of advertisements, sponsored listings, or external hyperlinks does not constitute an endorsement, guarantee, or warranty by Astro Pravin or Shriram Samupdeshan Kendra of any third-party products, claims, or services.
+                    </p>
+                </section>
             </div>
         </div>
     );

@@ -60,7 +60,12 @@ export class ServicesService implements OnModuleInit {
     }
 
     async create(createServiceDto: any): Promise<Service> {
-        const createdService = new this.serviceModel(createServiceDto);
+        const payload = {
+            ...createServiceDto,
+            name: createServiceDto.name || createServiceDto.title,
+            title: createServiceDto.title || createServiceDto.name,
+        };
+        const createdService = new this.serviceModel(payload);
         return createdService.save();
     }
 
@@ -69,7 +74,12 @@ export class ServicesService implements OnModuleInit {
     }
 
     async update(id: string, updateServiceDto: any): Promise<Service | null> {
-        return this.serviceModel.findByIdAndUpdate(id, updateServiceDto, { new: true }).exec();
+        const payload = {
+            ...updateServiceDto,
+            name: updateServiceDto.name || updateServiceDto.title,
+            title: updateServiceDto.title || updateServiceDto.name,
+        };
+        return this.serviceModel.findByIdAndUpdate(id, payload, { new: true }).exec();
     }
 
     async remove(id: string): Promise<Service | null> {
