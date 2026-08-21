@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { LotusCrest, ToranBorder, MandalaWatermark } from './MatrimonyDecorativeArt';
 
-const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
+const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, onLogout }) => {
   const [transactionId, setTransactionId] = useState('');
   const [paymentMode, setPaymentMode] = useState('upi');
   const [copied, setCopied] = useState(false);
@@ -14,13 +14,19 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
   const [error, setError] = useState('');
   const [isEditingUtr, setIsEditingUtr] = useState(false);
 
-  const upiId = 'pravin.shriram@upi';
-  const amount = 1100;
-  const originalAmount = 2100;
-  const upiDeepLink = `upi://pay?pa=${upiId}&pn=AstroPravin%20Vedic%20Matrimony&am=${amount}&cu=INR&tn=Vedic%20Matrimony%20Registration%20${user?.username || ''}`;
+  // Dynamic admin-configurable values with defaults
+  const upiId = registrationConfig?.upiId || 'rishi.shriram5@ybl';
+  const payeeName = registrationConfig?.payeeName || 'RUSHIKESH PRAVIN SHRIRAM';
+  const amount = registrationConfig?.membershipFee || 199;
+  const originalAmount = registrationConfig?.originalFee || 499;
+  const packageDuration = registrationConfig?.durationText || '3 Months Vedic Membership';
 
-  // QR Code Image Generator
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(upiDeepLink)}&color=8B2500&bgcolor=FFFFFF`;
+  // Native standard UPI Intent Deep Link for default payment app redirection
+  const upiDeepLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(`AstroPravin Matrimony 3M ${user?.username || ''}`)}`;
+
+  // Dedicated Official PhonePe QR Asset with online generator fallback
+  const officialQrPath = '/phonepe-qr.jpg';
+  const fallbackQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(upiDeepLink)}&color=000000&bgcolor=FFFFFF`;
 
   const handleCopyUpi = () => {
     navigator.clipboard?.writeText(upiId);
@@ -50,7 +56,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
     // Check for obvious bogus repeated patterns
     const repeatedPattern = /^(.)\1{9,}$/;
     if (repeatedPattern.test(cleanUtr) || cleanUtr === '123456789012' || cleanUtr === '1234567890' || cleanUtr.toLowerCase().includes('test')) {
-      setError('Invalid transaction reference. Please provide the authentic 12-digit UTR from your GPay, PhonePe, Paytm, or Bank app.');
+      setError('Invalid transaction reference. Please provide the authentic 12-digit UTR from your PhonePe, GPay, Paytm, or Bank app.');
       return;
     }
 
@@ -92,14 +98,14 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#FEF3C7] border border-[#FDE68A] rounded-full text-[11px] font-bold text-[#B45309] uppercase tracking-wider mb-2.5 shadow-sm">
             <Sparkles size={12} className="text-[#D97706]" />
-            <span>Step 2: One-Time Membership Activation</span>
+            <span>Step 2: Vedic Matrimony Activation</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1917] tracking-tight">
             {isPendingVerification ? 'Payment Verification In Progress' : 'Unlock Verified Matrimony Access'}
           </h2>
           <p className="text-xs sm:text-sm text-[#78716C] max-w-lg mx-auto mt-1.5 leading-relaxed">
-            Welcome, <strong className="text-[#C2410C] font-semibold">{user?.fullName || user?.username}</strong>. To maintain 100% verified, genuine, and privacy-protected matchmaking, each member's registration fee is authenticated before granting portal access.
+            Welcome, <strong className="text-[#C2410C] font-semibold">{user?.fullName || user?.username}</strong>. To maintain 100% verified, genuine, and privacy-protected matchmaking, a nominal membership fee is required.
           </p>
         </div>
 
@@ -112,9 +118,9 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
               </div>
 
               <div>
-                <h3 className="font-serif font-bold text-lg text-[#1C1917]">UTR Submitted for Verification</h3>
+                <h3 className="font-serif font-bold text-lg text-[#1C1917]">UTR Submitted for Bank Verification</h3>
                 <p className="text-xs text-[#78716C] mt-1 max-w-md mx-auto">
-                  Your payment transaction reference has been logged. Our Kendra staff is verifying the credit with the bank. Your account will be unlocked as soon as verified.
+                  Your 12-digit transaction reference has been logged. Kendra staff is reconciling the credit. Your account will be unlocked as soon as verified.
                 </p>
               </div>
 
@@ -124,13 +130,17 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                   <strong className="text-[#C2410C] text-sm">{submittedUtr}</strong>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#78716C]">Registration Fee Amount:</span>
+                  <span className="text-[#78716C]">Membership Package:</span>
+                  <strong className="text-[#1C1917]">{packageDuration}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#78716C]">Amount Paid:</span>
                   <strong className="text-emerald-700 font-bold">₹{amount}</strong>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#78716C]">Status:</span>
                   <span className="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-[10px] rounded-full uppercase">
-                    Awaiting Bank Confirmation
+                    Awaiting Admin Approval
                   </span>
                 </div>
               </div>
@@ -144,7 +154,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                   className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-center"
                 >
                   <MessageSquare size={16} />
-                  <span>Send Payment Screenshot on WhatsApp for Instant Approval</span>
+                  <span>Send Screenshot on WhatsApp for Instant Approval</span>
                 </a>
               </div>
             </div>
@@ -174,16 +184,18 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
             <div className="bg-gradient-to-br from-[#FFFBEB] via-[#FEF3C7]/40 to-[#FFF7ED] border border-[#FCD34D]/60 rounded-2xl p-5 mb-6 shadow-sm">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-[#FDE68A] pb-4 mb-4">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#B45309]">One-Time Vedic Lifetime Fee</span>
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#B45309]">Vedic Matrimony Package</span>
                   <div className="flex items-baseline gap-2.5 mt-0.5">
                     <span className="text-3xl font-serif font-extrabold text-[#C2410C]">₹{amount}</span>
                     <span className="text-sm line-through text-[#A8A29E]">₹{originalAmount}</span>
-                    <span className="px-2 py-0.5 bg-[#DC2626]/10 text-[#DC2626] font-bold text-[10px] rounded-md uppercase">48% Inaugural Off</span>
+                    <span className="px-2 py-0.5 bg-[#DC2626]/10 text-[#DC2626] font-bold text-[10px] rounded-md uppercase">
+                      {packageDuration}
+                    </span>
                   </div>
                 </div>
                 <div className="text-right sm:text-right text-xs text-[#78716C]">
                   <span className="inline-flex items-center gap-1 text-[#15803D] font-bold bg-[#DCFCE7] px-2.5 py-1 rounded-full text-[11px]">
-                    <ShieldCheck size={13} /> Zero Recurring Renewal Fees
+                    <ShieldCheck size={13} /> Direct UPI Bank Transfer
                   </span>
                 </div>
               </div>
@@ -204,32 +216,36 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
               </div>
             </div>
 
-            {/* QR Code & Payment Section */}
+            {/* QR Code & Direct UPI Section */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mb-6">
-              {/* QR Code Box */}
-              <div className="md:col-span-5 flex flex-col items-center justify-center p-4 bg-[#FAF8F5] border border-[#EADCC8] rounded-2xl text-center shadow-inner">
-                <div className="p-2 bg-white rounded-xl border border-[#E5D7C5] shadow-md mb-3">
+              {/* Official PhonePe / UPI QR Code Box */}
+              <div className="md:col-span-5 flex flex-col items-center justify-center p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-2xl text-center shadow-inner">
+                <div className="p-2 bg-white rounded-xl border border-[#E5D7C5] shadow-md mb-2 w-full max-w-[200px] flex items-center justify-center overflow-hidden">
                   <img
-                    src={qrCodeUrl}
+                    src={officialQrPath}
                     alt="Scan UPI QR Code to Pay Registration Fee"
-                    className="w-40 h-40 object-contain rounded-lg"
+                    className="w-full h-auto object-contain rounded-lg max-h-52"
                     onError={(e) => {
-                      e.target.style.display = 'none';
+                      e.target.src = fallbackQrUrl;
                     }}
                   />
                 </div>
                 <span className="text-[11px] font-bold text-[#44403C] flex items-center gap-1">
                   <QrCode size={13} className="text-[#C2410C]" /> Scan with Any UPI App
                 </span>
-                <span className="text-[10px] text-[#78716C] mt-0.5">GPay • PhonePe • Paytm • BHIM</span>
+                <span className="text-[10px] text-[#78716C] mt-0.5">PhonePe • GPay • Paytm • BHIM</span>
               </div>
 
-              {/* UPI Details & Mobile Deep Link */}
+              {/* UPI Details & Mobile Direct Pay Button */}
               <div className="md:col-span-7 space-y-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1.5">
-                    Official Matrimony UPI ID
+                  <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">
+                    Official Payee Name & UPI ID
                   </label>
+                  <div className="bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 mb-2 text-xs">
+                    <span className="text-[10px] text-[#78716C] block uppercase font-semibold">Account Holder:</span>
+                    <strong className="text-[#1C1917] block font-mono text-xs">{payeeName}</strong>
+                  </div>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-[#F5EFE6] border border-[#EADCC8] rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-[#1C1917] select-all truncate">
                       {upiId}
@@ -237,7 +253,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                     <button
                       type="button"
                       onClick={handleCopyUpi}
-                      className="px-3.5 py-2.5 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] text-[#C2410C] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 active:scale-95"
+                      className="px-3.5 py-2.5 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] text-[#C2410C] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 active:scale-95 cursor-pointer"
                     >
                       {copied ? <Check size={14} className="text-[#15803D]" /> : <Copy size={14} />}
                       <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -245,19 +261,19 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                   </div>
                 </div>
 
-                {/* Mobile Direct Pay Button */}
+                {/* Mobile Direct Pay Button (Redirection to Default UPI App) */}
                 <a
                   href={upiDeepLink}
-                  className="w-full py-3 px-4 bg-[#C2410C] hover:bg-[#9A3412] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-center"
+                  className="w-full py-3.5 px-4 bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] hover:brightness-105 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-center cursor-pointer active:scale-98"
                 >
-                  <span>Pay ₹{amount} Directly on UPI App</span>
+                  <span>Pay ₹{amount} on PhonePe / GPay / Paytm</span>
                   <ExternalLink size={14} />
                 </a>
 
                 <div className="p-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl text-[11px] text-[#15803D] flex items-start gap-2">
                   <ShieldCheck size={15} className="shrink-0 mt-0.5 text-[#16A34A]" />
                   <span className="leading-snug">
-                    Payment is credited directly to <strong>Pandit Acharya Pravin Shriram</strong> for account onboarding.
+                    Payment is credited directly to <strong>{payeeName}</strong>. Safe & non-third-party.
                   </span>
                 </div>
               </div>
@@ -278,7 +294,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
 
               <div>
                 <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1.5">
-                  Enter UPI Ref / UTR / Transaction ID (12 Digits)
+                  Paste 12-Digit UPI / UTR Reference Number *
                 </label>
                 <div className="flex flex-col sm:flex-row gap-2.5">
                   <input
@@ -286,7 +302,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                     required
                     value={transactionId}
                     onChange={(e) => setTransactionId(e.target.value)}
-                    placeholder="e.g. 423985729104 (12 Digits)"
+                    placeholder="e.g. 423985729104 (From Bank/UPI SMS)"
                     className="flex-1 bg-[#FAF8F5] border border-[#EADCC8] focus:border-[#C2410C] focus:bg-white focus:ring-2 focus:ring-[#C2410C]/20 rounded-xl px-4 py-3 text-xs text-[#1C1917] placeholder-[#A8A29E] font-mono outline-none transition-all"
                   />
                   <button
@@ -305,7 +321,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                   </button>
                 </div>
                 <p className="text-[10px] text-[#A8A29E] mt-1.5">
-                  Found in your UPI app payment receipt (PhonePe / GPay / Paytm / Bank SMS). Verified manually by Kendra staff.
+                  Located in your PhonePe / GPay / Paytm payment receipt under <strong>"UPI Ref No."</strong> or <strong>"UTR"</strong>.
                 </p>
               </div>
             </form>
@@ -319,7 +335,7 @@ const MembershipPaymentGate = ({ user, onPaymentCompleted, onLogout }) => {
                 className="text-[11px] font-bold text-[#15803D] hover:underline flex items-center gap-1"
               >
                 <PhoneCall size={12} />
-                <span>WhatsApp Pandit Pravin Helpline</span>
+                <span>WhatsApp Helpline (+91 99216 97908)</span>
               </a>
 
               <button

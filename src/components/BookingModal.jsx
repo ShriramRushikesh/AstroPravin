@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { API_URL } from '../config';
-import { X, Sparkles, User, Calendar, MapPin, Clock, Mail, Phone, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import {
+    X, Sparkles, User, Calendar, MapPin, Clock, Mail, Phone,
+    Heart, Briefcase, Compass, ShieldCheck, CheckCircle2, Home, Activity, Gem
+} from 'lucide-react';
 import { LotusCrest } from './VedicDecorativeArt';
 
 const BookingModal = ({ isOpen, onClose }) => {
     const [loading, setLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [formData, setFormData] = useState({
+        topic: 'Love & Marriage',
         name: '',
         email: '',
         phone: '',
-        topic: 'Kundli Matching & Marriage',
         gender: 'Male',
         birthDate: '',
         birthTime: '',
@@ -33,12 +36,12 @@ const BookingModal = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     const topics = [
-        'Kundli Matching & Marriage',
-        'Career & Financial Growth',
-        'Complete Life Horoscope (Patrika)',
-        'Vastu Shastra Consultation',
-        'Health & Dosha Remedies',
-        'Gemstone & Rudraksha Guidance'
+        { label: 'Love & Marriage', icon: Heart, desc: 'Kundli Milan & Relationship' },
+        { label: 'Career & Wealth', icon: Briefcase, desc: 'Job, Promotion & Finance' },
+        { label: 'Life Analysis (Kundli)', icon: Sparkles, desc: 'Complete Patrika Reading' },
+        { label: 'Vastu Shastra Consultation', icon: Home, desc: 'Home, Shop & Factory Energy' },
+        { label: 'Health & Dosha Remedies', icon: Activity, desc: 'Kaal Sarp, Mangal & Shani' },
+        { label: 'Gemstone Guidance', icon: Gem, desc: 'Certified Ratna & Rudraksha' },
     ];
 
     if (!isOpen) return null;
@@ -46,7 +49,7 @@ const BookingModal = ({ isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.name || !formData.phone || !formData.birthDate || !formData.birthTime || !formData.birthPlace) {
-            return alert('Please fill in your Name, Phone, Date of Birth, Birth Time, and Birth Place.');
+            return alert('Please fill in your Name, Phone Number, Date of Birth, Birth Time, and Birth Place.');
         }
 
         setLoading(true);
@@ -64,22 +67,30 @@ const BookingModal = ({ isOpen, onClose }) => {
             if (res.ok) {
                 setShowSuccess(true);
                 setFormData({
-                    name: '', email: '', phone: '', topic: 'Kundli Matching & Marriage', gender: 'Male',
-                    birthDate: '', birthTime: '', birthPlace: '', preferredDate: '', preferredTime: ''
+                    topic: 'Love & Marriage',
+                    name: '',
+                    email: '',
+                    phone: '',
+                    gender: 'Male',
+                    birthDate: '',
+                    birthTime: '',
+                    birthPlace: '',
+                    preferredDate: '',
+                    preferredTime: ''
                 });
             } else {
-                const err = await res.json();
+                const err = await res.json().catch(() => ({}));
                 alert(`Booking Error: ${err.message || 'Please try again or contact via WhatsApp.'}`);
             }
         } catch (error) {
-            alert(`Connection Error. Please check your internet or contact directly via WhatsApp (+91 99216 97908).`);
+            alert(`Connection Error. Please check your connection or contact Panditji directly on WhatsApp (+91 99216 97908).`);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4">
             {/* Backdrop */}
             <motion.div
                 initial={{ opacity: 0 }}
@@ -94,16 +105,16 @@ const BookingModal = ({ isOpen, onClose }) => {
                 initial={{ scale: 0.95, opacity: 0, y: 10 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.95, opacity: 0, y: 10 }}
-                className="relative bg-[#FAF8F5] border border-[#EADCC8] w-full max-w-lg rounded-3xl shadow-luxury-hover overflow-hidden flex flex-col max-h-[90vh]"
+                className="relative bg-[#FAF8F5] border border-[#EADCC8] w-full max-w-xl rounded-3xl shadow-luxury-hover overflow-hidden flex flex-col max-h-[92vh]"
             >
                 {/* Modal Header */}
-                <div className="px-6 py-4 border-b border-[#EADCC8] bg-white flex items-center justify-between">
+                <div className="px-6 py-4 border-b border-[#EADCC8] bg-white flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-[#FFF7ED] border border-[#FED7AA] flex items-center justify-center">
-                            <LotusCrest className="w-4 h-4" />
+                        <div className="w-9 h-9 rounded-xl bg-[#FFF7ED] border border-[#FED7AA] flex items-center justify-center text-[#C2410C]">
+                            <LotusCrest className="w-5 h-5" />
                         </div>
                         <div>
-                            <h2 className="text-base font-bold font-serif text-[#1C1917]">
+                            <h2 className="text-base sm:text-lg font-bold font-serif text-[#1C1917]">
                                 Book Vedic Consultation
                             </h2>
                             <p className="text-[11px] text-[#78716C]">
@@ -134,136 +145,233 @@ const BookingModal = ({ isOpen, onClose }) => {
                             </div>
 
                             <h3 className="text-2xl font-serif font-bold text-[#1C1917]">
-                                Appointment Requested!
+                                Consultation Requested!
                             </h3>
 
-                            <p className="text-xs sm:text-sm text-[#78716C] max-w-sm">
-                                Pandit Acharya Pravin's Kendra has received your details. We will contact you on WhatsApp / Phone with confirmed consultation time.
+                            <p className="text-xs sm:text-sm text-[#78716C] max-w-sm leading-relaxed">
+                                Pandit Acharya Pravin's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
                             </p>
 
-                            <button
-                                onClick={onClose}
-                                className="px-8 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-105 transition-transform"
-                            >
-                                Done
-                            </button>
+                            <div className="pt-2">
+                                <button
+                                    onClick={onClose}
+                                    className="px-8 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-105 transition-transform cursor-pointer"
+                                >
+                                    Done
+                                </button>
+                            </div>
                         </motion.div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
-                            {/* Consultation Topic */}
+                        <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+                            {/* Consultation Topic Grid (Interactive Previous Choices) */}
                             <div>
-                                <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                    Consultation Topic *
+                                <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-2">
+                                    Select Consultation Topic *
                                 </label>
-                                <select
-                                    value={formData.topic}
-                                    onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C] focus:ring-1 focus:ring-[#C2410C]"
-                                >
-                                    {topics.map((t) => (
-                                        <option key={t} value={t}>{t}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Full Name & Phone */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                        Full Name *
-                                    </label>
-                                    <div className="relative">
-                                        <User size={14} className="absolute left-3 top-3 text-[#78716C]" />
-                                        <input
-                                            type="text"
-                                            required
-                                            value={formData.name}
-                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            placeholder="Your full name"
-                                            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                        WhatsApp / Mobile *
-                                    </label>
-                                    <div className="relative">
-                                        <Phone size={14} className="absolute left-3 top-3 text-[#78716C]" />
-                                        <input
-                                            type="tel"
-                                            required
-                                            value={formData.phone}
-                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            placeholder="10-digit number"
-                                            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
-                                        />
-                                    </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    {topics.map((t) => {
+                                        const Icon = t.icon;
+                                        const isSelected = formData.topic === t.label;
+                                        return (
+                                            <button
+                                                key={t.label}
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, topic: t.label })}
+                                                className={`p-3 rounded-2xl border text-left transition-all flex items-start gap-2.5 cursor-pointer ${
+                                                    isSelected
+                                                        ? 'bg-[#FFF7ED] border-[#C2410C] text-[#C2410C] shadow-sm ring-1 ring-[#C2410C]/30'
+                                                        : 'bg-white border-[#EADCC8] text-[#44403C] hover:border-[#FED7AA] hover:bg-[#FAF8F5]'
+                                                }`}
+                                            >
+                                                <div className={`p-1.5 rounded-lg shrink-0 ${isSelected ? 'bg-[#C2410C] text-white' : 'bg-[#FAF8F5] text-[#78716C]'}`}>
+                                                    <Icon size={14} />
+                                                </div>
+                                                <div>
+                                                    <span className="font-bold text-xs block leading-tight">{t.label}</span>
+                                                    <span className="text-[10px] text-[#78716C] block mt-0.5">{t.desc}</span>
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
-                            {/* Date of Birth & Time of Birth */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                        Birth Date (Kundli) *
-                                    </label>
-                                    <div className="relative">
-                                        <Calendar size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                            {/* Personal Details */}
+                            <div className="pt-2 border-t border-[#EADCC8]">
+                                <label className="block text-[11px] font-bold text-[#78716C] uppercase tracking-wider mb-2">
+                                    Devotee / Personal Information
+                                </label>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {/* Full Name */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Full Name *
+                                        </label>
+                                        <div className="relative">
+                                            <User size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="text"
+                                                required
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                placeholder="Your full name"
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* WhatsApp Phone */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            WhatsApp / Mobile *
+                                        </label>
+                                        <div className="relative">
+                                            <Phone size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="tel"
+                                                required
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                placeholder="10-digit mobile number"
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Email */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Email Address (Optional)
+                                        </label>
+                                        <div className="relative">
+                                            <Mail size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="email"
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                placeholder="you@email.com"
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Gender */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Gender *
+                                        </label>
+                                        <select
+                                            value={formData.gender}
+                                            onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                                            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                        >
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Birth Details (Kundli) */}
+                            <div className="pt-2 border-t border-[#EADCC8]">
+                                <label className="block text-[11px] font-bold text-[#78716C] uppercase tracking-wider mb-2">
+                                    Birth Details for Kundli Patrika
+                                </label>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {/* Birth Date */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Date of Birth *
+                                        </label>
+                                        <div className="relative">
+                                            <Calendar size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="date"
+                                                required
+                                                value={formData.birthDate}
+                                                onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Birth Time */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Time of Birth *
+                                        </label>
+                                        <div className="relative">
+                                            <Clock size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="time"
+                                                required
+                                                value={formData.birthTime}
+                                                onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Birth Place */}
+                                    <div className="sm:col-span-2">
+                                        <label className="block text-xs font-bold text-[#44403C] mb-1">
+                                            Place of Birth *
+                                        </label>
+                                        <div className="relative">
+                                            <MapPin size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                            <input
+                                                type="text"
+                                                required
+                                                value={formData.birthPlace}
+                                                onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
+                                                placeholder="City, State (e.g. Solapur, Maharashtra)"
+                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Preferred Consultation Time (Optional) */}
+                            <div className="pt-2 border-t border-[#EADCC8]">
+                                <label className="block text-[11px] font-bold text-[#78716C] uppercase tracking-wider mb-2">
+                                    Preferred Consultation Slot (Optional)
+                                </label>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="block text-xs font-medium text-[#78716C] mb-1">
+                                            Preferred Date
+                                        </label>
                                         <input
                                             type="date"
-                                            required
-                                            value={formData.birthDate}
-                                            onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                                            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                            value={formData.preferredDate}
+                                            onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                                            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
                                         />
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                        Birth Time *
-                                    </label>
-                                    <div className="relative">
-                                        <Clock size={14} className="absolute left-3 top-3 text-[#78716C]" />
+                                    <div>
+                                        <label className="block text-xs font-medium text-[#78716C] mb-1">
+                                            Preferred Time
+                                        </label>
                                         <input
                                             type="time"
-                                            required
-                                            value={formData.birthTime}
-                                            onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
-                                            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
+                                            value={formData.preferredTime}
+                                            onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
+                                            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] focus:outline-none focus:border-[#C2410C]"
                                         />
                                     </div>
-                                </div>
-                            </div>
-
-                            {/* Place of Birth */}
-                            <div>
-                                <label className="block text-xs font-bold text-[#44403C] uppercase tracking-wider mb-1.5">
-                                    Birth City / Place *
-                                </label>
-                                <div className="relative">
-                                    <MapPin size={14} className="absolute left-3 top-3 text-[#78716C]" />
-                                    <input
-                                        type="text"
-                                        required
-                                        value={formData.birthPlace}
-                                        onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
-                                        placeholder="City, State (e.g. Solapur, Maharashtra)"
-                                        className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white border border-[#EADCC8] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#C2410C]"
-                                    />
                                 </div>
                             </div>
 
                             {/* Submit Button */}
-                            <div className="pt-2">
+                            <div className="pt-3">
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-luxury hover:shadow-luxury-hover hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+                                    className="w-full py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-luxury hover:shadow-luxury-hover hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
                                 >
-                                    {loading ? 'Submitting Request...' : 'Confirm Appointment Request'}
+                                    {loading ? 'Confirming Appointment...' : 'Confirm Consultation Booking'}
                                 </button>
                             </div>
                         </form>

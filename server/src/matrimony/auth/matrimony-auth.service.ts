@@ -184,7 +184,7 @@ export class MatrimonyAuthService {
         throw new BadRequestException('This Transaction / UTR reference has already been submitted by another member. If you made this payment, please contact Kendra support.');
       }
 
-      const cleanAmount = Number(amount) || 1100;
+      const cleanAmount = Number(amount) || 199;
       const cleanMode = paymentMode ? String(paymentMode).trim() : 'upi';
 
       user.paymentDetails = {
