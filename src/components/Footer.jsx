@@ -46,10 +46,12 @@ const Footer = () => {
                         <h3 className="text-white font-serif text-lg mb-6">Quick Links</h3>
                         <ul className="space-y-3">
                             <li><Link to="/" className="hover:text-secondary transition-colors">Home</Link></li>
-                            <li><Link to="/numerology" className="hover:text-secondary transition-colors">Numerology</Link></li>
-                            <li><Link to="/planets" className="hover:text-secondary transition-colors">Planets</Link></li>
-                            <li><Link to="/blogs" className="hover:text-secondary transition-colors">Blog</Link></li>
-                            <li><Link to="/videos" className="hover:text-secondary transition-colors">Videos</Link></li>
+                            <li><Link to="/about" className="hover:text-secondary transition-colors">About Us</Link></li>
+                            <li><Link to="/blogs" className="hover:text-secondary transition-colors">Vedic Wisdom (Blog)</Link></li>
+                            <li><Link to="/planets" className="hover:text-secondary transition-colors">Planets Guide</Link></li>
+                            <li><Link to="/numerology" className="hover:text-secondary transition-colors">Numerology Calculator</Link></li>
+                            <li><Link to="/matrimony" className="hover:text-secondary transition-colors">Matrimony Portal</Link></li>
+                            <li><Link to="/contact" className="hover:text-secondary transition-colors">Contact Us</Link></li>
                         </ul>
                     </div>
 
@@ -57,11 +59,12 @@ const Footer = () => {
                     <div>
                         <h3 className="text-white font-serif text-lg mb-6">Our Services</h3>
                         <ul className="space-y-3">
-                            <li className="hover:text-secondary cursor-pointer transition-colors">Personal Consultation</li>
-                            <li className="hover:text-secondary cursor-pointer transition-colors">Match Making</li>
-                            <li className="hover:text-secondary cursor-pointer transition-colors">Gemstone Recommendation</li>
-                            <li className="hover:text-secondary cursor-pointer transition-colors">Vastu Shastra</li>
-                            <li className="hover:text-secondary cursor-pointer transition-colors">Numerology</li>
+                            <li><Link to="/blogs/complete-guide-kundli-milan-gun-milan-marriage" className="hover:text-secondary transition-colors">Kundli Matching (Gun Milan)</Link></li>
+                            <li><Link to="/about" className="hover:text-secondary transition-colors">Personal Horoscope Consultation</Link></li>
+                            <li><Link to="/blogs/vedic-gemology-ratna-shastra-how-to-choose-energize-gemstones" className="hover:text-secondary transition-colors">Gemstone Recommendation</Link></li>
+                            <li><Link to="/blogs/vastu-shastra-modern-homes-directional-energies-remedies" className="hover:text-secondary transition-colors">Vastu Shastra Consultation</Link></li>
+                            <li><Link to="/numerology" className="hover:text-secondary transition-colors">Numerology Analysis</Link></li>
+                            <li><Link to="/store" className="hover:text-secondary transition-colors">Spiritual Store</Link></li>
                         </ul>
                     </div>
 
@@ -103,9 +106,12 @@ const Footer = () => {
                     <p>&copy; {new Date().getFullYear()} Astro Pravin. All rights reserved. • <span className="text-secondary/80">Visits: {visitCount ? visitCount.toLocaleString() : '...'}</span>
                         <br />Made with ❤️ for <strong>BABA</strong> by~ <strong><a href="https://www.instagram.com/shriramrushi_5_5_5/">Rushikesh Shriram</a></strong>
                     </p>
-                    <div className="flex gap-6">
+                    <div className="flex flex-wrap gap-6 text-xs sm:text-sm">
+                        <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+                        <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
                         <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link to="/terms-conditions" className="hover:text-white transition-colors">Terms of Service</Link>
+                        <Link to="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
                         <Link to="/admin" className="hover:text-white transition-colors opacity-50 hover:opacity-100">Admin</Link>
                     </div>
                 </div>

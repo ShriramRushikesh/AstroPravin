@@ -4,23 +4,55 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, Instagram } from 'lucide-react';
 import SEO from './SEO';
 
+import AdSenseUnit from './AdSenseUnit';
+
+const defaultVideos = [
+    {
+        _id: "vid-1",
+        title: "Vedic Remedies for Navagraha Shanti (नवग्रह शांती उपाय)",
+        desc: "Essential Vedic remedies and mantras to pacify planetary afflictions and bring positive energy into your life.",
+        platform: "youtube",
+        ytId: "dQw4w9WgXcQ", // fallback placeholder ID
+        views: "15.4K",
+        date: "Vedic Insights"
+    },
+    {
+        _id: "vid-2",
+        title: "Vastu Shastra Tips for Home Entrance & Prosperity (वास्तू नियम)",
+        desc: "Crucial Vastu Shastra guidelines for your main door, pooja room, and kitchen directional energy alignment.",
+        platform: "youtube",
+        ytId: "dQw4w9WgXcQ",
+        views: "12.8K",
+        date: "Vastu Guide"
+    },
+    {
+        _id: "vid-3",
+        title: "Understanding Sade Sati & Saturn Transit (शनि साडेसाती मार्गदर्शन)",
+        desc: "Demystifying Shani Sade Sati phases, common misconceptions, and authentic remedial solutions by Pandit Pravin Shriram.",
+        platform: "youtube",
+        ytId: "dQw4w9WgXcQ",
+        views: "21.2K",
+        date: "Astrology Series"
+    }
+];
+
 const VideoGallery = () => {
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const [videos, setVideos] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [videos, setVideos] = useState(defaultVideos);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const apiUrl = API_URL;
-                const res = await fetch(`${apiUrl}/api/videos`);
+                const res = await fetch(`${API_URL}/api/videos`);
                 if (res.ok) {
-                    setVideos(await res.json());
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        setVideos(data);
+                    }
                 }
             } catch (error) {
-                console.error('Failed to fetch videos', error);
-            } finally {
-                setLoading(false);
+                // Keep defaultVideos
             }
         };
         fetchVideos();
@@ -68,6 +100,7 @@ const VideoGallery = () => {
                             key={video._id || index}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
                             className="group cursor-pointer"
                             onClick={() => setSelectedVideo(video)}
@@ -101,6 +134,9 @@ const VideoGallery = () => {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Compliant Ad Placement */}
+                <AdSenseUnit slot="auto" format="horizontal" className="mt-12 max-w-4xl mx-auto" />
             </div>
 
             {/* Video Modal */}

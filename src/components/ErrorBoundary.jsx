@@ -17,6 +17,9 @@ class ErrorBoundary extends React.Component {
 
     render() {
         if (this.state.hasError) {
+            if (this.props.fallback) {
+                return this.props.fallback;
+            }
             return (
                 <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-6 text-center">
                     <h1 className="text-3xl text-primary mb-4">Something went wrong.</h1>
@@ -29,10 +32,12 @@ class ErrorBoundary extends React.Component {
                     >
                         Go to Home
                     </button>
-                    <details className="mt-8 text-left bg-white/5 p-4 rounded text-xs text-red-400 w-full max-w-2xl overflow-auto">
-                        <summary>Error Details</summary>
-                        <pre className="mt-2">{this.state.error && this.state.error.toString()}</pre>
-                    </details>
+                    {import.meta.env.DEV && (
+                        <details className="mt-8 text-left bg-white/5 p-4 rounded text-xs text-red-400 w-full max-w-2xl overflow-auto">
+                            <summary>Error Details</summary>
+                            <pre className="mt-2">{this.state.error && this.state.error.toString()}</pre>
+                        </details>
+                    )}
                 </div>
             );
         }

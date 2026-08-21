@@ -27,17 +27,31 @@ export default defineConfig({
             }
         }
     ],
-    resolve: {
-        alias: {
-            react: path.resolve(__dirname, './node_modules/react'),
-            'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-        },
-    },
+
     server: {
+        port: 5173,
         host: true, // Expose to network (0.0.0.0)
         watch: {
-            ignored: ['**/server/**', '**/server-express-backup/**', '**/audit-system/**']
+            ignored: [
+                '**/server/**',
+                '**/server-express-backup/**',
+                '**/audit-system/**',
+                '**/dist/**',
+                '**/public/kundlis/**',
+                '**/public/matrimony-photos/**',
+                '**/.git/**'
+            ]
         }
+    },
+    optimizeDeps: {
+        include: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'react-helmet-async',
+            'framer-motion',
+            'lucide-react'
+        ]
     },
     build: {
         rollupOptions: {

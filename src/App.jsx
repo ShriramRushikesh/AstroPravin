@@ -17,6 +17,8 @@ import PricingSection from './components/PricingSection';
 import ReviewsSection from './components/ReviewsSection';
 import StoreTeaser from './components/StoreTeaser';
 
+import CookieConsent from './components/CookieConsent';
+
 // ─── Lazy-loaded route components (only download when navigated to) ───
 const PlanetsSection = lazy(() => import('./components/PlanetsSection'));
 const NumerologyGenerator = lazy(() => import('./components/NumerologyGenerator'));
@@ -26,8 +28,12 @@ const BlogSection = lazy(() => import('./pages/BlogSection'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const Store = lazy(() => import('./pages/Store'));
+const Matrimony = lazy(() => import('./pages/Matrimony'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsConditions = lazy(() => import('./pages/TermsConditions'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const Disclaimer = lazy(() => import('./pages/Disclaimer'));
 
 // ─── Minimal loading fallback ───
 const PageLoader = () => (
@@ -43,7 +49,7 @@ const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
             title="Best Astrologer in Solapur - Astro Pravin | Kundli & Vastu Consultant"
-            description="Acharya Pravin: Verified Astrologer in Solapur. Specialist in Kundli Matching, Marriage Problems, Career Guidance, and Vastu Shastra. 25+ Years Experience. Book consultation online."
+            description="jyotish/astrologer Pravin: Verified Astrologer in Solapur. Specialist in Kundli Matching, Marriage Problems, Career Guidance, and Vastu Shastra. 25+ Years Experience. Book consultation online."
             keywords="best astrologer near me, astrologer in Solapur, online kundli matching, free astrology consultation, vastu consultant Maharashtra, gemstone recommendation, vedic astrology India, marriage prediction by date of birth, love problem solution, career astrology"
         />
         <HeroSection onBookClick={onBookClick} />
@@ -67,12 +73,16 @@ const AppContent = () => {
 
     // Increment Visitor Count (non-blocking, fire-and-forget)
     useEffect(() => {
-        const hasVisited = sessionStorage.getItem('visited');
-        if (!hasVisited) {
-            fetch(`${API_URL}/api/visits/increment`, { method: 'POST' })
-                .then(res => res.json())
-                .catch(() => {}); // Silently fail — never block UI
-            sessionStorage.setItem('visited', 'true');
+        try {
+            const hasVisited = sessionStorage.getItem('visited');
+            if (!hasVisited) {
+                fetch(`${API_URL}/api/visits/increment`, { method: 'POST' })
+                    .then(res => res.json())
+                    .catch(() => { }); // Silently fail — never block UI
+                sessionStorage.setItem('visited', 'true');
+            }
+        } catch (e) {
+            // Ignore storage access errors in private browsing
         }
     }, []);
 
@@ -91,14 +101,19 @@ const AppContent = () => {
                         <Route path="/blogs" element={<ErrorBoundary><BlogSection /></ErrorBoundary>} />
                         <Route path="/blog/:slug" element={<ErrorBoundary><BlogPost /></ErrorBoundary>} />
                         <Route path="/admin" element={<ErrorBoundary><AdminDashboard /></ErrorBoundary>} />
+                        <Route path="/about" element={<ErrorBoundary><AboutUs /></ErrorBoundary>} />
+                        <Route path="/contact" element={<ErrorBoundary><ContactUs /></ErrorBoundary>} />
+                        <Route path="/disclaimer" element={<ErrorBoundary><Disclaimer /></ErrorBoundary>} />
                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                         <Route path="/terms-conditions" element={<TermsConditions />} />
                         <Route path="/store" element={<ErrorBoundary><Store /></ErrorBoundary>} />
+                        <Route path="/matrimony" element={<ErrorBoundary><Matrimony /></ErrorBoundary>} />
                     </Routes>
                 </Suspense>
             </main>
             {!isAdmin && <Footer />}
             <FloatingWhatsApp />
+            <CookieConsent />
             <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
         </div>
     );

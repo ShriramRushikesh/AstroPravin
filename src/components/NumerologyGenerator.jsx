@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Star, Calendar, RefreshCcw } from 'lucide-react';
+import { Sparkles, Star, Calendar, RefreshCcw, BookOpen, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import SEO from './SEO';
+import AdSenseUnit from './AdSenseUnit';
 
 const numerologyData = {
     1: {
@@ -256,6 +257,50 @@ const NumerologyGenerator = () => {
                         </div>
                     </div>
                 )}
+
+                {/* Compliant Ad Unit */}
+                <AdSenseUnit slot="auto" format="horizontal" className="my-12 max-w-4xl mx-auto" />
+
+                {/* Educational Numerology Guide (High-Value Content) */}
+                <div className="mt-16 bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12 space-y-8 max-w-4xl mx-auto text-left">
+                    <div className="flex items-center gap-2 text-secondary text-xs uppercase tracking-widest font-semibold">
+                        <BookOpen size={16} />
+                        <span>Vedic Numerology (Sankhya Shastra) Guide</span>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-serif text-white">
+                        Understanding Mulank (Driver) & Bhagyank (Destiny) Numbers
+                    </h3>
+
+                    <p className="text-white/70 text-sm md:text-base leading-relaxed">
+                        In Vedic Sankhya Shastra, your date of birth is an energetic imprint of planetary frequencies at the moment of your birth. The two primary pillars calculated by this tool are:
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3">
+                            <h4 className="text-lg font-serif text-amber-400 font-bold">1. Mulank (Driver / Psychic Number)</h4>
+                            <p className="text-white/70 text-xs md:text-sm leading-relaxed">
+                                Calculated strictly from the <strong>Day of Birth</strong> (1–31). It represents your internal self, personality traits, subconscious desires, and behavioral instincts, governing major decisions up to age 35.
+                            </p>
+                        </div>
+
+                        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3">
+                            <h4 className="text-lg font-serif text-blue-400 font-bold">2. Bhagyank (Destiny / Life Path)</h4>
+                            <p className="text-white/70 text-xs md:text-sm leading-relaxed">
+                                Calculated from the <strong>Sum of the entire Date of Birth (DD+MM+YYYY)</strong>. It represents your worldly mission, career trajectory, karmic lessons, and mature potential post age 35.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4 pt-4 border-t border-white/10 text-white/80 text-sm leading-relaxed">
+                        <h4 className="text-xl font-serif text-white">How Numerology Optimizes Your Life</h4>
+                        <ul className="list-disc pl-5 space-y-2 text-white/70">
+                            <li><strong>Name Correction:</strong> Harmonizing the vibrational value of your name to align with your friendly planetary numbers removes subconscious friction.</li>
+                            <li><strong>Career Guidance:</strong> Matching your dominant planet with suitable industries (e.g., Sun for Leadership, Mercury for Trade/Marketing, Jupiter for Education).</li>
+                            <li><strong>Auspicious Timings:</strong> Selecting lucky dates for new business inaugurations, property purchases, and major contracts based on your personal number vibrations.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );

@@ -1,51 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Public Pages -->
   <url>
-    <loc>https://www.astropravin.com/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://astropravin.com/</loc>
+    <lastmod>2026-08-19</lastmod>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/store</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://astropravin.com/about</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/contact</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blogs</loc>
+    <lastmod>2026-08-19</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
+
+  <!-- High-Value Vedic Knowledge Guides -->
   <url>
-    <loc>https://www.astropravin.com/numerology</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://astropravin.com/blog/complete-guide-kundli-milan-gun-milan-marriage</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/navagraha-planetary-transits-saturn-rahu-ketu-impact</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/vastu-shastra-modern-homes-directional-energies-remedies</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/vedic-gemology-ratna-shastra-how-to-choose-energize-gemstones</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/numerology-destiny-numbers-unlocking-hidden-potential</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/sade-sati-shani-mahadasha-symptoms-myths-vedic-remedies</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/understanding-mangal-dosha-kuja-dosha-facts-exceptions</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/blog/science-of-muhurta-auspicious-timing-marriage-business-griha-pravesh</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.85</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Interactive Vedic Calculators & Features -->
+  <url>
+    <loc>https://astropravin.com/numerology</loc>
+    <lastmod>2026-08-19</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/planets</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://astropravin.com/planets</loc>
+    <lastmod>2026-08-19</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/blogs</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://astropravin.com/matrimony</loc>
+    <lastmod>2026-08-19</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/videos</loc>
-    <lastmod>2026-07-05</lastmod>
-    <priority>0.7</priority>
+    <loc>https://astropravin.com/videos</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.75</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/privacy-policy</loc>
-    <lastmod>2026-07-05</lastmod>
-    <priority>0.5</priority>
+    <loc>https://astropravin.com/store</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Legal & Compliance Pages -->
+  <url>
+    <loc>https://astropravin.com/privacy-policy</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
-    <loc>https://www.astropravin.com/terms-conditions</loc>
-    <lastmod>2026-07-05</lastmod>
-    <priority>0.5</priority>
+    <loc>https://astropravin.com/terms-conditions</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.6</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://astropravin.com/disclaimer</loc>
+    <lastmod>2026-08-19</lastmod>
+    <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
 </urlset>

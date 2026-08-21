@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2, RefreshCw, X, Search } from 'lucide-react';
+import { Users, DollarSign, Calendar, CheckCircle, XCircle, LogOut, Copy, FileDown, Trash2, RefreshCw, X, Search, ChevronRight, Eye, AlertCircle, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { API_URL } from '../config';
-import * as XLSX from 'xlsx';
+import MatrimonyAdminTab from './Matrimony/admin/MatrimonyAdminTab';
 
 const AdminDashboard = () => {
     const [bookings, setBookings] = useState([]);
@@ -17,7 +17,9 @@ const AdminDashboard = () => {
     const [products, setProducts] = useState([]);
     const [videos, setVideos] = useState([]);
     const [orders, setOrders] = useState([]);
-    const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'leads', 'store', 'videos', 'orders'
+
+
+    const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'leads', 'store', 'videos', 'orders', 'matrimony'
     const [uploading, setUploading] = useState(false);
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
     const [filterType, setFilterType] = useState('all'); // 'all', 'today', 'week', 'month'
@@ -33,7 +35,6 @@ const AdminDashboard = () => {
     const [services, setServices] = useState([]);
 
     useEffect(() => {
-        console.log('Admin Dashboard API URL:', API_URL); // Debugging log
         const token = localStorage.getItem('adminToken');
         if (token) {
             setIsAuthenticated(true);
@@ -233,40 +234,50 @@ const AdminDashboard = () => {
 
     const handleExportExcel = () => {
         const dataToExport = getFilteredData(activeTab === 'orders' ? orders : bookings);
+        if (dataToExport.length === 0) {
+            alert('No data to export');
+            return;
+        }
 
-        // Format data for simpler Excel view
-        const formattedData = dataToExport.map(item => {
-            if (activeTab === 'orders') {
-                return {
-                    Date: new Date(item.createdAt).toLocaleDateString(),
-                    Customer: item.customerName,
-                    Phone: item.customerPhone,
-                    Product: item.productName,
-                    Price: item.productPrice,
-                    Status: item.status
-                };
-            } else {
-                return {
-                    Date: new Date(item.createdAt).toLocaleDateString(),
-                    SubmittedTime: new Date(item.createdAt).toLocaleTimeString(),
-                    Name: item.name,
-                    Email: item.email,
-                    Phone: item.phone,
-                    Topic: item.topic,
-                    Status: item.status,
-                    DOB: item.birthDate,
-                    TOB: item.birthTime,
-                    Place: item.birthPlace,
-                    PreferredDate: item.preferredDate,
-                    PreferredTime: item.preferredTime
-                };
-            }
-        });
+        let csvContent = '';
+        if (activeTab === 'orders') {
+            const headers = ['Date', 'Customer', 'Phone', 'Product', 'Price', 'Status'];
+            const rows = dataToExport.map(item => [
+                `"${new Date(item.createdAt).toLocaleDateString()}"`,
+                `"${(item.customerName || '').replace(/"/g, '""')}"`,
+                `"${item.customerPhone || ''}"`,
+                `"${(item.productName || '').replace(/"/g, '""')}"`,
+                `"${item.productPrice || ''}"`,
+                `"${item.status || ''}"`
+            ]);
+            csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        } else {
+            const headers = ['Date', 'SubmittedTime', 'Name', 'Email', 'Phone', 'Topic', 'Status', 'DOB', 'TOB', 'Place', 'PreferredDate', 'PreferredTime'];
+            const rows = dataToExport.map(item => [
+                `"${new Date(item.createdAt).toLocaleDateString()}"`,
+                `"${new Date(item.createdAt).toLocaleTimeString()}"`,
+                `"${(item.name || '').replace(/"/g, '""')}"`,
+                `"${item.email || ''}"`,
+                `"${item.phone || ''}"`,
+                `"${(item.topic || '').replace(/"/g, '""')}"`,
+                `"${item.status || ''}"`,
+                `"${item.birthDate || ''}"`,
+                `"${item.birthTime || ''}"`,
+                `"${(item.birthPlace || '').replace(/"/g, '""')}"`,
+                `"${item.preferredDate || ''}"`,
+                `"${item.preferredTime || ''}"`
+            ]);
+            csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        }
 
-        const ws = XLSX.utils.json_to_sheet(formattedData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Data");
-        XLSX.writeFile(wb, `Astropravin_Data_${filterType}_${new Date().toISOString().split('T')[0]}.xlsx`);
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `Astropravin_Data_${filterType}_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const getFilteredData = (data) => {
@@ -726,6 +737,12 @@ const AdminDashboard = () => {
                             className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${activeTab === 'services' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}
                         >
                             Services
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('matrimony')}
+                            className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${activeTab === 'matrimony' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-white/50 hover:text-white'}`}
+                        >
+                            Matrimony
                         </button>
                     </nav>
                 </div>
@@ -1214,6 +1231,16 @@ const AdminDashboard = () => {
                             )}
                         </div>
                     </div>
+                )}
+
+
+
+
+
+
+
+                {activeTab === 'matrimony' && (
+                    <MatrimonyAdminTab />
                 )}
             </main>
         </div>

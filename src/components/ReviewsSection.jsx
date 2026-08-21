@@ -34,6 +34,7 @@ const ReviewsSection = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">
@@ -57,6 +58,7 @@ const ReviewsSection = () => {
                             key={review.id}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                             className="bg-white/5 p-8 rounded-2xl border border-white/10 relative block hover:bg-white/10 transition-colors cursor-pointer group"
                         >

@@ -1,5 +1,7 @@
 dist
 server/dist
 server-express-backup
+audit-system
 node_modules
+server/node_modules
 public/assets
