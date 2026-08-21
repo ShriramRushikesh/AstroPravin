@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShieldCheck, CheckCircle2, QrCode, Copy, Check, ExternalLink,
-  PhoneCall, ArrowRight, Sparkles, Lock, Clock, HeartHandshake, AlertCircle, RefreshCw, MessageSquare
+  PhoneCall, ArrowRight, Sparkles, Lock, Clock, HeartHandshake, AlertCircle, RefreshCw, MessageSquare,
+  Smartphone, Zap
 } from 'lucide-react';
 import { LotusCrest, ToranBorder, MandalaWatermark } from './MatrimonyDecorativeArt';
 
@@ -13,6 +14,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isEditingUtr, setIsEditingUtr] = useState(false);
+  const [copyNotice, setCopyNotice] = useState('');
 
   // Dynamic admin-configurable values with defaults
   const upiId = registrationConfig?.upiId || 'rishi.shriram5@ybl';
@@ -21,17 +23,38 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
   const originalAmount = registrationConfig?.originalFee || 499;
   const packageDuration = registrationConfig?.durationText || '3 Months Vedic Membership';
 
-  // Native standard UPI Intent Deep Link for default payment app redirection
-  const upiDeepLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(`AstroPravin Matrimony 3M ${user?.username || ''}`)}`;
+  // Dedicated UPI Deep Links for Individual Payment Apps
+  const encodedPa = encodeURIComponent(upiId);
+  const encodedPn = encodeURIComponent(payeeName);
+  const encodedTn = encodeURIComponent(`AstroPravin Matrimony 3M ${user?.username || ''}`);
+  const upiParams = `pa=${encodedPa}&pn=${encodedPn}&am=${amount}&cu=INR&tn=${encodedTn}`;
+
+  const genericUpiLink = `upi://pay?${upiParams}`;
+  const phonepeLink = `phonepe://pay?${upiParams}`;
+  const gpayLink = `gpay://upi/pay?${upiParams}`;
+  const paytmLink = `paytmmp://pay?${upiParams}`;
 
   // Dedicated Official PhonePe QR Asset with online generator fallback
-  const officialQrPath = '/phonepe-qr.jpg';
-  const fallbackQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(upiDeepLink)}&color=000000&bgcolor=FFFFFF`;
+  const officialQrPath = '/phonepe-qr.png';
+  const fallbackQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(genericUpiLink)}&color=000000&bgcolor=FFFFFF`;
 
   const handleCopyUpi = () => {
     navigator.clipboard?.writeText(upiId);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    setCopyNotice('UPI ID copied to clipboard!');
+    setTimeout(() => {
+      setCopied(false);
+      setCopyNotice('');
+    }, 2500);
+  };
+
+  const handleDirectAppPay = (url, appName) => {
+    // Attempt direct app intent
+    window.location.href = url;
+    // Fallback: If on desktop or app not installed, copy UPI ID
+    setTimeout(() => {
+      handleCopyUpi();
+    }, 1000);
   };
 
   const isPendingVerification = (user?.status === 'pending_payment_verification' || user?.paymentStatus === 'pending_verification') && !isEditingUtr;
@@ -105,7 +128,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
             {isPendingVerification ? 'Payment Verification In Progress' : 'Unlock Verified Matrimony Access'}
           </h2>
           <p className="text-xs sm:text-sm text-[#78716C] max-w-lg mx-auto mt-1.5 leading-relaxed">
-            Welcome, <strong className="text-[#C2410C] font-semibold">{user?.fullName || user?.username}</strong>. To maintain 100% verified, genuine, and privacy-protected matchmaking, a nominal membership fee is required.
+            Welcome, <strong className="text-[#C2410C] font-semibold">{user?.fullName || user?.username}</strong>. Choose your preferred UPI app below or scan the official QR code to complete your registration.
           </p>
         </div>
 
@@ -154,7 +177,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
                   className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-center"
                 >
                   <MessageSquare size={16} />
-                  <span>Send Screenshot on WhatsApp for Instant Approval</span>
+                  <span>Send Screenshot on WhatsApp for Fast Approval</span>
                 </a>
               </div>
             </div>
@@ -195,7 +218,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
                 </div>
                 <div className="text-right sm:text-right text-xs text-[#78716C]">
                   <span className="inline-flex items-center gap-1 text-[#15803D] font-bold bg-[#DCFCE7] px-2.5 py-1 rounded-full text-[11px]">
-                    <ShieldCheck size={13} /> Direct UPI Bank Transfer
+                    <ShieldCheck size={13} /> Direct UPI Transfer
                   </span>
                 </div>
               </div>
@@ -216,14 +239,14 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
               </div>
             </div>
 
-            {/* QR Code & Direct UPI Section */}
+            {/* QR Code & App Selection Grid */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mb-6">
               {/* Official PhonePe / UPI QR Code Box */}
               <div className="md:col-span-5 flex flex-col items-center justify-center p-3 bg-[#FAF8F5] border border-[#EADCC8] rounded-2xl text-center shadow-inner">
                 <div className="p-2 bg-white rounded-xl border border-[#E5D7C5] shadow-md mb-2 w-full max-w-[200px] flex items-center justify-center overflow-hidden">
                   <img
                     src={officialQrPath}
-                    alt="Scan UPI QR Code to Pay Registration Fee"
+                    alt="Scan PhonePe QR Code to Pay Registration Fee"
                     className="w-full h-auto object-contain rounded-lg max-h-52"
                     onError={(e) => {
                       e.target.src = fallbackQrUrl;
@@ -236,45 +259,86 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
                 <span className="text-[10px] text-[#78716C] mt-0.5">PhonePe • GPay • Paytm • BHIM</span>
               </div>
 
-              {/* UPI Details & Mobile Direct Pay Button */}
-              <div className="md:col-span-7 space-y-4">
+              {/* Individual One-Click Payment Apps (PhonePe, GPay, Paytm, Any UPI) */}
+              <div className="md:col-span-7 space-y-3.5">
                 <div>
                   <label className="block text-[11px] font-bold text-[#574F47] uppercase tracking-wider mb-1">
-                    Official Payee Name & UPI ID
+                    Payee Name: <strong className="text-[#1C1917]">{payeeName}</strong>
                   </label>
-                  <div className="bg-[#FAF8F5] border border-[#EADCC8] rounded-xl p-2.5 mb-2 text-xs">
-                    <span className="text-[10px] text-[#78716C] block uppercase font-semibold">Account Holder:</span>
-                    <strong className="text-[#1C1917] block font-mono text-xs">{payeeName}</strong>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-[#F5EFE6] border border-[#EADCC8] rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-[#1C1917] select-all truncate">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex-1 bg-[#F5EFE6] border border-[#EADCC8] rounded-xl px-3 py-2 text-xs font-mono font-bold text-[#1C1917] select-all truncate">
                       {upiId}
                     </div>
                     <button
                       type="button"
                       onClick={handleCopyUpi}
-                      className="px-3.5 py-2.5 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] text-[#C2410C] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 active:scale-95 cursor-pointer"
+                      className="px-3 py-2 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] text-[#C2410C] rounded-xl text-xs font-bold transition-all flex items-center gap-1 shrink-0 active:scale-95 cursor-pointer"
                     >
                       {copied ? <Check size={14} className="text-[#15803D]" /> : <Copy size={14} />}
                       <span>{copied ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
+                  {copyNotice && (
+                    <p className="text-[11px] font-semibold text-emerald-700">{copyNotice}</p>
+                  )}
                 </div>
 
-                {/* Mobile Direct Pay Button (Redirection to Default UPI App) */}
-                <a
-                  href={upiDeepLink}
-                  className="w-full py-3.5 px-4 bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] hover:brightness-105 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-center cursor-pointer active:scale-98"
-                >
-                  <span>Pay ₹{amount} on PhonePe / GPay / Paytm</span>
-                  <ExternalLink size={14} />
-                </a>
-
-                <div className="p-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl text-[11px] text-[#15803D] flex items-start gap-2">
-                  <ShieldCheck size={15} className="shrink-0 mt-0.5 text-[#16A34A]" />
-                  <span className="leading-snug">
-                    Payment is credited directly to <strong>{payeeName}</strong>. Safe & non-third-party.
+                <div className="space-y-2">
+                  <span className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider block">
+                    Choose Your Payment App:
                   </span>
+
+                  {/* 1. PhonePe Direct Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleDirectAppPay(phonepeLink, 'PhonePe')}
+                    className="w-full py-2.5 px-4 bg-[#5f259f] hover:bg-[#501c87] text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-between cursor-pointer active:scale-98"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-white text-[#5f259f] flex items-center justify-center text-xs font-black">पे</span>
+                      <span>Pay ₹{amount} with PhonePe</span>
+                    </div>
+                    <ExternalLink size={13} />
+                  </button>
+
+                  {/* 2. Google Pay Direct Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleDirectAppPay(gpayLink, 'Google Pay')}
+                    className="w-full py-2.5 px-4 bg-[#1a73e8] hover:bg-[#1557b0] text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-between cursor-pointer active:scale-98"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-white text-[#1a73e8] flex items-center justify-center text-xs font-black">G</span>
+                      <span>Pay ₹{amount} with Google Pay</span>
+                    </div>
+                    <ExternalLink size={13} />
+                  </button>
+
+                  {/* 3. Paytm Direct Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleDirectAppPay(paytmLink, 'Paytm')}
+                    className="w-full py-2.5 px-4 bg-[#002e6e] hover:bg-[#00204d] text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-between cursor-pointer active:scale-98"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-[#00baf2] text-white flex items-center justify-center text-[10px] font-black">P</span>
+                      <span>Pay ₹{amount} with Paytm</span>
+                    </div>
+                    <ExternalLink size={13} />
+                  </button>
+
+                  {/* 4. Any UPI App Intent */}
+                  <button
+                    type="button"
+                    onClick={() => handleDirectAppPay(genericUpiLink, 'UPI App')}
+                    className="w-full py-2.5 px-4 bg-[#C2410C] hover:bg-[#9A3412] text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-between cursor-pointer active:scale-98"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Smartphone size={14} />
+                      <span>Other UPI Apps (BHIM, Cred, Bank App)</span>
+                    </div>
+                    <ExternalLink size={13} />
+                  </button>
                 </div>
               </div>
             </div>
