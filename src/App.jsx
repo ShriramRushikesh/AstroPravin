@@ -19,6 +19,8 @@ import ReviewsSection from './components/ReviewsSection';
 import StoreTeaser from './components/StoreTeaser';
 import CookieConsent from './components/CookieConsent';
 import MobileBottomNav from './components/MobileBottomNav';
+import { CartProvider } from './context/CartContext';
+import CartDrawer from './components/CartDrawer';
 
 // ─── Lazy-loaded route components (only download when navigated to) ───
 const PlanetsSection = lazy(() => import('./components/PlanetsSection'));
