@@ -4,7 +4,7 @@ import {
     Users, DollarSign, Calendar, CheckCircle2, XCircle, LogOut, Copy,
     FileDown, Trash2, RefreshCw, X, Search, ChevronRight, Eye, AlertCircle,
     Sparkles, Plus, Edit2, ShoppingBag, Video, BookOpen, Sliders, Heart,
-    Phone, Mail, MapPin, Clock, MessageSquare, Menu, LayoutDashboard,
+    Phone, Mail, MapPin, Clock, MessageSquare, MessageCircle, Menu, LayoutDashboard,
     Package, Layers, Filter, ExternalLink, ChevronDown, Check, Settings,
     CheckCircle, ShieldCheck, Tag, UploadCloud, ArrowUpRight, Globe
 } from 'lucide-react';
@@ -308,6 +308,44 @@ const AdminDashboard = () => {
             });
             if (res.ok) setOrders(await res.json());
         } catch (error) { console.error('Failed to fetch orders', error); }
+    };
+
+    const handleUpdateOrderStatus = async (orderId, newStatus, trackingNumber = '') => {
+        try {
+            const authToken = localStorage.getItem('adminToken');
+            const res = await fetch(`${API_URL}/api/orders/${orderId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify({ status: newStatus, trackingNumber })
+            });
+            if (res.ok) {
+                showToast(`Order status updated to ${newStatus}`);
+                fetchOrders(authToken);
+            }
+        } catch (error) {
+            console.error('Failed to update order status', error);
+            showToast('Could not update order status');
+        }
+    };
+
+    const handleDeleteOrder = async (orderId) => {
+        if (!window.confirm('Are you sure you want to remove this order record?')) return;
+        try {
+            const authToken = localStorage.getItem('adminToken');
+            const res = await fetch(`${API_URL}/api/orders/${orderId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (res.ok) {
+                showToast('Order record removed');
+                fetchOrders(authToken);
+            }
+        } catch (error) {
+            console.error('Failed to delete order', error);
+        }
     };
 
     const fetchProducts = async () => {
@@ -2004,52 +2042,168 @@ const AdminDashboard = () => {
                     ════════════════════════════════════════════════════════════════ */}
                     {activeNav === 'orders' && (
                         <div className="bg-white border border-[#EADCC8] rounded-3xl shadow-luxury overflow-hidden">
-                            <div className="p-6 border-b border-[#EADCC8] flex items-center justify-between">
+                            <div className="p-6 border-b border-[#EADCC8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                                 <div>
-                                    <h3 className="text-base font-serif font-bold text-[#1C1917]">Spiritual Store & Consultation Orders</h3>
-                                    <p className="text-xs text-[#78716C]">Payment tracking, UTR verification, and order dispatch status</p>
+                                    <h3 className="text-base font-serif font-bold text-[#1C1917]">Spiritual Store & Commerce Orders</h3>
+                                    <p className="text-xs text-[#78716C]">Razorpay payments, shipping dispatch addresses, and tracking management</p>
                                 </div>
-                                <span className="text-xs font-mono text-[#78716C]">{orders.length} Total Orders</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-xs font-mono text-[#78716C] bg-[#FAF8F5] px-3 py-1 rounded-full border border-[#EADCC8]">
+                                        {orders.length} Total Orders
+                                    </span>
+                                </div>
                             </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left text-xs">
-                                    <thead className="bg-[#F5F0E8] border-b border-[#EADCC8] text-[#44403C] text-[11px] font-bold uppercase tracking-wider">
-                                        <tr>
-                                            <th className="p-4">Customer Contact</th>
-                                            <th className="p-4">Item Ordered</th>
-                                            <th className="p-4">Amount & UTR Proof</th>
-                                            <th className="p-4">Status</th>
-                                            <th className="p-4 text-right">Order Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-[#EADCC8]/60">
-                                        {orders.map(order => (
-                                            <tr key={order._id} className="hover:bg-[#FAF8F5]">
-                                                <td className="p-4">
-                                                    <div className="font-bold text-[#1C1917]">{order.customerName}</div>
-                                                    <div className="text-[#C2410C] font-mono text-xs">{order.customerPhone}</div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <div className="font-semibold text-[#1C1917]">{order.productName}</div>
-                                                    <div className="text-[#78716C] text-[11px]">{order.shippingAddress || 'Online Consultation'}</div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <div className="text-[#C2410C] font-bold">₹{order.productPrice}</div>
-                                                    <div className="text-[10px] text-[#78716C] font-mono">UTR: {order.utrNumber || 'Verified via UPI'}</div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${order.status === 'Completed' ? 'border-emerald-200 text-emerald-700 bg-emerald-50' : 'border-amber-200 text-amber-700 bg-amber-50'}`}>
+
+                            <div className="p-6 space-y-4">
+                                {orders.length === 0 ? (
+                                    <div className="p-16 text-center text-[#78716C] text-xs">No orders recorded yet.</div>
+                                ) : (
+                                    orders.map(order => (
+                                        <div
+                                            key={order._id}
+                                            className="bg-[#FAF8F5] border border-[#EADCC8] rounded-2xl p-5 hover:border-[#FED7AA] transition-all shadow-sm space-y-4"
+                                        >
+                                            {/* Order Top Bar */}
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#EADCC8]">
+                                                <div className="flex items-center gap-2.5">
+                                                    <span className="font-mono text-xs font-bold text-[#C2410C]">
+                                                        {order.receiptNumber || `ORD-${order._id.slice(-6)}`}
+                                                    </span>
+                                                    <span className="text-[11px] text-[#78716C]">
+                                                        • Placed on {new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                                                        order.status === 'Delivered' || order.status === 'Completed'
+                                                            ? 'border-emerald-200 text-emerald-700 bg-emerald-50'
+                                                            : order.status === 'Shipped'
+                                                            ? 'border-blue-200 text-blue-700 bg-blue-50'
+                                                            : order.status === 'Paid' || order.status === 'Processing'
+                                                            ? 'border-amber-200 text-amber-700 bg-amber-50'
+                                                            : 'border-stone-200 text-stone-700 bg-stone-50'
+                                                    }`}>
                                                         {order.status}
                                                     </span>
-                                                </td>
-                                                <td className="p-4 text-right text-[#78716C]">
-                                                    {new Date(order.createdAt).toLocaleDateString()}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                {orders.length === 0 && <div className="p-16 text-center text-[#78716C] text-xs">No orders recorded yet.</div>}
+
+                                                    <select
+                                                        value={order.status}
+                                                        onChange={(e) => handleUpdateOrderStatus(order._id, e.target.value, order.trackingNumber || '')}
+                                                        className="px-2.5 py-1 bg-white border border-[#EADCC8] rounded-lg text-xs font-semibold text-[#44403C] focus:outline-none focus:border-[#C2410C]"
+                                                    >
+                                                        <option value="Paid">Paid</option>
+                                                        <option value="Processing">Processing</option>
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+
+                                                    <button
+                                                        onClick={() => handleDeleteOrder(order._id)}
+                                                        className="text-[#A8A29E] hover:text-red-500 transition-colors p-1"
+                                                        title="Delete Order"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {/* Details 3-Column Grid */}
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                                                {/* Customer Contact */}
+                                                <div className="space-y-1">
+                                                    <span className="font-bold text-[#44403C] uppercase text-[10px] tracking-wider block">Customer Details</span>
+                                                    <div className="font-bold text-[#1C1917]">{order.customerName}</div>
+                                                    <div className="text-[#C2410C] font-mono">{order.customerPhone}</div>
+                                                    {order.customerEmail && <div className="text-[#78716C] text-[11px]">{order.customerEmail}</div>}
+                                                </div>
+
+                                                {/* Shipping Address */}
+                                                <div className="space-y-1">
+                                                    <span className="font-bold text-[#44403C] uppercase text-[10px] tracking-wider block">Shipping Address</span>
+                                                    <p className="text-[#1C1917] leading-relaxed">
+                                                        {order.shippingAddress || 'No street address provided'}
+                                                    </p>
+                                                    <div className="text-[#78716C] text-[11px]">
+                                                        {order.city ? `${order.city}, ${order.state || ''} - ${order.pincode || ''}` : ''}
+                                                    </div>
+                                                </div>
+
+                                                {/* Payment & Amount */}
+                                                <div className="space-y-1">
+                                                    <span className="font-bold text-[#44403C] uppercase text-[10px] tracking-wider block">Payment Details</span>
+                                                    <div className="text-base font-bold text-[#C2410C]">
+                                                        ₹{(order.totalAmount || order.productPrice || 0).toLocaleString('en-IN')}
+                                                    </div>
+                                                    <div className="text-[10px] text-[#78716C] font-mono">
+                                                        Payment ID: {order.paymentDetails?.razorpay_payment_id || order.utrNumber || 'Razorpay Verified'}
+                                                    </div>
+                                                    <div className="text-[10px] text-[#78716C]">
+                                                        Method: {order.paymentMethod ? order.paymentMethod.toUpperCase() : 'RAZORPAY'}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Items Breakdown */}
+                                            {order.items && order.items.length > 0 ? (
+                                                <div className="pt-3 border-t border-[#EADCC8] space-y-2">
+                                                    <span className="font-bold text-[#44403C] uppercase text-[10px] tracking-wider block">
+                                                        Items in Order ({order.items.length})
+                                                    </span>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                                        {order.items.map((it, idx) => (
+                                                            <div key={idx} className="bg-white border border-[#EADCC8] rounded-xl p-2.5 flex items-center gap-2.5">
+                                                                {it.image && (
+                                                                    <img src={it.image} alt={it.name} className="w-10 h-10 rounded-lg object-cover bg-[#FAF8F5] shrink-0" />
+                                                                )}
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="font-bold text-[#1C1917] text-[11px] truncate">{it.name}</div>
+                                                                    <div className="text-[10px] text-[#78716C]">
+                                                                        Qty: <strong className="text-[#1C1917]">{it.quantity || 1}</strong> • ₹{(it.price * (it.quantity || 1)).toLocaleString('en-IN')}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="pt-2 border-t border-[#EADCC8] text-[11px] text-[#44403C]">
+                                                    <strong>Item:</strong> {order.productName}
+                                                </div>
+                                            )}
+
+                                            {/* Dispatch & WhatsApp Update Actions */}
+                                            <div className="pt-3 border-t border-[#EADCC8] flex flex-col sm:flex-row items-center justify-between gap-3">
+                                                <div className="flex items-center gap-2 w-full sm:w-auto">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Add Courier Tracking No..."
+                                                        defaultValue={order.trackingNumber || ''}
+                                                        onBlur={(e) => {
+                                                            if (e.target.value !== order.trackingNumber) {
+                                                                handleUpdateOrderStatus(order._id, order.status, e.target.value);
+                                                            }
+                                                        }}
+                                                        className="px-3 py-1.5 bg-white border border-[#EADCC8] rounded-lg text-xs text-[#1C1917] focus:outline-none focus:border-[#C2410C] w-full sm:w-64"
+                                                    />
+                                                </div>
+
+                                                <a
+                                                    href={`https://wa.me/${order.customerPhone.replace(/\D/g, '')}?text=${encodeURIComponent(
+                                                        `*AstroPravin Order Update* 📦\n\nNamaste ${order.customerName},\nYour consecrated order (Ref: ${order.receiptNumber || order._id.slice(-6)}) is currently *${order.status}*.\n\n${order.trackingNumber ? `*Courier Tracking:* ${order.trackingNumber}\n\n` : ''}For any queries, please feel free to message us.\n\n🙏 Pandit Pravin Shriram`
+                                                    )}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-lg text-xs font-bold transition-all shrink-0"
+                                                >
+                                                    <MessageCircle size={13} />
+                                                    <span>Notify on WhatsApp</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     )}

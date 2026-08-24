@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Calendar, Sparkles } from 'lucide-react';
+import { Menu, X, Calendar, Sparkles, ShoppingBag } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { LotusCrest } from './VedicDecorativeArt';
+import { useCart } from '../context/CartContext';
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -19,6 +20,7 @@ const Navbar = ({ onBookClick }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
+    const { totalItemsCount, openCart } = useCart();
 
     useEffect(() => {
         let isScrolledState = false;
@@ -90,8 +92,22 @@ const Navbar = ({ onBookClick }) => {
                             })}
                         </div>
 
-                        {/* Desktop CTA Button */}
+                        {/* Desktop CTA & Cart Buttons */}
                         <div className="hidden md:flex items-center gap-3">
+                            <button
+                                onClick={openCart}
+                                className="relative p-2.5 rounded-xl bg-[#FFF7ED] border border-[#FED7AA] text-[#C2410C] hover:bg-[#FED7AA]/50 transition-all shadow-sm flex items-center justify-center cursor-pointer"
+                                aria-label="Open Shopping Bag"
+                                title="Shopping Bag"
+                            >
+                                <ShoppingBag className="w-4 h-4" />
+                                {totalItemsCount > 0 && (
+                                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#C2410C] text-white text-[10px] font-bold flex items-center justify-center shadow-md animate-pulse">
+                                        {totalItemsCount}
+                                    </span>
+                                )}
+                            </button>
+
                             <button
                                 onClick={onBookClick}
                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-sm hover:shadow-luxury-hover hover:scale-105 active:scale-95 transition-all"
@@ -101,8 +117,21 @@ const Navbar = ({ onBookClick }) => {
                             </button>
                         </div>
 
-                        {/* Mobile Menu Toggle */}
+                        {/* Mobile Menu & Cart Toggle */}
                         <div className="flex items-center gap-2 lg:hidden">
+                            <button
+                                onClick={openCart}
+                                className="relative p-2 rounded-lg bg-[#FFF7ED] border border-[#FED7AA] text-[#C2410C] flex items-center justify-center shadow-sm"
+                                aria-label="Open Shopping Bag"
+                            >
+                                <ShoppingBag className="w-4 h-4" />
+                                {totalItemsCount > 0 && (
+                                    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#C2410C] text-white text-[9px] font-bold flex items-center justify-center shadow-sm">
+                                        {totalItemsCount}
+                                    </span>
+                                )}
+                            </button>
+
                             <button
                                 onClick={onBookClick}
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-[#C2410C] shadow-sm"

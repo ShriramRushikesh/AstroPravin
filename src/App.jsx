@@ -113,6 +113,7 @@ const AppContent = () => {
             </main>
             {!isAdmin && <Footer />}
             {!isAdmin && <MobileBottomNav onBookClick={() => setIsBookingOpen(true)} />}
+            <CartDrawer />
             <FloatingWhatsApp />
             <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
             <CookieConsent />
@@ -124,9 +125,11 @@ export default function App() {
     return (
         <HelmetProvider>
             <Router>
-                <AppContent />
-                <Analytics />
-                <SpeedInsights />
+                <CartProvider>
+                    <AppContent />
+                    <Analytics />
+                    <SpeedInsights />
+                </CartProvider>
             </Router>
         </HelmetProvider>
     );
