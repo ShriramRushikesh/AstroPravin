@@ -205,7 +205,7 @@ const MatrimonyLogin = ({ onLoginSuccess }) => {
             disabled={loading}
             className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:brightness-110 shadow-lg shadow-amber-500/10 transition-all disabled:opacity-50"
           >
-            {loading ? 'Authenticating...' : 'Sign In to Portal'}
+            {loading ? 'Authenticating...' : 'Sign In to Matrimony'}
           </button>
         </form>
 

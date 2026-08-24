@@ -121,7 +121,7 @@ const SearchMatches = () => {
       {/* ── Header & Mobile Filter Trigger ── */}
       <div className="flex items-center justify-between gap-4 flex-wrap bg-white border border-[#EADCC8] p-4 sm:p-5 rounded-3xl shadow-sm">
         <div>
-          <h2 className="text-xl font-serif font-bold text-[#1C1917]">Find Your Vedic Match</h2>
+          <h2 className="text-xl font-serif font-bold text-[#1C1917]">Find Your Match</h2>
           <p className="text-xs text-[#78716C]">
             Showing <strong className="text-[#C2410C]">{profiles.length}</strong> of <strong className="text-[#1C1917]">{total}</strong> verified active profiles
           </p>

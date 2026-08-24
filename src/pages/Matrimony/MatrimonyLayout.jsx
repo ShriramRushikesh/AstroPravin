@@ -43,7 +43,7 @@ const MatrimonyLayout = () => {
         <div className="flex flex-col items-center gap-3 relative z-10">
           <div className="w-8 h-8 border-2 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
           <span className="text-xs text-[#C2410C] uppercase tracking-widest font-mono font-bold">
-            Connecting to Vedic Matrimony Portal...
+            Connecting to Matrimony...
           </span>
         </div>
       </div>
@@ -69,6 +69,12 @@ const MatrimonyLayout = () => {
           user={user}
           onPaymentCompleted={async (paymentData) => {
             await submitPayment(paymentData);
+            await refreshProfile();
+          }}
+          onPaymentSuccess={async (paymentResult) => {
+            if (paymentResult?.user) {
+              updateUserState(paymentResult.user, paymentResult.profile);
+            }
             await refreshProfile();
           }}
           onLogout={logout}
@@ -110,7 +116,7 @@ const MatrimonyLayout = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-serif font-bold text-[#1C1917] leading-tight">Vedic Matrimony</h1>
+                <h1 className="text-base sm:text-lg font-serif font-bold text-[#1C1917] leading-tight">Matrimony</h1>
                 <span className="px-2.5 py-0.5 bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] text-[10px] font-bold rounded-full uppercase tracking-wider">
                   {user?.tier || 'Basic'} Member
                 </span>

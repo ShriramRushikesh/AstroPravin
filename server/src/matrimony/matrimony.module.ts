@@ -44,6 +44,10 @@ import { MatrimonyAdminService } from './admin/matrimony-admin.service';
 import { MatrimonyCrmController } from './crm/matrimony-crm.controller';
 import { MatrimonyCrmService } from './crm/matrimony-crm.service';
 
+// ── Payment Sub-module (Razorpay) ──────────────────────────────────────────────
+import { MatrimonyPaymentController } from './payment/matrimony-payment.controller';
+import { MatrimonyPaymentService } from './payment/matrimony-payment.service';
+
 // ── Cross-module Dependencies ─────────────────────────────────────────────────
 import { KundliModule } from '../kundli/kundli.module';
 import { SharedModule } from '../shared/shared.module';
@@ -89,6 +93,7 @@ import { SharedModule } from '../shared/shared.module';
     MatrimonyGunMilanController,
     MatrimonyAdminController,
     MatrimonyCrmController,
+    MatrimonyPaymentController,
   ],
   providers: [
     MatrimonyAuthService,
@@ -99,6 +104,7 @@ import { SharedModule } from '../shared/shared.module';
     MatrimonyGunMilanService,
     MatrimonyAdminService,
     MatrimonyCrmService,
+    MatrimonyPaymentService,
   ],
   exports: [
     MatrimonyAuthService,
@@ -107,6 +113,7 @@ import { SharedModule } from '../shared/shared.module';
     MatrimonyGunMilanService,
     MatrimonyAdminService,
     MatrimonyCrmService,
+    MatrimonyPaymentService,
   ],
 })
 export class MatrimonyModule {}

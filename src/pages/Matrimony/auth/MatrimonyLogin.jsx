@@ -103,7 +103,7 @@ const MatrimonyLogin = ({ onLoginSuccess, onRegisterSuccess }) => {
           <ToranBorder className="mb-3" />
 
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1917] tracking-tight">
-            Vedic Matrimony Portal
+            AstroPravin Matrimony
           </h1>
           <p className="text-xs text-[#78716C] max-w-sm mx-auto mt-1">
             Pandit Acharya Pravin's Confidential & Verified Matchmaking
@@ -231,7 +231,7 @@ const MatrimonyLogin = ({ onLoginSuccess, onRegisterSuccess }) => {
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>Enter Matrimony Portal</span>
+                  <span>Enter Matrimony</span>
                   <ArrowRight size={16} />
                 </>
               )}

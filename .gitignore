@@ -11,8 +11,13 @@ coverage/
 
 # Environment
 .env
+.env.*
 .env.local
 .env.production
+server/.env
+server/.env.*
+server/.env.local
+server/.env.production
 
 # Backend Utils
 server/public/uploads/*

@@ -43,6 +43,7 @@
     "pdf-parse": "^2.4.5",
     "pdfkit": "^0.17.2",
     "punycode": "^2.1.1",
+    "razorpay": "^2.9.8",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "sparse-bitfield": "^3.0.3",

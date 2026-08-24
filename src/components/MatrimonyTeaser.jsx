@@ -43,7 +43,7 @@ const MatrimonyTeaser = () => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF7ED] border border-[#FED7AA] shadow-sm">
                             <LotusCrest className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
-                                Vedic Vivah Kendra • Matrimony Portal
+                                AstroPravin • Matrimony
                             </span>
                         </div>
 
@@ -61,7 +61,7 @@ const MatrimonyTeaser = () => {
                             </h2>
 
                             <p className="text-sm sm:text-base text-[#44403C] leading-relaxed">
-                                Welcome to AstroPravin's dedicated <strong>Vedic Matrimony Portal</strong>. Combining traditional horoscope matching (Ashtakoot Milan, Navamsha D9, Mangal Dosha) with a modern, dignified platform for brides, grooms, and respectable families.
+                                Welcome to AstroPravin's dedicated <strong>Matrimony</strong> service. Combining traditional horoscope matching (Ashtakoot Milan, Navamsha D9, Mangal Dosha) with a modern, dignified platform for brides, grooms, and respectable families.
                             </p>
 
                             {/* Transparent Access Fee Notice */}
@@ -71,7 +71,7 @@ const MatrimonyTeaser = () => {
                                     <span>Transparent Access & Verified Security</span>
                                 </div>
                                 <p className="text-xs sm:text-sm text-[#78716C] leading-relaxed">
-                                    Candidate registration is open to all. Full portal access, verified contact viewing, and match interactions are unlocked through a <strong>one-time registration fee</strong> to guarantee a spam-free, 100% genuine alliance ecosystem.
+                                    Candidate registration is open to all. Full access, verified contact viewing, and match interactions are unlocked through a <strong>one-time registration fee</strong> to guarantee a spam-free, 100% genuine alliance ecosystem.
                                 </p>
                             </div>
 
@@ -82,7 +82,7 @@ const MatrimonyTeaser = () => {
                                     className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-luxury hover:shadow-luxury-hover hover:scale-105 active:scale-95 transition-all"
                                 >
                                     <HeartHandshake size={18} />
-                                    <span>Enter Matrimony Portal</span>
+                                    <span>Explore Matrimony</span>
                                     <ArrowRight size={16} />
                                 </Link>
 

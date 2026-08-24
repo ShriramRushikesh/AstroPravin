@@ -25,7 +25,7 @@ export class MatrimonyAuthService {
       discountPercent: 48,
       currency: 'INR',
       upiId: 'pravin.shriram@upi',
-      merchantName: 'Astro Pravin Vedic Matrimony',
+      merchantName: 'Astro Pravin Matrimony',
       accountName: 'Pandit Acharya Pravin Shriram',
       bankName: 'State Bank of India',
       benefits: [
@@ -35,7 +35,7 @@ export class MatrimonyAuthService {
         'Direct Chat & Astrological Guidance from Pandit Pravin',
         'Zero Spam, Zero Fake Accounts Guarantee',
       ],
-      qrPayload: 'upi://pay?pa=pravin.shriram@upi&pn=AstroPravin%20Matrimony&am=1100&cu=INR&tn=Vedic%20Matrimony%20Registration',
+      qrPayload: 'upi://pay?pa=pravin.shriram@upi&pn=AstroPravin%20Matrimony&am=1100&cu=INR&tn=Matrimony%20Registration',
     };
   }
 

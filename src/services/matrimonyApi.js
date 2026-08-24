@@ -21,6 +21,29 @@ export const matrimonyApi = {
     return handleResponse(res);
   },
 
+  getPlans: async () => {
+    const res = await fetch(`${API_URL}/api/matrimony/payment/plans`);
+    return handleResponse(res);
+  },
+
+  createRazorpayOrder: async (planId) => {
+    const res = await fetch(`${API_URL}/api/matrimony/payment/create-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify({ planId }),
+    });
+    return handleResponse(res);
+  },
+
+  verifyRazorpayPayment: async (paymentData) => {
+    const res = await fetch(`${API_URL}/api/matrimony/payment/verify-payment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify(paymentData),
+    });
+    return handleResponse(res);
+  },
+
   register: async (formData) => {
     const res = await fetch(`${API_URL}/api/matrimony/auth/register`, {
       method: 'POST',

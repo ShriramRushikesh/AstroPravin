@@ -49,8 +49,8 @@ const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
             title="AstroPravin - Best Astrologer in Solapur | Vedic Kundli, Matrimony, Vastu & Gemstones"
-            description="Leading Vedic Astrologer Pandit Pravin Shriram. Online Kundli Matching (Gun Milan), Vedic Matrimony Portal, Certified Gemstones (Pukhraj, Neelam, Manik), Vastu Shastra, and Career Predictions. 25+ Years Experience."
-            keywords="astrotalk, astrosage, instraastro, ganeshaspeaks, best astrologer near me, astrologer in Solapur, best astrologer in Maharashtra, online kundli matching free, free astrology consultation, vedic matrimony portal, marathi matrimony kundli matching, 36 guna milan, buy certified gemstones online, pukhraj stone price, neelam gemstone, rudraksha original, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, shani sade sati remedies, mangal dosha nivaran, astro pravin"
+            description="Leading Vedic Astrologer Pandit Pravin Shriram. Online Kundli Matching (Gun Milan), Matrimony Services, Certified Gemstones (Pukhraj, Neelam, Manik), Vastu Shastra, and Career Predictions. 25+ Years Experience."
+            keywords="astrotalk, astrosage, instraastro, ganeshaspeaks, best astrologer near me, astrologer in Solapur, best astrologer in Maharashtra, online kundli matching free, free astrology consultation, matrimony, marathi matrimony kundli matching, 36 guna milan, buy certified gemstones online, pukhraj stone price, neelam gemstone, rudraksha original, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, shani sade sati remedies, mangal dosha nivaran, astro pravin"
         />
         <HeroSection onBookClick={onBookClick} />
         <MatrimonyTeaser />

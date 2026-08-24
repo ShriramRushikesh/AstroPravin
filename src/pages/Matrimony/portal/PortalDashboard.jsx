@@ -58,7 +58,7 @@ const PortalDashboard = ({ user, profile, completeness, onNavigateTab }) => {
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] text-[10px] font-bold uppercase rounded-lg">
-                {user?.tier || 'Basic'} Vedic Member
+                {user?.tier || 'Basic'} Member
               </span>
               <span className="px-3 py-1 bg-[#DCFCE7] border border-[#BBF7D0] text-[#15803D] text-[10px] font-bold uppercase rounded-lg flex items-center gap-1">
                 <ShieldCheck size={12} /> Fee Paid & Verified
@@ -69,7 +69,7 @@ const PortalDashboard = ({ user, profile, completeness, onNavigateTab }) => {
               Namaste, <span className="text-[#C2410C]">{profile?.fullName || user?.fullName || user?.username}</span>
             </h2>
             <p className="text-xs text-[#78716C] max-w-md leading-relaxed">
-              Explore verified Vedic matches, calculate Ashta Koota 36-Guna compatibility, and send confidential connection interests.
+              Explore verified matches, calculate Ashta Koota 36-Guna compatibility, and send confidential connection interests.
             </p>
           </div>
 

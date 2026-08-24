@@ -40,7 +40,7 @@ const HeroSection = ({ onBookClick }) => {
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] hover:bg-[#FDE68A] transition-all text-xs font-bold shadow-sm group"
                         >
                             <Heart className="w-3.5 h-3.5 text-[#C2410C] fill-[#C2410C] group-hover:scale-110 transition-transform" />
-                            <span>Vedic Matrimony Portal Live</span>
+                            <span>Matrimony Live</span>
                             <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                         </Link>
                     </motion.div>
@@ -86,7 +86,7 @@ const HeroSection = ({ onBookClick }) => {
                             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-base font-bold text-[#C2410C] bg-[#FFF7ED] border border-[#FED7AA] hover:bg-[#FFEDD5] hover:border-[#FDBA74] shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
                         >
                             <HeartHandshake className="w-5 h-5 text-[#C2410C]" />
-                            <span>Vedic Matrimony Portal</span>
+                            <span>Matrimony</span>
                         </Link>
                     </motion.div>
 

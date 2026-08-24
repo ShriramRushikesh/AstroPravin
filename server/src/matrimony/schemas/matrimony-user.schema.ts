@@ -14,7 +14,7 @@ export class MatrimonyUser {
   @Prop({ default: true })
   isFirstLogin: boolean;
 
-  @Prop({ type: String, enum: ['basic', 'premium'], default: 'basic', index: true })
+  @Prop({ type: String, enum: ['basic', 'silver', 'gold', 'platinum', 'premium'], default: 'basic', index: true })
   tier: string;
 
   @Prop({
@@ -44,7 +44,11 @@ export class MatrimonyUser {
   paymentDetails: {
     amount?: number;
     transactionId?: string;
+    orderId?: string;
+    paymentId?: string;
     paymentMode?: string;
+    planId?: string;
+    planName?: string;
     submittedAt?: Date;
     verifiedAt?: Date;
     notes?: string;
@@ -56,10 +60,19 @@ export class MatrimonyUser {
   @Prop()
   membershipPaidAt: Date;
 
-  @Prop({ default: 1100 })
+  @Prop()
+  membershipExpiresAt: Date;
+
+  @Prop()
+  membershipPlanId: string;
+
+  @Prop()
+  membershipPlanDuration: string;
+
+  @Prop({ default: 299 })
   membershipAmount: number;
 
-  @Prop({ type: String, enum: ['cash', 'online', 'upi'], default: 'upi' })
+  @Prop({ type: String, default: 'razorpay' })
   membershipMode: string;
 
   @Prop()

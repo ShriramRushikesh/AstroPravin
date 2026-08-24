@@ -91,6 +91,17 @@ export const useMatrimonyAuth = () => {
     return res;
   };
 
+  const updateUserState = (userData, profileData) => {
+    if (userData) {
+      setUser(userData);
+      sessionStorage.setItem('matrimonyUser', JSON.stringify(userData));
+      localStorage.setItem('matrimonyUser', JSON.stringify(userData));
+    }
+    if (profileData) {
+      setProfile(profileData);
+    }
+  };
+
   const changePassword = async (currentPassword, newPassword) => {
     const res = await matrimonyApi.changePassword(currentPassword, newPassword);
     if (user) {
@@ -125,6 +136,7 @@ export const useMatrimonyAuth = () => {
     login,
     register,
     submitPayment,
+    updateUserState,
     changePassword,
     logout,
     refreshProfile,

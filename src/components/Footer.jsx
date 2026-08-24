@@ -90,7 +90,7 @@ const Footer = () => {
                         <ul className="space-y-2.5 text-xs sm:text-sm">
                             <li><Link to="/" className="text-[#78716C] hover:text-[#C2410C] transition-colors">Home</Link></li>
                             <li><Link to="/about" className="text-[#78716C] hover:text-[#C2410C] transition-colors">About Pandit Pravin</Link></li>
-                            <li><Link to="/matrimony" className="text-[#C2410C] font-semibold hover:underline">Vedic Matrimony Portal</Link></li>
+                            <li><Link to="/matrimony" className="text-[#C2410C] font-semibold hover:underline">Matrimony</Link></li>
                             <li><Link to="/blogs" className="text-[#78716C] hover:text-[#C2410C] transition-colors">Vedic Wisdom Blog</Link></li>
                             <li><Link to="/planets" className="text-[#78716C] hover:text-[#C2410C] transition-colors">Navagraha Planets Guide</Link></li>
                             <li><Link to="/numerology" className="text-[#78716C] hover:text-[#C2410C] transition-colors">Numerology Calculator</Link></li>
