@@ -208,7 +208,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
         },
         prefill: {
           name: user?.fullName || user?.username || '',
-          contact: user?.phone || '',
+          contact: (user?.phone || '').replace(/\D/g, '').slice(-10),
           email: user?.email || '',
         },
         notes: {
@@ -219,6 +219,11 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
         theme: {
           color: '#C2410C', // Warm Vermilion Saffron
         },
+        retry: {
+          enabled: true,
+          max_count: 3,
+        },
+        send_sms_hash: true,
         modal: {
           ondismiss: () => {
             setLoading(false);
