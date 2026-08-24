@@ -66,7 +66,7 @@ const AboutSection = () => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF7ED] border border-[#FED7AA]">
                             <LotusCrest className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
-                                About Pandit Pravin Shriram
+                                About Jyotish Pravin Shriram
                             </span>
                         </div>
 
@@ -75,7 +75,7 @@ const AboutSection = () => {
                         </h2>
 
                         <p className="text-sm sm:text-base text-[#44403C] leading-relaxed">
-                            Welcome to <strong>Shriram Samupdeshan Kendra</strong>, Solapur's foremost center for Vedic Astrology, Kundli Analysis, and Vastu Shastra. Led by <strong>Pandit Pravin Shriram</strong> with over 25 years of devoted study and practical consultations, we offer authentic astrological guidance to help individuals, families, and businesses make empowered life decisions.
+                            Welcome to <strong>Shriram Samupdeshan Kendra</strong>, Solapur's foremost center for Online Jyotish, Kundli Analysis, and Vastu Shastra. Guided by <strong>Jyotish Pravin Shriram (Panditji)</strong> with over 25 years of devoted study and practical consultations, we offer authentic astrological guidance to help individuals, families, and businesses make empowered life decisions.
                         </p>
 
                         <p className="text-sm sm:text-base text-[#78716C] leading-relaxed">

@@ -30,7 +30,7 @@ const HeroSection = ({ onBookClick }) => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF7ED] border border-[#FED7AA] shadow-sm">
                             <SunburstCrest className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
-                                Vedic Jyotish & Vastu • Solapur
+                                Online Jyotish & Vastu • Solapur
                             </span>
                         </div>
 
@@ -52,7 +52,7 @@ const HeroSection = ({ onBookClick }) => {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#1C1917] tracking-tight leading-[1.15]"
                     >
-                        Accurate Life Predictions & Authentic <span className="bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] bg-clip-text text-transparent">Vedic Solutions</span>
+                        Accurate Life Predictions & <span className="bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] bg-clip-text text-transparent">Online Jyotish</span> Guidance
                     </motion.h1>
 
                     {/* Subtitle */}
@@ -62,7 +62,7 @@ const HeroSection = ({ onBookClick }) => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="text-base sm:text-lg text-[#44403C] leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal"
                     >
-                        Guided by <strong className="text-[#C2410C] font-semibold">Pandit Pravin Shriram</strong> with 25+ years of scholarship in Kundli Analysis, Marriage Matchmaking (Gun Milan), Vastu Shastra, and Certified Gemstones.
+                        Consult <strong className="text-[#C2410C] font-semibold">Jyotish Pravin Shriram (Panditji)</strong> with 25+ years of mastery in Kundli Gun Milan, Career & Marriage Predictions, Vastu Shastra, and Certified Gemstones.
                     </motion.p>
 
                     {/* Action Buttons */}
@@ -134,7 +134,7 @@ const HeroSection = ({ onBookClick }) => {
                             <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFF7ED] to-[#FAF8F5] border border-[#FED7AA] aspect-[4/5] flex items-center justify-center p-2">
                                 <img
                                     src="/pravin-shriram.png"
-                                    alt="Pandit Pravin Shriram - Vedic Astrologer"
+                                    alt="Jyotish Pravin Shriram - Online Jyotish"
                                     className="w-full h-full object-contain filter drop-shadow-md"
                                     loading="eager"
                                 />
@@ -143,20 +143,20 @@ const HeroSection = ({ onBookClick }) => {
                             {/* Credentials Header below Image */}
                             <div className="mt-5 text-center space-y-1">
                                 <h3 className="text-xl font-serif font-bold text-[#1C1917]">
-                                    Pandit Pravin Shriram
+                                    Jyotish Pravin Shriram
                                 </h3>
                                 <p className="text-xs font-semibold text-[#C2410C] uppercase tracking-wider">
-                                    Founder • Shriram Samupdeshan Kendra
+                                    Online Jyotish • Shriram Samupdeshan Kendra
                                 </p>
                                 <p className="text-xs text-[#78716C] pt-1">
-                                    Vedic Astrologer • Vastu Shastra • 36 Guna Matchmaker
+                                    Vedic Jyotishi • Vastu Shastra • 36 Guna Kundli Matchmaker
                                 </p>
                             </div>
 
                             {/* Quick Trust Highlights */}
                             <div className="mt-4 pt-4 border-t border-[#EADCC8] flex items-center justify-between text-[11px] text-[#44403C] font-medium">
                                 <span className="flex items-center gap-1">
-                                    <ShieldCheck className="w-3.5 h-3.5 text-[#C2410C]" /> Solapur Kendra
+                                    <ShieldCheck className="w-3.5 h-3.5 text-[#C2410C]" /> Solapur & Online
                                 </span>
                                 <span className="flex items-center gap-1">
                                     <Award className="w-3.5 h-3.5 text-[#D97706]" /> 100% Authentic

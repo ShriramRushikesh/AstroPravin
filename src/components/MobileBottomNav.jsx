@@ -25,7 +25,7 @@ const MobileBottomNav = ({ onBookClick }) => {
       badge: 'Live',
     },
     {
-      label: 'Call Panditji',
+      label: 'Talk to Jyotish',
       icon: PhoneCall,
       isAction: true,
       onClick: onBookClick,
@@ -38,7 +38,7 @@ const MobileBottomNav = ({ onBookClick }) => {
       isActive: location.pathname === '/store',
     },
     {
-      label: 'Kundli & Guide',
+      label: 'Online Jyotish',
       icon: Sparkles,
       href: '/planets',
       isActive: location.pathname === '/planets' || location.pathname === '/numerology' || location.pathname === '/blogs',

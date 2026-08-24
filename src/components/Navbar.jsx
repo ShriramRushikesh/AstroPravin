@@ -63,7 +63,7 @@ const Navbar = ({ onBookClick }) => {
                                     Astro<span className="text-[#C2410C]">Pravin</span>
                                 </span>
                                 <span className="text-[10px] text-[#78716C] tracking-widest uppercase font-medium mt-0.5">
-                                    Vedic Jyotish
+                                    Online Jyotish
                                 </span>
                             </div>
                         </Link>
@@ -97,7 +97,7 @@ const Navbar = ({ onBookClick }) => {
                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] shadow-sm hover:shadow-luxury-hover hover:scale-105 active:scale-95 transition-all"
                             >
                                 <Calendar className="w-3.5 h-3.5" />
-                                Book Consultation
+                                Consult Jyotishji
                             </button>
                         </div>
 
@@ -108,7 +108,7 @@ const Navbar = ({ onBookClick }) => {
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-[#C2410C] shadow-sm"
                             >
                                 <Calendar className="w-3 h-3" />
-                                <span>Book</span>
+                                <span>Talk to Jyotish</span>
                             </button>
 
                             <button

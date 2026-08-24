@@ -46,9 +46,9 @@ const PageLoader = () => (
 const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
-            title="AstroPravin - Call with Pandit Pravin Shriram | Best Astrologer in Solapur & Maharashtra | Kundli Gun Milan & Matrimony"
-            description="Call & Talk to India's Trusted Astrologer Pandit Pravin Shriram (25+ Yrs Exp). Accurate Horoscope Predictions, Free 36 Guna Kundli Matching (Gun Milan), Matrimony Matchmaking, Certified Gemstones (Pukhraj, Neelam) & Vastu Shastra. Top Astrotalk & AstroSage Alternative."
-            keywords="call with pandit pravin shriram, talk to astrologer online, best astrologer in solapur, best astrologer in maharashtra, best astrologer in pune, online astrologer consultation on phone, online kundli matching free, 36 guna milan marathi, marriage prediction by date of birth, matrimonial kundli matching, buy certified pukhraj stone online, neelam gemstone price, original rudraksha, vastu consultant for home, shani sade sati nivaran, mangal dosha remedies, rashi bhavishya, astrotalk alternative, astrosage free kundli, ganeshaspeaks, instaastro, astro pravin, pandit pravin shriram"
+            title="AstroPravin - Best Online Jyotish in Maharashtra & Solapur | Call with Jyotish Pravin Shriram"
+            description="Consult India's Renowned Online Jyotish Pravin Shriram (Panditji - 25+ Yrs Exp). Accurate Horoscope Predictions on Call, Free 36 Guna Kundli Matching (Gun Milan), Matrimony Matchmaking, Certified Gemstones (Pukhraj, Neelam) & Vastu Shastra. Top Astrotalk & AstroSage Alternative."
+            keywords="online jyotish, best jyotish in maharashtra, online jyotish consultation on phone, best jyotish in solapur, famous jyotish in pune, jyotish pravin shriram, pandit pravin shriram, call with jyotish, talk to astrologer online, kundli matching jyotish, patrika matching solapur, 36 guna milan marathi, marriage prediction by date of birth, matrimonial kundli matching, buy certified pukhraj stone online, neelam gemstone price, original rudraksha, vastu consultant for home, shani sade sati nivaran, mangal dosha remedies, rashi bhavishya, astrotalk alternative, astrosage free kundli, ganeshaspeaks, instaastro, astro pravin"
         />
         <HeroSection onBookClick={onBookClick} />
         <MatrimonyTeaser />

@@ -115,10 +115,10 @@ const BookingModal = ({ isOpen, onClose }) => {
                         </div>
                         <div>
                             <h2 className="text-base sm:text-lg font-bold font-serif text-[#1C1917]">
-                                Book Vedic Consultation
+                                Talk to Online Jyotish
                             </h2>
                             <p className="text-[11px] text-[#78716C]">
-                                Direct consultation with Pandit Pravin Shriram
+                                Direct consultation with Jyotish Pravin Shriram (Panditji)
                             </p>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                             </h3>
 
                             <p className="text-xs sm:text-sm text-[#78716C] max-w-sm leading-relaxed">
-                                Pandit Pravin Shriram's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
+                                Jyotish Pravin Shriram's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
                             </p>
 
                             <div className="pt-2">
