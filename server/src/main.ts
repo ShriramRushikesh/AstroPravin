@@ -62,6 +62,9 @@ async function bootstrap() {
     app.useStaticAssets(publicPath, {
       prefix: '/public',
     });
+    app.useStaticAssets(uploadsDir, {
+      prefix: '/uploads',
+    });
 
 
     const port = Number(process.env.PORT) || 5002;

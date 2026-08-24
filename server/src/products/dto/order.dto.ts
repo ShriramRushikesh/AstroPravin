@@ -1,7 +1,17 @@
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsArray, IsObject } from 'class-validator';
+
 export class CreateStoreRazorpayOrderDto {
-  amount: number; // in Rupees or calculated from items
+  @IsOptional()
+  @IsNumber()
+  amount?: number;
+
+  @IsOptional()
+  @IsString()
   currency?: string;
-  items: Array<{
+
+  @IsOptional()
+  @IsArray()
+  items?: Array<{
     productId: string;
     name: string;
     price: number;
@@ -10,12 +20,18 @@ export class CreateStoreRazorpayOrderDto {
     image?: string;
     category?: string;
   }>;
-  customer: {
+
+  @IsOptional()
+  @IsObject()
+  customer?: {
     name: string;
     phone: string;
     email?: string;
   };
-  shipping: {
+
+  @IsOptional()
+  @IsObject()
+  shipping?: {
     address: string;
     city: string;
     state: string;
@@ -25,10 +41,21 @@ export class CreateStoreRazorpayOrderDto {
 }
 
 export class VerifyStorePaymentDto {
+  @IsNotEmpty()
+  @IsString()
   razorpay_order_id: string;
+
+  @IsNotEmpty()
+  @IsString()
   razorpay_payment_id: string;
+
+  @IsNotEmpty()
+  @IsString()
   razorpay_signature: string;
-  items: Array<{
+
+  @IsOptional()
+  @IsArray()
+  items?: Array<{
     productId: string;
     name: string;
     price: number;
@@ -37,24 +64,44 @@ export class VerifyStorePaymentDto {
     image?: string;
     category?: string;
   }>;
-  customer: {
+
+  @IsOptional()
+  @IsObject()
+  customer?: {
     name: string;
     phone: string;
     email?: string;
   };
-  shipping: {
+
+  @IsOptional()
+  @IsObject()
+  shipping?: {
     address: string;
     city: string;
     state: string;
     pincode: string;
     landmark?: string;
   };
-  totalAmount: number;
+
+  @IsOptional()
+  @IsNumber()
+  totalAmount?: number;
 }
 
 export class UpdateOrderStatusDto {
+  @IsNotEmpty()
+  @IsString()
   status: string;
+
+  @IsOptional()
+  @IsString()
   trackingNumber?: string;
+
+  @IsOptional()
+  @IsString()
   courierName?: string;
+
+  @IsOptional()
+  @IsString()
   notes?: string;
 }

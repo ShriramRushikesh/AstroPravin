@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { API_URL } from '../config';
+import { normalizeProductImage } from './ProductCard';
 
 // Dynamic Razorpay SDK Loader
 const loadRazorpayScript = () => {
@@ -353,8 +354,12 @@ const CartDrawer = () => {
                       >
                         <div className="w-20 h-20 rounded-xl overflow-hidden bg-[#FAF8F5] border border-[#EADCC8] shrink-0">
                           <img
-                            src={item.image}
+                            src={normalizeProductImage(item.image)}
                             alt={item.name}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800&auto=format&fit=crop';
+                            }}
                             className="w-full h-full object-cover"
                           />
                         </div>
