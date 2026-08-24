@@ -85,6 +85,23 @@ const CartDrawer = () => {
   // ── 1-CLICK RAZORPAY CHECKOUT ──────────────────────────────────────────
   const handleProceedToRazorpay = async () => {
     setError('');
+    if (cartItems.length === 0) {
+      setError('Your shopping bag is empty. Please add items to checkout.');
+      return;
+    }
+
+    const calculatedTotal = cartItems.reduce((sum, item) => {
+      const itemPrice = typeof item.price === 'number' ? item.price : Number(String(item.price).replace(/[^0-9.]/g, '')) || 0;
+      const itemQty = Number(item.quantity) || 1;
+      return sum + (itemPrice * itemQty);
+    }, 0);
+
+    const finalPayAmount = calculatedTotal > 0 ? calculatedTotal : (Number(subtotalAmount) || 0);
+    if (finalPayAmount <= 0) {
+      setError('Invalid order amount. Please re-add items to your bag.');
+      return;
+    }
+
     const validationErr = validateShipping();
     if (validationErr) {
       setError(validationErr);
@@ -101,13 +118,13 @@ const CartDrawer = () => {
 
       // 1. Create Razorpay Order on Backend
       const orderPayload = {
-        amount: subtotalAmount,
+        amount: finalPayAmount,
         currency: 'INR',
         items: cartItems.map(item => ({
           productId: item.productId,
           name: item.name,
-          price: item.price,
-          quantity: item.quantity,
+          price: typeof item.price === 'number' ? item.price : Number(String(item.price).replace(/[^0-9.]/g, '')) || 0,
+          quantity: Number(item.quantity) || 1,
           carat: item.carat || '',
           image: item.image || '',
           category: item.category || '',

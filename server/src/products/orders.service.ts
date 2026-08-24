@@ -50,15 +50,27 @@ export class OrdersService implements OnModuleInit {
    * Create Razorpay Order for Store Products Checkout
    */
   async createRazorpayOrder(dto: CreateStoreRazorpayOrderDto) {
-    if (!dto.amount || dto.amount <= 0) {
-      throw new BadRequestException('Invalid total order amount.');
+    // 1. Sanitize and calculate robust order amount
+    let finalAmount = Number(dto.amount);
+    if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {
+      if (dto.items && Array.isArray(dto.items) && dto.items.length > 0) {
+        finalAmount = dto.items.reduce((sum, it) => {
+          const itemPrice = Number(String(it.price).replace(/[^0-9.]/g, '')) || 0;
+          const itemQty = Number(it.quantity) || 1;
+          return sum + (itemPrice * itemQty);
+        }, 0);
+      }
+    }
+
+    if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {
+      throw new BadRequestException('Invalid total order amount. Please check your cart items.');
     }
 
     if (!dto.customer || !dto.customer.name || !dto.customer.phone) {
-      throw new BadRequestException('Customer name and phone number are required.');
+      throw new BadRequestException('Customer name and mobile phone number are required.');
     }
 
-    const amountInPaise = Math.round(dto.amount * 100);
+    const amountInPaise = Math.round(finalAmount * 100);
     const receipt = `ORD-${Date.now().toString().slice(-8)}-${Math.floor(Math.random() * 900 + 100)}`;
 
     if (!this.razorpayInstance) {
@@ -84,7 +96,7 @@ export class OrdersService implements OnModuleInit {
 
       return {
         orderId: order.id,
-        amount: dto.amount,
+        amount: finalAmount,
         amountInPaise: order.amount,
         currency: order.currency,
         receipt: receipt,
@@ -146,10 +158,11 @@ export class OrdersService implements OnModuleInit {
 
     // 3. Format primary product name summary for legacy view
     const primaryProductName = items && items.length > 0
-      ? items.map(it => `${it.name} (x${it.quantity})`).join(', ')
+      ? items.map(it => `${it.name} (x${it.quantity || 1})`).join(', ')
       : 'Vedic Spiritual Artifacts';
 
     const receiptNumber = `ASTRO-STORE-${Date.now().toString().slice(-6)}`;
+    const finalPaidAmount = Number(totalAmount) || (items ? items.reduce((s, it) => s + (Number(it.price) * (Number(it.quantity) || 1)), 0) : 0);
 
     // 4. Save New Verified Order to MongoDB
     const newOrder = new this.orderModel({
@@ -163,8 +176,8 @@ export class OrdersService implements OnModuleInit {
       landmark: shipping.landmark || '',
       items: items || [],
       productName: primaryProductName,
-      productPrice: totalAmount,
-      totalAmount: totalAmount,
+      productPrice: finalPaidAmount,
+      totalAmount: finalPaidAmount,
       paymentMethod: 'razorpay',
       paymentDetails: {
         razorpay_order_id,
