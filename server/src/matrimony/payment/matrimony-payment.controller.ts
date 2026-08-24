@@ -23,4 +23,11 @@ export class MatrimonyPaymentController {
   async verifyPayment(@Req() req: any, @Body() verifyDto: VerifyMatrimonyPaymentDto) {
     return this.paymentService.verifyPayment(req.user._id, verifyDto);
   }
+
+  @Post('webhook')
+  async handleWebhook(@Req() req: any, @Body() payload: any) {
+    const signature = req.headers['x-razorpay-signature'] as string;
+    return this.paymentService.handleWebhook(payload, signature);
+  }
 }
+
