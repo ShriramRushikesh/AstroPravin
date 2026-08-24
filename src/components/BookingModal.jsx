@@ -60,7 +60,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                 body: JSON.stringify({
                     ...formData,
                     email: formData.email || `${formData.phone}@astropravin.com`,
-                    astrologer: 'Acharya Pravin'
+                    astrologer: 'Pandit Pravin Shriram'
                 })
             });
 
@@ -149,7 +149,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                             </h3>
 
                             <p className="text-xs sm:text-sm text-[#78716C] max-w-sm leading-relaxed">
-                                Pandit Acharya Pravin's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
+                                Pandit Pravin Shriram's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
                             </p>
 
                             <div className="pt-2">

@@ -24,7 +24,7 @@ const PortalDashboard = ({ user, profile, completeness, onNavigateTab }) => {
           <div className="space-y-1">
             <span className="font-bold block">Profile Under Astrological Review</span>
             <p className="text-[#574F47] leading-relaxed">
-              Your profile is undergoing confidential review by Pandit Acharya Pravin. Once verified, your horoscope details will be highlighted for Ashta Koota matching.
+              Your profile is undergoing confidential review by Pandit Pravin Shriram. Once verified, your horoscope details will be highlighted for Ashta Koota matching.
             </p>
           </div>
         </motion.div>
@@ -155,7 +155,7 @@ const PortalDashboard = ({ user, profile, completeness, onNavigateTab }) => {
           <span className="text-[10px] font-bold uppercase tracking-widest text-[#B45309]">Astrological Guidance</span>
           <h4 className="text-base font-serif font-bold text-[#1C1917]">Need 36-Guna Kundli Matchmaking Consultation?</h4>
           <p className="text-xs text-[#574F47]">
-            Connect directly with Pandit Acharya Pravin for personalized horoscope matching and marital remedy advice.
+            Connect directly with Pandit Pravin Shriram for personalized horoscope matching and marital remedy advice.
           </p>
         </div>
         <a

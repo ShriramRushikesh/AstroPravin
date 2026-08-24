@@ -37,20 +37,18 @@ const Disclaimer = lazy(() => import('./pages/Disclaimer'));
 
 // ─── Minimal loading fallback ───
 const PageLoader = () => (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-3 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
-            <span className="text-[#78716C] text-xs font-bold tracking-widest uppercase">Loading AstroPravin...</span>
-        </div>
+    <div className="py-24 flex flex-col items-center justify-center gap-3">
+        <div className="w-8 h-8 border-2 border-[#C2410C] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs text-[#78716C] uppercase tracking-widest font-mono">Loading Section...</span>
     </div>
 );
 
 const LandingPage = ({ onBookClick }) => (
     <>
         <SEO
-            title="AstroPravin - Best Astrologer in Solapur | Vedic Kundli, Matrimony, Vastu & Gemstones"
-            description="Leading Vedic Astrologer Pandit Pravin Shriram. Online Kundli Matching (Gun Milan), Matrimony Services, Certified Gemstones (Pukhraj, Neelam, Manik), Vastu Shastra, and Career Predictions. 25+ Years Experience."
-            keywords="astrotalk, astrosage, instraastro, ganeshaspeaks, best astrologer near me, astrologer in Solapur, best astrologer in Maharashtra, online kundli matching free, free astrology consultation, matrimony, marathi matrimony kundli matching, 36 guna milan, buy certified gemstones online, pukhraj stone price, neelam gemstone, rudraksha original, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, shani sade sati remedies, mangal dosha nivaran, astro pravin"
+            title="AstroPravin - Call with Pandit Pravin Shriram | Best Astrologer in Solapur & Maharashtra | Kundli Gun Milan & Matrimony"
+            description="Call & Talk to India's Trusted Astrologer Pandit Pravin Shriram (25+ Yrs Exp). Accurate Horoscope Predictions, Free 36 Guna Kundli Matching (Gun Milan), Matrimony Matchmaking, Certified Gemstones (Pukhraj, Neelam) & Vastu Shastra. Top Astrotalk & AstroSage Alternative."
+            keywords="call with pandit pravin shriram, talk to astrologer online, best astrologer in solapur, best astrologer in maharashtra, best astrologer in pune, online astrologer consultation on phone, online kundli matching free, 36 guna milan marathi, marriage prediction by date of birth, matrimonial kundli matching, buy certified pukhraj stone online, neelam gemstone price, original rudraksha, vastu consultant for home, shani sade sati nivaran, mangal dosha remedies, rashi bhavishya, astrotalk alternative, astrosage free kundli, ganeshaspeaks, instaastro, astro pravin, pandit pravin shriram"
         />
         <HeroSection onBookClick={onBookClick} />
         <MatrimonyTeaser />
@@ -113,6 +111,7 @@ const AppContent = () => {
                 </Suspense>
             </main>
             {!isAdmin && <Footer />}
+            {!isAdmin && <MobileBottomNav onBookClick={() => setIsBookingOpen(true)} />}
             <FloatingWhatsApp />
             <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
             <CookieConsent />

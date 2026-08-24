@@ -68,7 +68,7 @@ export async function generatePDF(
             const pageHeight = doc.page.height;
             doc.rect(0, pageHeight - 40, 595, 40).fill('#4A0E2E');
             doc.fillColor('#D4AF37').fontSize(9).font('Helvetica')
-                .text('AstroPravin | Acharya Pravin | Solapur | Contact: +91-XXXXXXXXXX', 50, pageHeight - 26, { align: 'center' });
+                .text('AstroPravin | Pandit Pravin Shriram | Solapur | Contact: +91 99216 97908', 50, pageHeight - 26, { align: 'center' });
 
             doc.end();
             writeStream.on('finish', () => resolve());
@@ -212,7 +212,7 @@ export async function generateGunMilanPDF(
             doc.rect(0, ph - 42, 595, 42).fill('#4A0E2E');
             doc.fillColor('#D4AF37').fontSize(9).font('Helvetica')
                 .text(
-                    'AstroPravin | Acharya Pravin | Traditional Vedic Astrology | Solapur, Maharashtra',
+                    'AstroPravin | Pandit Pravin Shriram | Traditional Vedic Astrology | Solapur, Maharashtra',
                     50, ph - 30, { align: 'center' },
                 );
             doc.fillColor('#FAF6F0').fontSize(8)

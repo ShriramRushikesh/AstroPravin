@@ -2,16 +2,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, schema }) => {
-    const siteTitle = 'Astro Pravin | Vedic Astrology & Consultancy';
-    const defaultDesc = 'Get accurate Vedic astrology predictions for marriage, career, and wealth. Book a consultation with Astro Pravin for personalized Kundli reading and remedies.';
+    const siteTitle = 'AstroPravin - Call with Pandit Pravin Shriram | Best Astrologer in Solapur & Maharashtra';
+    const defaultDesc = 'Talk to & Call with India\'s Trusted Vedic Astrologer Pandit Pravin Shriram (25+ Yrs Exp). Accurate Horoscope Predictions, Free 36 Guna Kundli Matching (Gun Milan), Matrimony Matchmaking, Certified Gemstones (Pukhraj, Neelam) & Vastu Shastra.';
     const siteUrl = 'https://astropravin.com';
-    const defaultImage = `${siteUrl}/social-share.jpg`; // Ensure you have a default share image in public folder
+    const defaultImage = `${siteUrl}/pravin-shriram.png`;
 
     return (
         <Helmet>
             <title>{title ? `${title} | Astro Pravin` : siteTitle}</title>
             <meta name="description" content={description || defaultDesc} />
-            <meta name="keywords" content={keywords || 'best astrologer near me, online kundli matching free, free astrology consultation, horoscope today in marathi, rashi bhavishya, vastu tips for home, marriage prediction by date of birth, career astrology consultation online, gemstone recommendation astrologer, vedic astrology consultation India, love problem solution astrologer, best jyotish in Maharashtra, accurate birth chart reading, astrologer in Solapur, kundli milan online free'} />
+            <meta name="keywords" content={keywords || 'call with pandit pravin shriram, talk to astrologer online, best astrologer in solapur, best astrologer in maharashtra, online astrologer consultation on phone, online kundli matching free, 36 guna milan marathi, marriage prediction by date of birth, matrimonial kundli matching, buy certified pukhraj stone online, neelam gemstone price, original rudraksha, vastu consultant for home, shani sade sati nivaran, mangal dosha remedies, rashi bhavishya, astrotalk alternative, astrosage free kundli, ganeshaspeaks, instaastro, astro pravin, pandit pravin shriram'} />
             <meta name="robots" content="index, follow" />
             <meta http-equiv="content-language" content="en, mr" />
             <link rel="canonical" href={siteUrl + window.location.pathname} />

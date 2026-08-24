@@ -26,7 +26,7 @@ export class MatrimonyAuthService {
       currency: 'INR',
       upiId: 'pravin.shriram@upi',
       merchantName: 'Astro Pravin Matrimony',
-      accountName: 'Pandit Acharya Pravin Shriram',
+      accountName: 'Pandit Pravin Shriram',
       bankName: 'State Bank of India',
       benefits: [
         '100% Genuine & Pandit Verified Profiles',

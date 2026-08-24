@@ -382,7 +382,7 @@ export class GunMilanService {
             remedies.push('Perform protective Navagraha shanti for Vedha Dosha.');
         }
         if (score < 18) {
-            remedies.push('Consult Pandit Acharya Pravin for a detailed horoscope matching session.');
+            remedies.push('Consult Pandit Pravin Shriram for a detailed horoscope matching session.');
             remedies.push('Perform Mangal Dosha pooja if either partner is Manglik.');
         }
         if (breakdown.nadi === 0 && !dosha.includes('Nadi Dosha')) {

@@ -190,7 +190,7 @@ const ProfileWizard = ({ existingProfile, existingPhotos, onComplete }) => {
           </div>
           <h2 className="text-2xl font-serif font-bold text-[#1C1917]">Profile Submitted for Verification!</h2>
           <p className="text-sm text-[#574F47] leading-relaxed max-w-lg mx-auto">
-            Thank you for completing your Matrimony profile. Pandit Acharya Pravin and our staff will review and verify your details and photos shortly. Once verified, your profile will be active in search matches.
+            Thank you for completing your Matrimony profile. Pandit Pravin Shriram and our staff will review and verify your details and photos shortly. Once verified, your profile will be active in search matches.
           </p>
           <button
             onClick={() => window.location.reload()}

@@ -8,7 +8,7 @@ const Matrimony = () => {
     <>
       <SEO
         title="Matrimony - Astro Pravin | Confidential Matchmaking"
-        description="Privately managed matrimony service by Pandit Acharya Pravin. Verified profiles with Ashta Koota 36 Guna Milan matchmaking."
+        description="Privately managed matrimony service by Pandit Pravin Shriram. Verified profiles with Ashta Koota 36 Guna Milan matchmaking."
         keywords="matrimony, astrological matchmaking, 36 guna milan, solapur matrimony, kundli matching"
       />
       <MatrimonyLayout />

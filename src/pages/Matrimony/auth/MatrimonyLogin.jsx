@@ -106,7 +106,7 @@ const MatrimonyLogin = ({ onLoginSuccess, onRegisterSuccess }) => {
             AstroPravin Matrimony
           </h1>
           <p className="text-xs text-[#78716C] max-w-sm mx-auto mt-1">
-            Pandit Acharya Pravin's Confidential & Verified Matchmaking
+            Pandit Pravin Shriram's Confidential & Verified Matchmaking
           </p>
 
           {/* Mode Switcher Tabs */}
@@ -372,7 +372,7 @@ const MatrimonyLogin = ({ onLoginSuccess, onRegisterSuccess }) => {
             className="mt-2.5 inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#FAF8F5] hover:bg-[#F5EFE6] border border-[#EADCC8] rounded-xl text-xs font-bold text-[#C2410C] transition-all hover:scale-105 shadow-sm"
           >
             <PhoneCall size={13} />
-            <span>Contact Pandit Acharya Pravin (+91 99216 97908)</span>
+            <span>Contact Pandit Pravin Shriram (+91 99216 97908)</span>
           </a>
         </div>
       </motion.div>
