@@ -22,8 +22,8 @@ export class OrdersService implements OnModuleInit {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
   ) {
-    this.keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_TTh5QILIguQeO2';
-    this.keySecret = process.env.RAZORPAY_KEY_SECRET || '5O82Kpna2iulNVmXtiOPnGw7';
+    this.keyId = process.env.RAZORPAY_KEY_ID || '';
+    this.keySecret = process.env.RAZORPAY_KEY_SECRET || '';
   }
 
   onModuleInit() {
@@ -50,16 +50,16 @@ export class OrdersService implements OnModuleInit {
    * Create Razorpay Order for Store Products Checkout
    */
   async createRazorpayOrder(dto: CreateStoreRazorpayOrderDto) {
-    // 1. Sanitize and calculate robust order amount
-    let finalAmount = Number(dto.amount);
-    if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {
-      if (dto.items && Array.isArray(dto.items) && dto.items.length > 0) {
-        finalAmount = dto.items.reduce((sum, it) => {
-          const itemPrice = Number(String(it.price).replace(/[^0-9.]/g, '')) || 0;
-          const itemQty = Number(it.quantity) || 1;
-          return sum + (itemPrice * itemQty);
-        }, 0);
-      }
+    // 1. Sanitize and calculate robust order amount from cart items
+    let finalAmount = 0;
+    if (dto.items && Array.isArray(dto.items) && dto.items.length > 0) {
+      finalAmount = dto.items.reduce((sum, it) => {
+        const itemPrice = Number(String(it.price).replace(/[^0-9.]/g, '')) || 0;
+        const itemQty = Math.max(1, Math.floor(Number(it.quantity) || 1));
+        return sum + (itemPrice * itemQty);
+      }, 0);
+    } else if (dto.amount && Number(dto.amount) > 0) {
+      finalAmount = Number(dto.amount);
     }
 
     if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {

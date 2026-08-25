@@ -168,7 +168,7 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
 
       // Step 2: Configure Razorpay Checkout Options
       const options = {
-        key: orderData.keyId || 'rzp_live_TTh5QILIguQeO2',
+        key: orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || '',
         amount: orderData.amountInPaise,
         currency: orderData.currency || 'INR',
         name: 'AstroPravin Matrimony',

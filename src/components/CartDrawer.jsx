@@ -157,7 +157,7 @@ const CartDrawer = () => {
 
       // 2. Configure & Open Razorpay Checkout Modal
       const options = {
-        key: orderData.keyId || 'rzp_live_TTh5QILIguQeO2',
+        key: orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || '',
         amount: orderData.amountInPaise,
         currency: orderData.currency || 'INR',
         name: 'AstroPravin Spiritual Store',

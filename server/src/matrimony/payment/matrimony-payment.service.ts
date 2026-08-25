@@ -100,21 +100,23 @@ export class MatrimonyPaymentService {
     @InjectModel(MatrimonyUser.name) private userModel: Model<MatrimonyUserDocument>,
     @InjectModel(MatrimonyProfile.name) private profileModel: Model<MatrimonyProfileDocument>,
   ) {
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_TTh5QILIguQeO2';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '5O82Kpna2iulNVmXtiOPnGw7';
+    const keyId = process.env.RAZORPAY_KEY_ID || '';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
 
     try {
-      this.razorpayInstance = new Razorpay({
-        key_id: keyId,
-        key_secret: keySecret,
-      });
+      if (keyId && keySecret) {
+        this.razorpayInstance = new Razorpay({
+          key_id: keyId,
+          key_secret: keySecret,
+        });
+      }
     } catch (e) {
       console.warn('⚠️ Razorpay initialization warning:', e.message);
     }
   }
 
   getPlans() {
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_TTh5QILIguQeO2';
+    const keyId = process.env.RAZORPAY_KEY_ID || '';
     return {
       success: true,
       keyId,
@@ -136,8 +138,8 @@ export class MatrimonyPaymentService {
       throw new UnauthorizedException('User account not found.');
     }
 
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_TTh5QILIguQeO2';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '5O82Kpna2iulNVmXtiOPnGw7';
+    const keyId = process.env.RAZORPAY_KEY_ID || '';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
 
     if (!this.razorpayInstance) {
       this.razorpayInstance = new Razorpay({
@@ -212,7 +214,7 @@ export class MatrimonyPaymentService {
       throw new BadRequestException('This payment reference has already been processed for another candidate.');
     }
 
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '5O82Kpna2iulNVmXtiOPnGw7';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
 
     // Cryptographic HMAC SHA256 signature verification (Timing-Safe)
     const generatedSignature = crypto
@@ -296,7 +298,7 @@ export class MatrimonyPaymentService {
   }
 
   async handleWebhook(rawBody: any, signature?: string) {
-    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_KEY_SECRET || '5O82Kpna2iulNVmXtiOPnGw7';
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_KEY_SECRET || '';
 
     // Verify webhook signature if present
     if (signature) {

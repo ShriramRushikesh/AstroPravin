@@ -14,6 +14,7 @@ console.log('[2/3] 🔌 Initializing NestJS & Database Connection...');
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -22,17 +23,38 @@ async function bootstrap() {
       logger: ['error', 'warn', 'log'],
     });
 
-    // CORS Configuration (Dev + Prod)
+    // 🛡️ Security Headers (OWASP / PCI-DSS / DPDP Act Compliant)
+    app.use(
+      helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allows uploaded images/kundlis to load on client app
+        crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }, // Allows Razorpay checkout modal
+        contentSecurityPolicy: false, // Handled at CDN / reverse proxy level to avoid breaking dynamic scripts
+      }),
+    );
+
+    // 🔒 Strict CORS Configuration (Production + Whitelisted Local Dev)
+    const allowedOrigins = [
+      'https://astropravin.com',
+      'https://www.astropravin.com',
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost:5002',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:3000',
+    ];
+
     app.enableCors({
       origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
         if (
           !origin ||
-          /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin) ||
-          origin.includes('astropravin.com')
+          allowedOrigins.includes(origin) ||
+          /^https:\/\/astropravin.*\.vercel\.app$/.test(origin) ||
+          /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin)
         ) {
           callback(null, true);
         } else {
-          callback(null, true);
+          console.warn(`⚠️ CORS blocked unauthorized origin attempt: ${origin}`);
+          callback(new Error(`CORS blocked for origin: ${origin}`));
         }
       },
       credentials: true,
