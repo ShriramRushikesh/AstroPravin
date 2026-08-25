@@ -16,7 +16,7 @@ import { MatrimonySubscription, MatrimonySubscriptionSchema } from './schemas/ma
 import { MatrimonyAuditLog, MatrimonyAuditLogSchema } from './schemas/matrimony-audit-log.schema';
 import { CrmLead, CrmLeadSchema } from './schemas/crm-lead.schema';
 import { CrmFollowUp, CrmFollowUpSchema } from './schemas/crm-followup.schema';
-import { CrmCallLog, CrmCallLogSchema } from './schemas/crm-calllog.schema';
+import { CrmCallLog, CrmCallLogSchema } from './schemas/crm-call-log.schema';
 
 // ── Auth Sub-module ───────────────────────────────────────────────────────────
 import { MatrimonyAuthController } from './auth/matrimony-auth.controller';

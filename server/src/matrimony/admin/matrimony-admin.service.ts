@@ -212,7 +212,7 @@ export class MatrimonyAdminService {
     if (profile) {
       if (status === 'verified' || status === 'active') {
         profile.verifiedAt = new Date();
-        profile.verifiedByAdmin = adminId ? new Types.ObjectId(adminId) : undefined;
+        profile.verifiedByAdmin = adminId ? new Types.ObjectId(adminId) : (undefined as any);
         profile.rejectionReason = '';
       } else if (status === 'rejected') {
         profile.rejectionReason = rejectionReason || 'Profile details rejected by administrator.';
@@ -374,7 +374,7 @@ export class MatrimonyAdminService {
     photo.status = status;
     photo.rejectionReason = status === 'rejected' ? (reason || 'Photo does not meet quality/guidelines') : '';
     photo.reviewedAt = new Date();
-    photo.reviewedByAdmin = adminId ? new Types.ObjectId(adminId) : undefined;
+    photo.reviewedByAdmin = adminId ? new Types.ObjectId(adminId) : (undefined as any);
     await photo.save();
 
     await this.logAudit({
@@ -472,7 +472,7 @@ export class MatrimonyAdminService {
       user.status = 'pending_profile';
       if (user.paymentDetails) {
         user.paymentDetails.verifiedAt = new Date();
-        user.paymentDetails.verifiedBy = adminObjectId;
+        (user.paymentDetails as any).verifiedBy = adminObjectId;
       }
     } else {
       user.paymentStatus = 'rejected';
@@ -486,7 +486,7 @@ export class MatrimonyAdminService {
     await user.save();
 
     await this.logAudit({
-      adminId: adminObjectId,
+      adminId: adminObjectId || new Types.ObjectId(),
       action: approved ? 'VERIFY_PAYMENT' : 'REJECT_PAYMENT',
       targetUserId: user._id,
       after: { paymentStatus: user.paymentStatus, status: user.status, utr: user.paymentDetails?.transactionId },

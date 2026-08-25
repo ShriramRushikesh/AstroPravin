@@ -3,6 +3,13 @@ import { Document, Types } from 'mongoose';
 
 export type MatrimonyUserDocument = MatrimonyUser & Document;
 
+export enum MatrimonyUserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
+  STAFF = 'staff',
+}
+
 @Schema({ collection: 'matrimony_users', timestamps: true })
 export class MatrimonyUser {
   @Prop({ required: true, unique: true, index: true })
@@ -57,14 +64,14 @@ export class MatrimonyUser {
   @Prop({ type: Types.ObjectId, ref: 'AdminUser' })
   createdByAdmin: Types.ObjectId;
 
-  @Prop()
-  membershipPaidAt: Date;
+  @Prop({ required: false })
+  membershipPaidAt?: Date;
 
-  @Prop()
-  membershipExpiresAt: Date;
+  @Prop({ required: false })
+  membershipExpiresAt?: Date;
 
-  @Prop()
-  membershipPlanId: string;
+  @Prop({ required: false })
+  membershipPlanId?: string;
 
   @Prop()
   membershipPlanDuration: string;

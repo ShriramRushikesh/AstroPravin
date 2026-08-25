@@ -3,6 +3,22 @@ import { Document, Types } from 'mongoose';
 
 export type MatrimonyProfileDocument = MatrimonyProfile & Document;
 
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
+
+export enum ProfileFor {
+  SELF = 'Self',
+  SON = 'Son',
+  DAUGHTER = 'Daughter',
+  BROTHER = 'Brother',
+  SISTER = 'Sister',
+  RELATIVE = 'Relative',
+  FRIEND = 'Friend',
+}
+
 @Schema({ collection: 'matrimony_profiles', timestamps: true })
 export class MatrimonyProfile {
   @Prop({ type: Types.ObjectId, ref: 'MatrimonyUser', required: true, unique: true, index: true })

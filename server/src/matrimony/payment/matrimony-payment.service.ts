@@ -236,7 +236,7 @@ export class MatrimonyPaymentService {
     }
 
     // Determine expiration date
-    let expiresAt: Date | null = null;
+    let expiresAt: Date | undefined = undefined;
     if (plan.durationDays > 0) {
       expiresAt = new Date(Date.now() + plan.durationDays * 24 * 60 * 60 * 1000);
     }
@@ -248,7 +248,7 @@ export class MatrimonyPaymentService {
       user.status = 'active';
     }
     user.membershipPaidAt = new Date();
-    user.membershipExpiresAt = expiresAt;
+    if (expiresAt) user.membershipExpiresAt = expiresAt;
     user.membershipPlanId = plan.id;
     user.membershipPlanDuration = plan.durationText;
     user.membershipAmount = plan.amount;
@@ -344,7 +344,7 @@ export class MatrimonyPaymentService {
       }
 
       if (user && user.paymentStatus !== 'verified') {
-        let expiresAt: Date | null = null;
+        let expiresAt: Date | undefined = undefined;
         if (plan.durationDays > 0) {
           expiresAt = new Date(Date.now() + plan.durationDays * 24 * 60 * 60 * 1000);
         }
@@ -355,7 +355,7 @@ export class MatrimonyPaymentService {
           user.status = 'active';
         }
         user.membershipPaidAt = new Date();
-        user.membershipExpiresAt = expiresAt;
+        if (expiresAt) user.membershipExpiresAt = expiresAt;
         user.membershipPlanId = plan.id;
         user.membershipPlanDuration = plan.durationText;
         user.membershipAmount = plan.amount;

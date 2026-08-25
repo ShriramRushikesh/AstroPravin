@@ -3,6 +3,12 @@ import { Document, Types } from 'mongoose';
 
 export type MatrimonyInterestDocument = MatrimonyInterest & Document;
 
+export enum InterestStatus {
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  DECLINED = 'declined',
+}
+
 @Schema({ collection: 'matrimony_interests', timestamps: true })
 export class MatrimonyInterest {
   @Prop({ type: Types.ObjectId, ref: 'MatrimonyUser', required: true, index: true })

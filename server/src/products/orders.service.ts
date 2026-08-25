@@ -166,14 +166,14 @@ export class OrdersService implements OnModuleInit {
 
     // 4. Save New Verified Order to MongoDB
     const newOrder = new this.orderModel({
-      customerName: customer.name,
-      customerPhone: customer.phone,
-      customerEmail: customer.email || '',
-      shippingAddress: shipping.address,
-      city: shipping.city,
-      state: shipping.state,
-      pincode: shipping.pincode,
-      landmark: shipping.landmark || '',
+      customerName: customer?.name || 'Customer',
+      customerPhone: customer?.phone || '',
+      customerEmail: customer?.email || '',
+      shippingAddress: shipping?.address || '',
+      city: shipping?.city || '',
+      state: shipping?.state || '',
+      pincode: shipping?.pincode || '',
+      landmark: shipping?.landmark || '',
       items: items || [],
       productName: primaryProductName,
       productPrice: finalPaidAmount,

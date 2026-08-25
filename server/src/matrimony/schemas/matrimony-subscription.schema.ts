@@ -3,6 +3,14 @@ import { Document, Types } from 'mongoose';
 
 export type MatrimonySubscriptionDocument = MatrimonySubscription & Document;
 
+export enum PlanTier {
+  BASIC = 'basic',
+  SILVER = 'silver',
+  GOLD = 'gold',
+  PLATINUM = 'platinum',
+  PREMIUM = 'premium',
+}
+
 @Schema({ collection: 'matrimony_subscriptions', timestamps: true })
 export class MatrimonySubscription {
   @Prop({ type: Types.ObjectId, ref: 'MatrimonyUser', required: true, index: true })

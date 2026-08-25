@@ -192,7 +192,7 @@ export class MatrimonyAuthService {
         paymentMode: cleanMode,
         amount: cleanAmount,
         submittedAt: new Date(),
-        verifiedAt: null, // Awaiting admin bank reconciliation
+        verifiedAt: undefined, // Awaiting admin bank reconciliation
         notes: notes ? String(notes).trim() : '',
       };
 

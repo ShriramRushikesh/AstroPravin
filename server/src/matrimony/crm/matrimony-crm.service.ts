@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CrmLead, CrmLeadDocument } from '../schemas/crm-lead.schema';
 import { CrmFollowUp, CrmFollowUpDocument } from '../schemas/crm-followup.schema';
-import { CrmCallLog, CrmCallLogDocument } from '../schemas/crm-calllog.schema';
+import { CrmCallLog, CrmCallLogDocument } from '../schemas/crm-call-log.schema';
 
 @Injectable()
 export class MatrimonyCrmService {
