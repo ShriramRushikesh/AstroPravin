@@ -7,7 +7,13 @@ import { CreateMatrimonyOrderDto, VerifyMatrimonyPaymentDto } from './dto/paymen
 import * as crypto from 'crypto';
 
 // Dynamic import or require for Razorpay
-const Razorpay = require('razorpay');
+let RazorpayConstructor: any = null;
+try {
+  const RazorpayModule = require('razorpay');
+  RazorpayConstructor = RazorpayModule.default || RazorpayModule;
+} catch (e) {
+  console.warn('⚠️ Razorpay package not found:', e);
+}
 
 export interface MatrimonyPlan {
   id: 'silver' | 'gold' | 'platinum';
@@ -104,14 +110,14 @@ export class MatrimonyPaymentService {
     const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
 
     try {
-      if (keyId && keySecret) {
-        this.razorpayInstance = new Razorpay({
+      if (RazorpayConstructor && keyId && keySecret) {
+        this.razorpayInstance = new RazorpayConstructor({
           key_id: keyId,
           key_secret: keySecret,
         });
       }
-    } catch (e) {
-      console.warn('⚠️ Razorpay initialization warning:', e.message);
+    } catch (e: any) {
+      console.warn('⚠️ Razorpay initialization warning:', e?.message || e);
     }
   }
 
@@ -141,11 +147,19 @@ export class MatrimonyPaymentService {
     const keyId = process.env.RAZORPAY_KEY_ID || '';
     const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
 
-    if (!this.razorpayInstance) {
-      this.razorpayInstance = new Razorpay({
+    if (!keyId || !keySecret) {
+      console.error('❌ Razorpay credentials missing in process.env: RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET');
+      throw new BadRequestException('Payment gateway credentials (RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET) are not set in the server environment.');
+    }
+
+    try {
+      this.razorpayInstance = new RazorpayConstructor({
         key_id: keyId,
         key_secret: keySecret,
       });
+    } catch (e: any) {
+      console.error('❌ Razorpay client init error:', e?.message || e);
+      throw new BadRequestException('Payment gateway initialization failed.');
     }
 
     const amountInPaise = plan.amount * 100;
@@ -183,8 +197,8 @@ export class MatrimonyPaymentService {
         },
       };
     } catch (error: any) {
-      console.error('❌ Razorpay order creation failed:', error);
-      throw new BadRequestException(error?.message || 'Could not initiate Razorpay order. Please try again.');
+      console.error('❌ Razorpay order creation failed:', error?.error || error);
+      throw new BadRequestException(error?.error?.description || error?.message || 'Could not initiate Razorpay order. Please try again.');
     }
   }
 
