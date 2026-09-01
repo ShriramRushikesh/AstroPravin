@@ -8,15 +8,23 @@ import {
 import { LotusCrest, ToranBorder, MandalaWatermark } from './MatrimonyDecorativeArt';
 import { matrimonyApi } from '../../../services/matrimonyApi';
 
-// Helper to dynamically load Razorpay standard checkout script
+// Helper to dynamically load Razorpay standard checkout script with fail-safe check
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
     if (window.Razorpay) {
       resolve(true);
       return;
     }
+    const existing = document.querySelector('script[src*="checkout.razorpay.com"]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve(true));
+      existing.addEventListener('error', () => resolve(false));
+      setTimeout(() => resolve(!!window.Razorpay), 2500);
+      return;
+    }
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
     script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
@@ -167,8 +175,9 @@ const MembershipPaymentGate = ({ user, registrationConfig, onPaymentCompleted, o
       }
 
       // Step 2: Configure Razorpay Checkout Options
+      const razorpayKey = orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_TTvoOCRWmpKPkv';
       const options = {
-        key: orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || '',
+        key: razorpayKey,
         amount: orderData.amountInPaise,
         currency: orderData.currency || 'INR',
         name: 'AstroPravin Matrimony',

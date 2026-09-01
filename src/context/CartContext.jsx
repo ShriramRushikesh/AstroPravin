@@ -30,6 +30,7 @@ export const CartProvider = ({ children }) => {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartStep, setCartStep] = useState('cart'); // 'cart' | 'shipping' | 'success'
 
   // Sync to localStorage
   useEffect(() => {
@@ -39,6 +40,14 @@ export const CartProvider = ({ children }) => {
       console.warn('Could not save cart to localStorage');
     }
   }, [cartItems]);
+
+  const openCheckout = (product = null, quantity = 1, selectedVariant = null) => {
+    if (product) {
+      addToCart(product, quantity, selectedVariant);
+    }
+    setCartStep('shipping');
+    setIsCartOpen(true);
+  };
 
   const addToCart = (product, quantity = 1, selectedVariant = null) => {
     if (!product) return;
@@ -103,7 +112,10 @@ export const CartProvider = ({ children }) => {
     } catch (e) {}
   };
 
-  const openCart = () => setIsCartOpen(true);
+  const openCart = () => {
+    setCartStep('cart');
+    setIsCartOpen(true);
+  };
   const closeCart = () => setIsCartOpen(false);
 
   const totalItemsCount = cartItems.reduce((sum, it) => sum + (Number(it.quantity) || 1), 0);
@@ -114,8 +126,11 @@ export const CartProvider = ({ children }) => {
       value={{
         cartItems,
         isCartOpen,
+        cartStep,
+        setCartStep,
         openCart,
         closeCart,
+        openCheckout,
         addToCart,
         removeFromCart,
         updateQuantity,

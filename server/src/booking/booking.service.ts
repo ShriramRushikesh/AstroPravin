@@ -127,16 +127,7 @@ export class BookingService implements OnModuleInit {
     ) { }
 
     async onModuleInit() {
-        try {
-            const count = await this.bookingModel.countDocuments();
-            if (count === 0) {
-                console.log('📦 Seeding historical consultation enquiries to MongoDB...');
-                await this.bookingModel.insertMany(INITIAL_BOOKINGS);
-                console.log('✅ Historical consultation enquiries restored successfully.');
-            }
-        } catch (err: any) {
-            console.error('Booking seed check warning:', err.message);
-        }
+        // Live database mode - real bookings only
     }
 
     async create(createBookingDto: any): Promise<Booking> {
@@ -152,14 +143,22 @@ export class BookingService implements OnModuleInit {
         const newBooking = new this.bookingModel(payload);
         await newBooking.save();
 
-        // Async email
-        this.emailService.sendBookingConfirmation(newBooking);
+        // Async email notification with Google Calendar .ics invite
+        try {
+            this.emailService.sendBookingConfirmation(newBooking);
+        } catch (e) {
+            console.warn('Could not dispatch booking email:', e);
+        }
 
         return newBooking;
     }
 
     async findAll(): Promise<Booking[]> {
         return this.bookingModel.find().sort({ createdAt: -1 }).exec();
+    }
+
+    async findById(id: string): Promise<Booking | null> {
+        return this.bookingModel.findById(id).exec();
     }
 
     async updateStatus(id: string, status: string): Promise<Booking | null> {
@@ -170,6 +169,13 @@ export class BookingService implements OnModuleInit {
 
     async remove(id: string): Promise<Booking | null> {
         return this.bookingModel.findByIdAndDelete(id).exec();
+    }
+
+    async clearDemoData(): Promise<{ deletedCount: number }> {
+        const result = await this.bookingModel.deleteMany({
+            name: { $in: ['Rahul Deshmukh', 'Priyanka Kulkarni', 'Amitabh Joshi', 'Snehal Patil', 'Sachin Shinde', 'Ananya Kadam', 'Mahesh Gaikwad'] }
+        }).exec();
+        return { deletedCount: result.deletedCount || 0 };
     }
 }
 

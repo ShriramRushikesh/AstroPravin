@@ -23,11 +23,18 @@ import { useCart } from '../context/CartContext';
 import { API_URL } from '../config';
 import { normalizeProductImage } from './ProductCard';
 
-// Dynamic Razorpay SDK Loader
+// Dynamic Razorpay SDK Loader with fail-safe check
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
     if (window.Razorpay) {
       resolve(true);
+      return;
+    }
+    const existing = document.querySelector('script[src*="checkout.razorpay.com"]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve(true));
+      existing.addEventListener('error', () => resolve(false));
+      setTimeout(() => resolve(!!window.Razorpay), 2500);
       return;
     }
     const script = document.createElement('script');
@@ -43,6 +50,8 @@ const CartDrawer = () => {
   const {
     isCartOpen,
     closeCart,
+    cartStep,
+    setCartStep,
     cartItems,
     removeFromCart,
     updateQuantity,
@@ -51,10 +60,17 @@ const CartDrawer = () => {
     subtotalAmount,
   } = useCart();
 
-  const [checkoutStep, setCheckoutStep] = useState('cart'); // 'cart' | 'shipping' | 'success'
+  const [checkoutStep, setCheckoutStep] = useState(cartStep || 'cart'); // 'cart' | 'shipping' | 'success'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successOrder, setSuccessOrder] = useState(null);
+
+  // Sync external step triggers
+  React.useEffect(() => {
+    if (cartStep) {
+      setCheckoutStep(cartStep);
+    }
+  }, [cartStep, isCartOpen]);
 
   // Customer & Shipping Form State
   const [formData, setFormData] = useState({
@@ -156,8 +172,9 @@ const CartDrawer = () => {
       }
 
       // 2. Configure & Open Razorpay Checkout Modal
+      const razorpayKey = orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_TTvoOCRWmpKPkv';
       const options = {
-        key: orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || '',
+        key: razorpayKey,
         amount: orderData.amountInPaise,
         currency: orderData.currency || 'INR',
         name: 'AstroPravin Spiritual Store',

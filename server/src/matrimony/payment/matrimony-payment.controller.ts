@@ -15,15 +15,13 @@ export class MatrimonyPaymentController {
   @UseGuards(MatrimonyAuthGuard)
   @Post('create-order')
   async createOrder(@Req() req: any, @Body() createOrderDto: CreateMatrimonyOrderDto) {
-    const userId = req.user?._id?.toString() || req.user?.id || req.user?.sub;
-    return this.paymentService.createOrder(userId, createOrderDto);
+    return this.paymentService.createOrder(req.user._id, createOrderDto);
   }
 
   @UseGuards(MatrimonyAuthGuard)
   @Post('verify-payment')
   async verifyPayment(@Req() req: any, @Body() verifyDto: VerifyMatrimonyPaymentDto) {
-    const userId = req.user?._id?.toString() || req.user?.id || req.user?.sub;
-    return this.paymentService.verifyPayment(userId, verifyDto);
+    return this.paymentService.verifyPayment(req.user._id, verifyDto);
   }
 
   @Post('webhook')

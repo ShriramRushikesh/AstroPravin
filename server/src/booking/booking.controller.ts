@@ -34,5 +34,11 @@ export class BookingController {
     remove(@Param('id') id: string) {
         return this.bookingService.remove(id);
     }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Post('clear-demo')
+    clearDemo() {
+        return this.bookingService.clearDemoData();
+    }
 }
 

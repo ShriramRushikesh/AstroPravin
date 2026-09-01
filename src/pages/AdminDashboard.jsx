@@ -14,7 +14,170 @@ import { API_URL } from '../config';
 import MatrimonyAdminTab from './Matrimony/admin/MatrimonyAdminTab';
 import { LotusCrest } from '../components/VedicDecorativeArt';
 
-// ─── HISTORICAL SAMPLE ENQUIRIES FALLBACK ─────────────────────────────────────
+// ─── GOOGLE CALENDAR & ICALENDAR SYNC GENERATOR ──────────────────────────────
+export const generateGoogleCalendarUrl = (booking, adminEmail = 'pravin.shriram@gmail.com') => {
+    if (!booking) return '#';
+    let startDateTime = new Date();
+    let endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+
+    const prefDate = booking.preferredDate || booking.date;
+    const prefTime = booking.preferredTime || booking.time;
+
+    if (prefDate) {
+        const dateParts = String(prefDate).split(/[-/]/);
+        let year = 2026, month = 0, day = 1;
+        if (dateParts[0]?.length === 4) {
+            year = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            day = parseInt(dateParts[2], 10);
+        } else if (dateParts.length >= 3) {
+            day = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            year = parseInt(dateParts[2], 10);
+        }
+
+        let hours = 10, minutes = 0;
+        if (prefTime) {
+            const timeMatch = String(prefTime).match(/(\d+):?(\d+)?\s*(AM|PM)?/i);
+            if (timeMatch) {
+                let h = parseInt(timeMatch[1], 10);
+                const m = parseInt(timeMatch[2] || '0', 10);
+                const period = (timeMatch[3] || '').toUpperCase();
+                if (period === 'PM' && h < 12) h += 12;
+                if (period === 'AM' && h === 12) h = 0;
+                hours = h;
+                minutes = m;
+            }
+        }
+
+        if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+            startDateTime = new Date(year, month, day, hours, minutes, 0);
+            endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+        }
+    }
+
+    const formatToGCalIso = (d) => d.toISOString().replace(/-|:|\.\d+/g, '');
+    const dates = `${formatToGCalIso(startDateTime)}/${formatToGCalIso(endDateTime)}`;
+    const title = `Vedic Jyotish Consultation: ${booking.name || 'Client'} (${booking.topic || 'Astrology'})`;
+
+    const details = [
+        `🕉️ AstroPravin Vedic Astrology Consultation Dossier`,
+        `----------------------------------------`,
+        `Client / Devotee: ${booking.name || 'N/A'}`,
+        `Mobile / WhatsApp: ${booking.phone || 'N/A'}`,
+        `Email: ${booking.email || 'N/A'}`,
+        `Topic: ${booking.topic || 'Vedic Astrology Consultation'}`,
+        `Date of Birth: ${booking.birthDate || 'N/A'}`,
+        `Time of Birth: ${booking.birthTime || 'N/A'}`,
+        `Place of Birth: ${booking.birthPlace || 'N/A'}`,
+        `Gender: ${booking.gender || 'Not Specified'}`,
+        `Preferred Slot: ${prefDate || 'Confirmed Slot'} at ${prefTime || 'Flexible'}`,
+        `Status: ${booking.status || 'Pending'}`,
+        booking.notes ? `Panditji Notes: ${booking.notes}` : '',
+        `----------------------------------------`,
+        `Consultant: Pandit Pravin Shriram (+91 99216 97908)`,
+        `Solapur Kendra: Shop no.2,3, S.S Icon complex, Gharkul road, Solapur - 413006`,
+        `|| Shri Swami Samarth ||`
+    ].filter(Boolean).join('\n');
+
+    const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: title,
+        dates: dates,
+        details: details,
+        location: 'Solapur Kendra / WhatsApp Video Call (+91 99216 97908)',
+        add: adminEmail || 'pravin.shriram@gmail.com',
+    });
+
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};
+
+export const downloadIcsFile = (booking) => {
+    if (!booking) return;
+    let startDateTime = new Date();
+    let endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+
+    const prefDate = booking.preferredDate || booking.date;
+    const prefTime = booking.preferredTime || booking.time;
+
+    if (prefDate) {
+        const dateParts = String(prefDate).split(/[-/]/);
+        let year = 2026, month = 0, day = 1;
+        if (dateParts[0]?.length === 4) {
+            year = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            day = parseInt(dateParts[2], 10);
+        } else if (dateParts.length >= 3) {
+            day = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            year = parseInt(dateParts[2], 10);
+        }
+
+        let hours = 10, minutes = 0;
+        if (prefTime) {
+            const timeMatch = String(prefTime).match(/(\d+):?(\d+)?\s*(AM|PM)?/i);
+            if (timeMatch) {
+                let h = parseInt(timeMatch[1], 10);
+                const m = parseInt(timeMatch[2] || '0', 10);
+                const period = (timeMatch[3] || '').toUpperCase();
+                if (period === 'PM' && h < 12) h += 12;
+                if (period === 'AM' && h === 12) h = 0;
+                hours = h;
+                minutes = m;
+            }
+        }
+
+        if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+            startDateTime = new Date(year, month, day, hours, minutes, 0);
+            endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+        }
+    }
+
+    const formatIcs = (d) => d.toISOString().replace(/-|:|\.\d+/g, '');
+    const now = formatIcs(new Date());
+    const start = formatIcs(startDateTime);
+    const end = formatIcs(endDateTime);
+    const uid = `astropravin_${booking._id || Date.now()}@astropravin.com`;
+
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//AstroPravin//Vedic Consultation//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:REQUEST',
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTAMP:${now}`,
+        `DTSTART:${start}`,
+        `DTEND:${end}`,
+        `SUMMARY:Vedic Jyotish Consultation: ${booking.name || 'Client'} (${booking.topic || 'Astrology'})`,
+        `DESCRIPTION:Devotee: ${booking.name || ''}\\nPhone: ${booking.phone || ''}\\nDOB: ${booking.birthDate || ''} at ${booking.birthTime || ''}\\nPlace: ${booking.birthPlace || ''}\\nTopic: ${booking.topic || ''}\\nPanditji: Pravin Shriram (+91 99216 97908)`,
+        'LOCATION:Solapur Kendra / Phone Call',
+        'STATUS:CONFIRMED',
+        'BEGIN:VALARM',
+        'TRIGGER:-PT30M',
+        'ACTION:DISPLAY',
+        `DESCRIPTION:Consultation Reminder: ${booking.name || 'Client'} in 30 minutes`,
+        'END:VALARM',
+        'BEGIN:VALARM',
+        'TRIGGER:-PT15M',
+        'ACTION:DISPLAY',
+        `DESCRIPTION:Consultation Starting: ${booking.name || 'Client'} in 15 minutes`,
+        'END:VALARM',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', `AstroPravin_Consultation_${(booking.name || 'Client').replace(/\s+/g, '_')}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+// ─── OPTIONAL HISTORICAL SAMPLE ENQUIRIES ─────────────────────────────────────
 const HISTORICAL_BACKUP_ENQUIRIES = [
     {
         _id: "hist_01",
@@ -186,6 +349,7 @@ const AdminDashboard = () => {
     const [siteSettings, setSiteSettings] = useState({
         helplineNumber: '+91 99216 97908',
         kendraEmail: 'pravin.shriram@gmail.com',
+        googleCalendarEmail: 'pravin.shriram@gmail.com',
         kendraAddress: 'Shop no.2,3, S.S Icon shopping complex, Gharkul road, Solapur - 413006, Maharashtra',
         consultationFee: '₹1,100 - ₹2,100',
         noticeBannerText: 'Vedic Kundli Consultations available both In-Person at Solapur Kendra & Online worldwide.',
@@ -218,7 +382,7 @@ const AdminDashboard = () => {
         ]);
     };
 
-    // Unified fetch for Bookings + Leads
+    // Unified fetch for Bookings + Leads (Dynamic & Live)
     const fetchUnifiedEnquiries = async (token) => {
         const authToken = token || localStorage.getItem('adminToken');
         let unifiedList = [];
@@ -286,17 +450,33 @@ const AdminDashboard = () => {
 
             unifiedList = [...normalizedBookings, ...normalizedLeads];
 
-            // If empty, fall back to historical records to ensure data presence
-            if (unifiedList.length === 0) {
-                unifiedList = HISTORICAL_BACKUP_ENQUIRIES;
-            }
-
             setBookings(unifiedList);
             calculateStats(unifiedList);
         } catch (error) {
             console.error('Fetch enquiries error:', error);
-            setBookings(HISTORICAL_BACKUP_ENQUIRIES);
-            calculateStats(HISTORICAL_BACKUP_ENQUIRIES);
+            setBookings([]);
+            calculateStats([]);
+        }
+    };
+
+    const handleClearDemoData = async () => {
+        try {
+            const authToken = localStorage.getItem('adminToken');
+            const res = await fetch(`${API_URL}/api/bookings/clear-demo`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            }).catch(() => null);
+
+            if (res && res.ok) {
+                showToast('Demo inquiries cleared. Displaying live customer bookings.');
+                fetchUnifiedEnquiries(authToken);
+            } else {
+                setBookings(prev => prev.filter(b => !String(b._id).startsWith('hist_') && !['Rahul Deshmukh', 'Priyanka Kulkarni', 'Amitabh Joshi', 'Snehal Patil', 'Sachin Shinde', 'Ananya Kadam', 'Mahesh Gaikwad'].includes(b.name)));
+                showToast('Filtered out demo sample records.');
+            }
+        } catch (e) {
+            setBookings(prev => prev.filter(b => !String(b._id).startsWith('hist_')));
+            showToast('Cleaned view to live data.');
         }
     };
 
@@ -1264,6 +1444,28 @@ const AdminDashboard = () => {
                                         </button>
                                     ))}
                                 </div>
+
+                                {/* Utility Actions */}
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={handleClearDemoData}
+                                        className="px-3 py-1.5 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-red-700 border border-red-200 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                                        title="Clear Demo Sample Enquiries"
+                                    >
+                                        <Trash2 size={12} />
+                                        <span>Clean Demo Data</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => fetchUnifiedEnquiries()}
+                                        className="p-1.5 bg-[#FAF8F5] hover:bg-[#F5F0E8] text-[#78716C] border border-[#EADCC8] rounded-xl text-xs transition-colors cursor-pointer"
+                                        title="Refresh Inquiries Live"
+                                    >
+                                        <RefreshCw size={13} />
+                                    </button>
+                                </div>
                             </div>
 
                             {/* CRM Client Table */}
@@ -1384,6 +1586,26 @@ const AdminDashboard = () => {
                                                         {/* Actions */}
                                                         <td className="p-4 text-right" onClick={(e) => e.stopPropagation()}>
                                                             <div className="flex items-center justify-end gap-1.5">
+                                                                {/* 1-Click Google Calendar Sync */}
+                                                                <a
+                                                                    href={generateGoogleCalendarUrl(b, siteSettings.googleCalendarEmail || siteSettings.kendraEmail)}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="px-2.5 py-1.5 bg-[#FEF3C7] text-[#B45309] hover:bg-[#FDE68A] rounded-xl border border-[#FCD34D] transition-colors flex items-center gap-1 font-bold text-[11px] shrink-0"
+                                                                    title="Add to Google Calendar & Set Alarms"
+                                                                >
+                                                                    <Calendar size={13} className="text-[#D97706]" />
+                                                                    <span className="hidden xl:inline">Google Cal</span>
+                                                                </a>
+
+                                                                <button
+                                                                    onClick={() => downloadIcsFile(b)}
+                                                                    className="p-2 bg-[#FAF5FF] text-purple-700 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors shrink-0"
+                                                                    title="Download .ICS Calendar Event"
+                                                                >
+                                                                    <FileDown size={13} />
+                                                                </button>
+
                                                                 {isPhoneValid && (
                                                                     <a
                                                                         href={waLink}
@@ -2247,6 +2469,23 @@ const AdminDashboard = () => {
                                 </div>
 
                                 <div>
+                                    <label className="block font-bold text-[#44403C] uppercase mb-1 flex items-center justify-between">
+                                        <span>Google Calendar Account Email (Appointment Notifications)</span>
+                                        <span className="text-[10px] text-[#C2410C] font-semibold bg-[#FFF7ED] px-2 py-0.5 rounded-md border border-[#FED7AA]">Instant Calendar Sync</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={siteSettings.googleCalendarEmail || ''}
+                                        onChange={(e) => setSiteSettings({ ...siteSettings, googleCalendarEmail: e.target.value })}
+                                        placeholder="e.g. pravin.shriram@gmail.com"
+                                        className="w-full bg-[#FAF8F5] p-3 rounded-xl border border-[#EADCC8] text-[#1C1917] outline-none font-mono"
+                                    />
+                                    <p className="text-[11px] text-[#78716C] mt-1">
+                                        Whenever a devotee books an appointment, this Google Calendar account receives invitations with automatic reminder alarms (30m & 15m).
+                                    </p>
+                                </div>
+
+                                <div>
                                     <label className="block font-bold text-[#44403C] uppercase mb-1">Kendra Physical Address (Solapur)</label>
                                     <textarea
                                         rows="2"
@@ -2310,6 +2549,38 @@ const AdminDashboard = () => {
                                 >
                                     <X size={20} />
                                 </button>
+                            </div>
+
+                            {/* Google Calendar 1-Click Sync Card */}
+                            <div className="p-4 bg-[#FFFBEB] rounded-2xl border border-[#FDE68A] space-y-2.5">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-bold text-[#92400E] flex items-center gap-1.5">
+                                        <Calendar size={14} className="text-[#D97706]" /> Google Calendar Sync & Reminders
+                                    </span>
+                                    <span className="text-[10px] bg-[#FEF3C7] text-[#B45309] font-bold px-2 py-0.5 rounded-full border border-[#FCD34D]">
+                                        Auto Alarms (30m & 15m)
+                                    </span>
+                                </div>
+                                <p className="text-[11px] text-[#78716C] leading-relaxed">
+                                    Sync this consultation directly to your Google Calendar. Notifications and reminders will pop up on your devices automatically at the selected time.
+                                </p>
+                                <div className="grid grid-cols-2 gap-2 pt-1">
+                                    <a
+                                        href={generateGoogleCalendarUrl(selectedBookingDrawer, siteSettings.googleCalendarEmail || siteSettings.kendraEmail)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="py-2.5 px-3 bg-[#D97706] hover:bg-[#B45309] text-white rounded-xl font-bold flex items-center justify-center gap-1.5 shadow-sm text-xs transition-colors"
+                                    >
+                                        <Calendar size={14} /> Add to Google Cal
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={() => downloadIcsFile(selectedBookingDrawer)}
+                                        className="py-2.5 px-3 bg-white hover:bg-[#FEF3C7] text-[#92400E] border border-[#FCD34D] rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition-colors"
+                                    >
+                                        <FileDown size={14} /> Download .ICS File
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Status & Quick WhatsApp */}

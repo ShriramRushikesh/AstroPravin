@@ -6,7 +6,7 @@ import { useCart } from '../context/CartContext';
 import { normalizeProductImage } from './ProductCard';
 
 const ProductModal = ({ isOpen, onClose, product }) => {
-    const { addToCart } = useCart();
+    const { addToCart, openCheckout } = useCart();
     const [quantity, setQuantity] = useState(1);
     const [selectedCarat, setSelectedCarat] = useState(null);
 
@@ -36,7 +36,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     };
 
     const handleBuyNow = () => {
-        addToCart(product, quantity, selectedCarat);
+        openCheckout(product, quantity, selectedCarat);
         onClose();
     };
 

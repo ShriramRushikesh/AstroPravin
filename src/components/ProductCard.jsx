@@ -17,7 +17,7 @@ export const normalizeProductImage = (img) => {
 };
 
 const ProductCard = ({ product, onQuickView }) => {
-    const { addToCart } = useCart();
+    const { addToCart, openCheckout } = useCart();
     const imageSrc = normalizeProductImage(product.image);
     const numericPrice = typeof product.price === 'number' ? product.price : Number(String(product.price).replace(/[^0-9.]/g, '')) || 0;
     const originalPrice = product.originalPrice ? (typeof product.originalPrice === 'number' ? product.originalPrice : Number(String(product.originalPrice).replace(/[^0-9.]/g, '')) || Math.round(numericPrice * 1.25)) : Math.round(numericPrice * 1.25);
@@ -30,7 +30,7 @@ const ProductCard = ({ product, onQuickView }) => {
 
     const handleBuyNow = (e) => {
         e.stopPropagation();
-        addToCart(product, 1);
+        openCheckout(product, 1);
     };
 
     return (

@@ -32,8 +32,6 @@ export class OrdersService implements OnModuleInit {
 
   private initRazorpay() {
     try {
-      this.keyId = process.env.RAZORPAY_KEY_ID || '';
-      this.keySecret = process.env.RAZORPAY_KEY_SECRET || '';
       if (RazorpaySDK && this.keyId && this.keySecret) {
         this.razorpayInstance = new RazorpaySDK({
           key_id: this.keyId,
@@ -41,7 +39,7 @@ export class OrdersService implements OnModuleInit {
         });
         console.log('✅ Store Razorpay Service initialized with Key ID:', this.keyId);
       } else {
-        console.warn('⚠️ Razorpay credentials missing in environment variables.');
+        console.warn('⚠️ Razorpay credentials missing or SDK unavailable.');
       }
     } catch (err: any) {
       console.error('Failed to initialize Razorpay for Store:', err.message);

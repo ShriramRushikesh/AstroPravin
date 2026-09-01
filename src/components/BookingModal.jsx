@@ -46,6 +46,62 @@ const BookingModal = ({ isOpen, onClose }) => {
 
     if (!isOpen) return null;
 
+    const [submittedBooking, setSubmittedBooking] = useState(null);
+
+    const generateCustomerGCalUrl = (booking) => {
+        if (!booking) return '#';
+        let startDateTime = new Date();
+        let endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+
+        if (booking.preferredDate) {
+            const parts = String(booking.preferredDate).split(/[-/]/);
+            let y = 2026, m = 0, d = 1;
+            if (parts[0]?.length === 4) {
+                y = parseInt(parts[0], 10);
+                m = parseInt(parts[1], 10) - 1;
+                d = parseInt(parts[2], 10);
+            } else if (parts.length >= 3) {
+                d = parseInt(parts[0], 10);
+                m = parseInt(parts[1], 10) - 1;
+                y = parseInt(parts[2], 10);
+            }
+
+            let hours = 10, minutes = 0;
+            if (booking.preferredTime) {
+                const tm = String(booking.preferredTime).match(/(\d+):?(\d+)?\s*(AM|PM)?/i);
+                if (tm) {
+                    let h = parseInt(tm[1], 10);
+                    const mn = parseInt(tm[2] || '0', 10);
+                    const period = (tm[3] || '').toUpperCase();
+                    if (period === 'PM' && h < 12) h += 12;
+                    if (period === 'AM' && h === 12) h = 0;
+                    hours = h;
+                    minutes = mn;
+                }
+            }
+
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                startDateTime = new Date(y, m, d, hours, minutes, 0);
+                endDateTime = new Date(startDateTime.getTime() + 45 * 60 * 1000);
+            }
+        }
+
+        const formatIso = (dt) => dt.toISOString().replace(/-|:|\.\d+/g, '');
+        const dates = `${formatIso(startDateTime)}/${formatIso(endDateTime)}`;
+        const title = `Vedic Jyotish Consultation with Pandit Pravin Shriram (${booking.topic || 'Astrology'})`;
+        const details = `🕉️ AstroPravin Consultation Confirmed\nTopic: ${booking.topic}\nDevotee: ${booking.name}\nPhone: ${booking.phone}\nConsultant: Pandit Pravin Shriram (+91 99216 97908)\nSolapur Kendra: Shop no.2,3, S.S Icon shopping complex, Solapur\n|| Shri Swami Samarth ||`;
+
+        const params = new URLSearchParams({
+            action: 'TEMPLATE',
+            text: title,
+            dates: dates,
+            details: details,
+            location: 'Solapur Kendra / Phone Call (+91 99216 97908)',
+        });
+
+        return `https://calendar.google.com/calendar/render?${params.toString()}`;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.name || !formData.phone || !formData.birthDate || !formData.birthTime || !formData.birthPlace) {
@@ -54,17 +110,20 @@ const BookingModal = ({ isOpen, onClose }) => {
 
         setLoading(true);
         try {
+            const bookingPayload = {
+                ...formData,
+                email: formData.email || `${formData.phone}@astropravin.com`,
+                astrologer: 'Pandit Pravin Shriram'
+            };
+
             const res = await fetch(`${API_URL}/api/bookings`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    email: formData.email || `${formData.phone}@astropravin.com`,
-                    astrologer: 'Pandit Pravin Shriram'
-                })
+                body: JSON.stringify(bookingPayload)
             });
 
             if (res.ok) {
+                setSubmittedBooking(bookingPayload);
                 setShowSuccess(true);
                 setFormData({
                     topic: 'Love & Marriage',
@@ -152,10 +211,21 @@ const BookingModal = ({ isOpen, onClose }) => {
                                 Jyotish Pravin Shriram's Kendra has received your details. We will contact you on WhatsApp / Phone with your confirmed consultation time.
                             </p>
 
-                            <div className="pt-2">
+                            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5 w-full max-w-sm">
+                                {submittedBooking && (
+                                    <a
+                                        href={generateCustomerGCalUrl(submittedBooking)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold text-[#B45309] bg-[#FEF3C7] border border-[#FCD34D] hover:bg-[#FDE68A] shadow-sm flex items-center justify-center gap-1.5 transition-all"
+                                    >
+                                        <Calendar size={14} className="text-[#D97706]" />
+                                        <span>Add to Google Calendar</span>
+                                    </a>
+                                )}
                                 <button
                                     onClick={onClose}
-                                    className="px-8 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-105 transition-transform cursor-pointer"
+                                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#C2410C] to-[#EA580C] shadow-sm hover:scale-105 transition-transform cursor-pointer"
                                 >
                                     Done
                                 </button>
