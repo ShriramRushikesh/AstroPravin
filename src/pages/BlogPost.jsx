@@ -143,7 +143,15 @@ const BlogPost = () => {
                 <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#EADCC8] shadow-luxury mb-12">
                     {post.image && (
                         <div className="aspect-[16/9] rounded-2xl overflow-hidden mb-8 border border-[#EADCC8]">
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                            <img
+                                src={post.image}
+                                alt={post.title}
+                                onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = 'https://images.unsplash.com/photo-1532012164546-f432f2e3ef54?q=80&w=800&auto=format&fit=crop';
+                                }}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     )}
 

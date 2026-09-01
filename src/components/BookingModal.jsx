@@ -10,6 +10,7 @@ import { LotusCrest } from './VedicDecorativeArt';
 const BookingModal = ({ isOpen, onClose }) => {
     const [loading, setLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [submittedBooking, setSubmittedBooking] = useState(null);
     const [formData, setFormData] = useState({
         topic: 'Love & Marriage',
         name: '',
@@ -43,10 +44,6 @@ const BookingModal = ({ isOpen, onClose }) => {
         { label: 'Health & Dosha Remedies', icon: Activity, desc: 'Kaal Sarp, Mangal & Shani' },
         { label: 'Gemstone Guidance', icon: Gem, desc: 'Certified Ratna & Rudraksha' },
     ];
-
-    if (!isOpen) return null;
-
-    const [submittedBooking, setSubmittedBooking] = useState(null);
 
     const generateCustomerGCalUrl = (booking) => {
         if (!booking) return '#';
@@ -147,6 +144,8 @@ const BookingModal = ({ isOpen, onClose }) => {
             setLoading(false);
         }
     };
+
+    if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4">

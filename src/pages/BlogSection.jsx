@@ -127,6 +127,10 @@ const BlogSection = () => {
                                             src={post.image}
                                             alt={post.title}
                                             loading="lazy"
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = 'https://images.unsplash.com/photo-1532012164546-f432f2e3ef54?q=80&w=800&auto=format&fit=crop';
+                                            }}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
                                     ) : (
