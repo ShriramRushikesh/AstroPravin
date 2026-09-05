@@ -19,7 +19,8 @@
     "noImplicitAny": false,
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
+    "lib": ["ES2023"],
     "typeRoots": ["./node_modules/@types"],
     "incremental": true
   },

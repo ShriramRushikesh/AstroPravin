@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Body, Param, Put, Patch, Delete, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('bookings')
 export class BookingController {
     constructor(private readonly bookingService: BookingService) { }
 
     @Post()
-    create(@Body() createBookingDto: any) {
+    create(@Body() createBookingDto: CreateBookingDto) {
         return this.bookingService.create(createBookingDto);
     }
 

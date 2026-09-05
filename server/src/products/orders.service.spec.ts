@@ -41,7 +41,7 @@ describe('OrdersService - Razorpay HMAC Signature Verification', () => {
       razorpay_signature: validSignature,
       customer: { name: 'Rahul Sharma', phone: '+919876543210', email: 'rahul@example.com' },
       shipping: { address: '123 MG Road', city: 'Pune', state: 'Maharashtra', pincode: '411001' },
-      items: [{ name: 'Vedic Yantra', price: 1100, quantity: 1 }],
+      items: [{ productId: 'prod_123', name: 'Vedic Yantra', price: 1100, quantity: 1 }],
       totalAmount: 1100,
     });
 

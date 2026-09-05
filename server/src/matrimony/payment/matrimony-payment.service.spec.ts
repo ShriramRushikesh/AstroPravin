@@ -16,6 +16,7 @@ describe('MatrimonyPaymentService - Razorpay HMAC Signature Verification', () =>
         _id: 'user_123',
         username: 'devotee1',
         paymentStatus: 'pending',
+        markModified: jest.fn(),
         save: jest.fn().mockResolvedValue(true),
       }),
       findOne: jest.fn().mockResolvedValue(null),
@@ -45,11 +46,11 @@ describe('MatrimonyPaymentService - Razorpay HMAC Signature Verification', () =>
       razorpay_order_id: orderId,
       razorpay_payment_id: paymentId,
       razorpay_signature: validSignature,
-      planId: 'gold_6m',
+      planId: 'gold',
     });
 
     expect(result.success).toBe(true);
-    expect(result.paymentStatus).toBe('verified');
+    expect(result.user.paymentStatus).toBe('verified');
   });
 
   it('should reject forged or mismatched payment signature with BadRequestException', async () => {
@@ -62,7 +63,7 @@ describe('MatrimonyPaymentService - Razorpay HMAC Signature Verification', () =>
         razorpay_order_id: orderId,
         razorpay_payment_id: paymentId,
         razorpay_signature: invalidSignature,
-        planId: 'gold_6m',
+        planId: 'gold',
       }),
     ).rejects.toThrow(BadRequestException);
   });

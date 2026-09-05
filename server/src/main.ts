@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 console.log('\n[1/3] ⚡ Loading AstroPravin Server Modules...');
 
 import * as dotenv from 'dotenv';

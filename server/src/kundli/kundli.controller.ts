@@ -10,6 +10,7 @@ import { KundliService } from './kundli.service';
 import { KundliExtractService } from './kundli-extract.service';
 import { GunMilanService } from './gun-milan.service';
 import { generateGunMilanPDF } from './pdf.generator';
+import { GenerateKundliDto } from './dto/kundli.dto';
 import type { Request } from 'express';
 
 // ─── Multer upload config ─────────────────────────────────────────────────────
@@ -45,7 +46,7 @@ export class KundliController {
 
     // ── Existing: Generate Kundli from form data ─────────────────────────────
     @Post('generate')
-    async generate(@Body() body: any, @Req() req: Request) {
+    async generate(@Body() body: GenerateKundliDto, @Req() req: Request) {
         const host = req.get('host') || 'localhost';
         const protocol = req.protocol;
         return this.kundliService.generate(body, host, protocol);
