@@ -33,8 +33,14 @@ yarn-debug.log*
 yarn-error.log*
 logs
 *.log
+*.txt
 pids
 *.pid
 *.seed
 *.pid.lock
 .vercel
+
+# Local Backups & Ancillary Apps
+audit-system/
+audit-system*/
+server-express-backup/
