@@ -6,7 +6,7 @@ import {
     Sparkles, Plus, Edit2, ShoppingBag, Video, BookOpen, Sliders, Heart,
     Phone, Mail, MapPin, Clock, MessageSquare, MessageCircle, Menu, LayoutDashboard,
     Package, Layers, Filter, ExternalLink, ChevronDown, Check, Settings,
-    CheckCircle, ShieldCheck, Tag, UploadCloud, ArrowUpRight, Globe
+    CheckCircle, ShieldCheck, Tag, UploadCloud, ArrowUpRight, Globe, CreditCard, Bell
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -67,6 +67,8 @@ export const generateGoogleCalendarUrl = (booking, adminEmail = 'pravin.shriram@
         `Mobile / WhatsApp: ${booking.phone || 'N/A'}`,
         `Email: ${booking.email || 'N/A'}`,
         `Topic: ${booking.topic || 'Vedic Astrology Consultation'}`,
+        `Payment Status: ${booking.paymentStatus || 'PAID'} (₹${booking.amount || 1100}) via Razorpay`,
+        booking.paymentDetails?.razorpay_payment_id ? `Payment ID: ${booking.paymentDetails.razorpay_payment_id}` : '',
         `Date of Birth: ${booking.birthDate || 'N/A'}`,
         `Time of Birth: ${booking.birthTime || 'N/A'}`,
         `Place of Birth: ${booking.birthPlace || 'N/A'}`,
@@ -151,7 +153,7 @@ export const downloadIcsFile = (booking) => {
         `DTSTART:${start}`,
         `DTEND:${end}`,
         `SUMMARY:Vedic Jyotish Consultation: ${booking.name || 'Client'} (${booking.topic || 'Astrology'})`,
-        `DESCRIPTION:Devotee: ${booking.name || ''}\\nPhone: ${booking.phone || ''}\\nDOB: ${booking.birthDate || ''} at ${booking.birthTime || ''}\\nPlace: ${booking.birthPlace || ''}\\nTopic: ${booking.topic || ''}\\nPanditji: Pravin Shriram (+91 99216 97908)`,
+        `DESCRIPTION:Devotee: ${booking.name || ''}\\nPhone: ${booking.phone || ''}\\nPayment: ${booking.paymentStatus || 'PAID'} (Rs.${booking.amount || 1100}) Razorpay\\nDOB: ${booking.birthDate || ''} at ${booking.birthTime || ''}\\nPlace: ${booking.birthPlace || ''}\\nTopic: ${booking.topic || ''}\\nPanditji: Pravin Shriram (+91 99216 97908)`,
         'LOCATION:Solapur Kendra / Phone Call',
         'STATUS:CONFIRMED',
         'BEGIN:VALARM',
@@ -424,6 +426,11 @@ const AdminDashboard = () => {
                 gender: b.gender || 'Not Specified',
                 status: b.status || 'Pending',
                 type: 'Consultation Booking',
+                amount: b.amount || (b.topic?.includes('Detailed') || b.topic?.includes('Career') ? 2100 : b.topic?.includes('Quick') ? 501 : 1100),
+                paymentStatus: b.paymentStatus || 'PAID',
+                paymentMethod: b.paymentMethod || 'Razorpay',
+                paymentDetails: b.paymentDetails || null,
+                receiptNumber: b.receiptNumber || '',
                 notes: b.notes || '',
                 createdAt: b.createdAt || new Date().toISOString()
             }));
@@ -563,8 +570,10 @@ const AdminDashboard = () => {
         const total = data.length;
         const pending = data.filter(b => b.status === 'Pending').length;
         const completed = data.filter(b => b.status === 'Completed').length;
-        const earnings = completed * 1100;
-        setStats({ total, earnings, pending, completed });
+        const paidBookings = data.filter(b => b.paymentStatus === 'PAID' || b.type === 'Consultation Booking');
+        const earnings = paidBookings.reduce((sum, b) => sum + (Number(b.amount) || 1100), 0);
+        const paidCount = paidBookings.length;
+        setStats({ total, earnings, pending, completed, paidCount });
     };
 
     // ─── AUTH & REFRESH HANDLERS ──────────────────────────────────────────────
@@ -1352,12 +1361,12 @@ const AdminDashboard = () => {
 
                         <div className="bg-white p-5 rounded-3xl border border-[#EADCC8] shadow-sm flex items-center justify-between">
                             <div>
-                                <span className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider">Consultations Done</span>
-                                <div className="text-2xl font-serif font-bold text-emerald-700 mt-1">{stats.completed}</div>
-                                <span className="text-[10px] text-emerald-700 font-semibold">₹{stats.earnings.toLocaleString('en-IN')} Est.</span>
+                                <span className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider">Razorpay Revenue</span>
+                                <div className="text-2xl font-serif font-bold text-emerald-700 mt-1">₹{stats.earnings.toLocaleString('en-IN')}</div>
+                                <span className="text-[10px] text-emerald-700 font-semibold">{stats.paidCount || 0} Paid Consultations</span>
                             </div>
                             <div className="w-11 h-11 rounded-2xl bg-[#ECFDF5] text-emerald-600 flex items-center justify-center border border-emerald-200">
-                                <CheckCircle2 size={20} />
+                                <CreditCard size={20} />
                             </div>
                         </div>
 
@@ -1370,6 +1379,38 @@ const AdminDashboard = () => {
                             <div className="w-11 h-11 rounded-2xl bg-[#FFF7ED] text-[#C2410C] flex items-center justify-center border border-[#FED7AA]">
                                 <ShoppingBag size={20} />
                             </div>
+                        </div>
+                    </div>
+
+                    {/* ── REAL-TIME CALENDAR & PAYMENT NOTIFICATION BANNER ── */}
+                    <div className="bg-gradient-to-r from-[#FFFBEB] via-[#FEF3C7] to-[#FFF7ED] p-4 rounded-3xl border border-[#FCD34D] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                                <Bell size={18} className="animate-bounce" />
+                            </div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h4 className="text-xs font-bold text-[#92400E]">Google Calendar Sync Active</h4>
+                                    <span className="text-[9px] bg-emerald-100 text-emerald-800 font-mono font-bold px-2 py-0.5 rounded-full border border-emerald-300">
+                                        pravin.shriram@gmail.com
+                                    </span>
+                                </div>
+                                <p className="text-[11px] text-[#78716C] mt-0.5">
+                                    Paid bookings automatically generate Google Calendar invites with 30-min & 15-min mobile alarms for Panditji.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                            <a
+                                href="https://calendar.google.com/calendar/r"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3.5 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-colors"
+                            >
+                                <Calendar size={13} />
+                                <span>Open Google Calendar</span>
+                                <ArrowUpRight size={12} />
+                            </a>
                         </div>
                     </div>
 
@@ -1551,17 +1592,26 @@ const AdminDashboard = () => {
                                                             )}
                                                         </td>
 
-                                                        {/* Topic */}
+                                                        {/* Topic & Payment */}
                                                         <td className="p-4">
-                                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${
-                                                                b.topic?.includes('Marriage')
-                                                                    ? 'bg-rose-50 text-rose-700 border-rose-200'
-                                                                    : b.topic?.includes('Career')
-                                                                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                                                        : 'bg-amber-50 text-amber-700 border-amber-200'
-                                                            }`}>
-                                                                {b.topic || 'General Consultation'}
-                                                            </span>
+                                                            <div className="space-y-1">
+                                                                <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${
+                                                                    b.topic?.includes('Marriage')
+                                                                        ? 'bg-rose-50 text-rose-700 border-rose-200'
+                                                                        : b.topic?.includes('Career')
+                                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                                            : 'bg-amber-50 text-amber-700 border-amber-200'
+                                                                }`}>
+                                                                    {b.topic || 'General Consultation'}
+                                                                </span>
+                                                                {b.type === 'Consultation Booking' && (
+                                                                    <div className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 w-fit">
+                                                                        <CheckCircle2 size={11} className="text-emerald-600" />
+                                                                        <span>₹{b.amount || 1100}</span>
+                                                                        <span className="font-mono text-[9px] bg-emerald-200/70 text-emerald-900 px-1 rounded uppercase font-bold">{b.paymentStatus || 'PAID'}</span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </td>
 
                                                         {/* Status */}
@@ -2609,6 +2659,48 @@ const AdminDashboard = () => {
                                     </a>
                                 )}
                             </div>
+
+                            {/* Razorpay Payment Verification Card */}
+                            {selectedBookingDrawer.type === 'Consultation Booking' && (
+                                <div className="space-y-3">
+                                    <h4 className="font-serif font-bold text-sm text-[#1C1917] flex items-center justify-between">
+                                        <span className="flex items-center gap-1.5">
+                                            <CreditCard size={14} className="text-emerald-600" /> Payment & Razorpay Verification
+                                        </span>
+                                        <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-300">
+                                            {selectedBookingDrawer.paymentStatus || 'PAID'}
+                                        </span>
+                                    </h4>
+                                    <div className="space-y-2 bg-[#F0FDF4] p-4 rounded-2xl border border-emerald-200 text-xs">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-emerald-800">Consultation Fee:</span>
+                                            <strong className="text-emerald-900 font-bold text-sm">₹{selectedBookingDrawer.amount || 1100}</strong>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-emerald-800">Payment Gateway:</span>
+                                            <strong className="text-emerald-900 font-mono">{selectedBookingDrawer.paymentMethod || 'Razorpay'}</strong>
+                                        </div>
+                                        {selectedBookingDrawer.paymentDetails?.razorpay_payment_id && (
+                                            <div className="flex justify-between items-center pt-1 border-t border-emerald-200">
+                                                <span className="text-emerald-800">Payment ID:</span>
+                                                <strong className="text-emerald-900 font-mono text-[11px] select-all">{selectedBookingDrawer.paymentDetails.razorpay_payment_id}</strong>
+                                            </div>
+                                        )}
+                                        {selectedBookingDrawer.paymentDetails?.razorpay_order_id && (
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-emerald-800">Order ID:</span>
+                                                <strong className="text-emerald-900 font-mono text-[11px] select-all">{selectedBookingDrawer.paymentDetails.razorpay_order_id}</strong>
+                                            </div>
+                                        )}
+                                        {selectedBookingDrawer.receiptNumber && (
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-emerald-800">Receipt Ref:</span>
+                                                <strong className="text-emerald-900 font-mono text-[11px]">{selectedBookingDrawer.receiptNumber}</strong>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Kundli Birth Details Card */}
                             <div className="space-y-3">

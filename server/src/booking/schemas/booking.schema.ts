@@ -59,6 +59,27 @@ export class Booking {
     @Prop({ default: 'Pending' })
     status: string;
 
+    @Prop({ default: 1100 })
+    amount?: number;
+
+    @Prop({ default: 'paid' })
+    paymentStatus?: string; // 'paid' | 'pending' | 'failed'
+
+    @Prop({ default: 'razorpay' })
+    paymentMethod?: string;
+
+    @Prop({ type: Object })
+    paymentDetails?: {
+        razorpay_order_id?: string;
+        razorpay_payment_id?: string;
+        razorpay_signature?: string;
+        amount?: number;
+        paidAt?: Date;
+    };
+
+    @Prop()
+    receiptNumber?: string;
+
     @Prop()
     type?: string;
 

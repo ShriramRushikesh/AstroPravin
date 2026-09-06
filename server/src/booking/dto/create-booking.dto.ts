@@ -80,4 +80,63 @@ export class CreateBookingDto {
   @IsOptional()
   @IsString()
   notes?: string;
+
+  @IsOptional()
+  amount?: number;
+
+  @IsOptional()
+  @IsString()
+  paymentStatus?: string;
+
+  @IsOptional()
+  @IsString()
+  paymentMethod?: string;
+
+  @IsOptional()
+  paymentDetails?: any;
+
+  @IsOptional()
+  @IsString()
+  receiptNumber?: string;
+}
+
+export class CreateBookingRazorpayOrderDto {
+  @IsOptional()
+  amount?: number;
+
+  @IsOptional()
+  @IsString()
+  topic?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
+  @IsOptional()
+  @IsString()
+  email?: string;
+}
+
+export class VerifyAndCreateBookingDto {
+  @IsNotEmpty()
+  @IsString()
+  razorpay_order_id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  razorpay_payment_id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  razorpay_signature: string;
+
+  @IsNotEmpty()
+  bookingData: CreateBookingDto;
+
+  @IsOptional()
+  amount?: number;
 }

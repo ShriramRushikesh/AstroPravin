@@ -43,6 +43,8 @@ async function bootstrap() {
       'http://127.0.0.1:5173',
       'http://127.0.0.1:3000',
     ];
+    if (process.env.FRONTEND_URL) allowedOrigins.push(process.env.FRONTEND_URL);
+    if (process.env.CORS_ORIGIN) allowedOrigins.push(process.env.CORS_ORIGIN);
 
     app.enableCors({
       origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
@@ -50,6 +52,8 @@ async function bootstrap() {
           !origin ||
           allowedOrigins.includes(origin) ||
           /^https:\/\/astropravin.*\.vercel\.app$/.test(origin) ||
+          /^https:\/\/.*\.onrender\.com$/.test(origin) ||
+          /^https:\/\/.*\.vercel\.app$/.test(origin) ||
           /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin)
         ) {
           callback(null, true);
@@ -74,19 +78,31 @@ async function bootstrap() {
 
     app.setGlobalPrefix('api'); // Standardize all backend routes to /api/...
 
-    // Serve static assets (uploads, kundlis)
+    // Serve static assets (uploads, kundlis, matrimony photos)
     const publicPath = path.join(process.cwd(), 'public');
     const uploadsDir = path.join(publicPath, 'uploads');
     const kundlisDir = path.join(publicPath, 'kundlis');
-    if (!fs.existsSync(publicPath)) fs.mkdirSync(publicPath, { recursive: true });
-    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-    if (!fs.existsSync(kundlisDir)) fs.mkdirSync(kundlisDir, { recursive: true });
+    const matrimonyPhotosDir = path.join(publicPath, 'matrimony-photos');
+    const kundliUploadsDir = path.join(publicPath, 'kundli-uploads');
+
+    for (const dir of [publicPath, uploadsDir, kundlisDir, matrimonyPhotosDir, kundliUploadsDir]) {
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    }
 
     app.useStaticAssets(publicPath, {
       prefix: '/public',
     });
     app.useStaticAssets(uploadsDir, {
       prefix: '/uploads',
+    });
+    app.useStaticAssets(kundlisDir, {
+      prefix: '/kundlis',
+    });
+    app.useStaticAssets(matrimonyPhotosDir, {
+      prefix: '/matrimony-photos',
+    });
+    app.useStaticAssets(kundliUploadsDir, {
+      prefix: '/kundli-uploads',
     });
 
 

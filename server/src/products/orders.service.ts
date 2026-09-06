@@ -30,14 +30,23 @@ export class OrdersService implements OnModuleInit {
     this.initRazorpay();
   }
 
+  private getRazorpayKeys() {
+    const keyId = process.env.RAZORPAY_KEY_ID || this.keyId || '';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || this.keySecret || '';
+    return { keyId, keySecret };
+  }
+
   private initRazorpay() {
     try {
-      if (RazorpaySDK && this.keyId && this.keySecret) {
+      const { keyId, keySecret } = this.getRazorpayKeys();
+      if (RazorpaySDK && keyId && keySecret) {
         this.razorpayInstance = new RazorpaySDK({
-          key_id: this.keyId,
-          key_secret: this.keySecret,
+          key_id: keyId,
+          key_secret: keySecret,
         });
-        console.log('✅ Store Razorpay Service initialized with Key ID:', this.keyId);
+        this.keyId = keyId;
+        this.keySecret = keySecret;
+        console.log('✅ Store Razorpay Service initialized with Key ID:', keyId);
       } else {
         console.warn('⚠️ Razorpay credentials missing or SDK unavailable.');
       }
@@ -127,8 +136,9 @@ export class OrdersService implements OnModuleInit {
     }
 
     // 1. Verify HMAC-SHA256 Cryptographic Signature (Timing-Safe)
+    const { keySecret } = this.getRazorpayKeys();
     const expectedSignature = crypto
-      .createHmac('sha256', this.keySecret)
+      .createHmac('sha256', keySecret)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');
 

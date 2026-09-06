@@ -1,11 +1,21 @@
 import { Controller, Get, Post, Body, Param, Put, Patch, Delete, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateBookingDto } from './dto/create-booking.dto';
+import { CreateBookingDto, CreateBookingRazorpayOrderDto, VerifyAndCreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('bookings')
 export class BookingController {
     constructor(private readonly bookingService: BookingService) { }
+
+    @Post('create-razorpay-order')
+    createRazorpayOrder(@Body() dto: CreateBookingRazorpayOrderDto) {
+        return this.bookingService.createRazorpayOrder(dto);
+    }
+
+    @Post('verify-and-create')
+    verifyAndCreate(@Body() dto: VerifyAndCreateBookingDto) {
+        return this.bookingService.verifyAndCreate(dto);
+    }
 
     @Post()
     create(@Body() createBookingDto: CreateBookingDto) {

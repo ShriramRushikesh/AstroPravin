@@ -94,29 +94,30 @@ export const MATRIMONY_PLANS: Record<string, MatrimonyPlan> = {
 
 @Injectable()
 export class MatrimonyPaymentService {
-  private razorpayInstance: any;
-
   constructor(
     @InjectModel(MatrimonyUser.name) private userModel: Model<MatrimonyUserDocument>,
     @InjectModel(MatrimonyProfile.name) private profileModel: Model<MatrimonyProfileDocument>,
-  ) {
+  ) {}
+
+  private getRazorpayKeys() {
     const keyId = process.env.RAZORPAY_KEY_ID || '';
     const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
+    return { keyId, keySecret };
+  }
 
-    try {
-      if (keyId && keySecret) {
-        this.razorpayInstance = new Razorpay({
-          key_id: keyId,
-          key_secret: keySecret,
-        });
-      }
-    } catch (e) {
-      console.warn('⚠️ Razorpay initialization warning:', e.message);
+  private getRazorpayClient() {
+    const { keyId, keySecret } = this.getRazorpayKeys();
+    if (!keyId || !keySecret) {
+      throw new BadRequestException('Razorpay credentials are not configured in environment variables.');
     }
+    return new Razorpay({
+      key_id: keyId,
+      key_secret: keySecret,
+    });
   }
 
   getPlans() {
-    const keyId = process.env.RAZORPAY_KEY_ID || '';
+    const { keyId } = this.getRazorpayKeys();
     return {
       success: true,
       keyId,
@@ -138,15 +139,8 @@ export class MatrimonyPaymentService {
       throw new UnauthorizedException('User account not found.');
     }
 
-    const keyId = process.env.RAZORPAY_KEY_ID || '';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
-
-    if (!this.razorpayInstance) {
-      this.razorpayInstance = new Razorpay({
-        key_id: keyId,
-        key_secret: keySecret,
-      });
-    }
+    const { keyId } = this.getRazorpayKeys();
+    const razorpayClient = this.getRazorpayClient();
 
     const amountInPaise = plan.amount * 100;
     const shortUserId = user._id.toString().slice(-6);
@@ -154,7 +148,7 @@ export class MatrimonyPaymentService {
     const receipt = `rcpt_mat_${shortUserId}_${shortTs}`;
 
     try {
-      const order = await this.razorpayInstance.orders.create({
+      const order = await razorpayClient.orders.create({
         amount: amountInPaise,
         currency: 'INR',
         receipt,
@@ -214,7 +208,7 @@ export class MatrimonyPaymentService {
       throw new BadRequestException('This payment reference has already been processed for another candidate.');
     }
 
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '';
+    const { keySecret } = this.getRazorpayKeys();
 
     // Cryptographic HMAC SHA256 signature verification (Timing-Safe)
     const generatedSignature = crypto
