@@ -26,6 +26,46 @@ export interface MatrimonyPlan {
 }
 
 export const MATRIMONY_PLANS: Record<string, MatrimonyPlan> = {
+  basic: {
+    id: 'basic' as any,
+    tier: 'basic' as any,
+    name: 'Standard Membership Activation',
+    tagline: '3-Month Platform Access',
+    amount: 199,
+    originalAmount: 499,
+    discountPercent: 60,
+    durationText: '3 Months Access',
+    durationDays: 90,
+    badge: 'Standard',
+    popular: true,
+    features: [
+      '3 Months Full Platform Access',
+      'Verified Candidate Search & Filters',
+      'Ashta Koota 36-Guna Kundli Matchmaking',
+      'Send Express Interests & Mutual Match Chat',
+      'Verified Phone & Photo Privacy Protection',
+    ],
+  },
+  membership: {
+    id: 'membership' as any,
+    tier: 'membership' as any,
+    name: 'Matrimony Registration Package',
+    tagline: '3-Month Standard Access',
+    amount: 199,
+    originalAmount: 499,
+    discountPercent: 60,
+    durationText: '3 Months Access',
+    durationDays: 90,
+    badge: 'Standard',
+    popular: true,
+    features: [
+      '3 Months Full Platform Access',
+      'Verified Candidate Search & Filters',
+      'Ashta Koota 36-Guna Kundli Matchmaking',
+      'Send Express Interests & Mutual Match Chat',
+      'Verified Phone & Photo Privacy Protection',
+    ],
+  },
   silver: {
     id: 'silver',
     tier: 'silver',
@@ -124,8 +164,8 @@ export class MatrimonyPaymentService {
   }
 
   async createOrder(userId: string, createOrderDto: CreateMatrimonyOrderDto) {
-    const { planId } = createOrderDto;
-    const plan = MATRIMONY_PLANS[planId];
+    const rawPlanId = String(createOrderDto?.planId || 'basic').trim().toLowerCase();
+    const plan = MATRIMONY_PLANS[rawPlanId] || MATRIMONY_PLANS['basic'] || MATRIMONY_PLANS['silver'];
 
     if (!plan) {
       throw new BadRequestException('Invalid matrimony plan selected.');
@@ -135,6 +175,7 @@ export class MatrimonyPaymentService {
     if (!user) {
       throw new UnauthorizedException('User account not found.');
     }
+
 
     const { keyId } = this.getRazorpayKeys();
     const razorpayClient = this.getRazorpayClient();
@@ -180,8 +221,9 @@ export class MatrimonyPaymentService {
   }
 
   async verifyPayment(userId: string, verifyDto: VerifyMatrimonyPaymentDto) {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, planId } = verifyDto;
-    const plan = MATRIMONY_PLANS[planId];
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = verifyDto;
+    const rawPlanId = String(verifyDto?.planId || 'basic').trim().toLowerCase();
+    const plan = MATRIMONY_PLANS[rawPlanId] || MATRIMONY_PLANS['basic'] || MATRIMONY_PLANS['silver'];
 
     if (!plan) {
       throw new BadRequestException('Invalid plan ID for verification.');

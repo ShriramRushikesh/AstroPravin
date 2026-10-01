@@ -12,6 +12,11 @@ export class OrdersController {
     return this.ordersService.createRazorpayOrder(dto);
   }
 
+  @Post('create-order')
+  async createOrderAlias(@Body() dto: CreateStoreRazorpayOrderDto) {
+    return this.ordersService.createRazorpayOrder(dto);
+  }
+
   @Post('verify-payment')
   async verifyPayment(@Body() dto: VerifyStorePaymentDto) {
     return this.ordersService.verifyPayment(dto);

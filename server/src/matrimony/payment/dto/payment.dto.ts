@@ -1,10 +1,9 @@
-import { IsNotEmpty, IsString, IsOptional, IsIn } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
 export class CreateMatrimonyOrderDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @IsIn(['silver', 'gold', 'platinum'])
-  planId: 'silver' | 'gold' | 'platinum';
+  planId?: string;
 }
 
 export class VerifyMatrimonyPaymentDto {
@@ -20,8 +19,8 @@ export class VerifyMatrimonyPaymentDto {
   @IsString()
   razorpay_signature: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @IsIn(['silver', 'gold', 'platinum'])
-  planId: 'silver' | 'gold' | 'platinum';
+  planId?: string;
 }
+
