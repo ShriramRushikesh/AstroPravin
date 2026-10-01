@@ -1,0 +1,45 @@
+import { Controller, Get, Post, Body, Param, Put, Patch, Delete, UseGuards } from '@nestjs/common';
+import { BookingService } from './booking.service';
+import { AuthGuard } from '@nestjs/passport';
+import { CreateBookingDto } from './dto/create-booking.dto';
+
+@Controller('bookings')
+export class BookingController {
+    constructor(private readonly bookingService: BookingService) { }
+
+    @Post()
+    create(@Body() createBookingDto: CreateBookingDto) {
+        return this.bookingService.create(createBookingDto);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get()
+    findAll() {
+        return this.bookingService.findAll();
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Put(':id')
+    updatePut(@Param('id') id: string, @Body('status') status: string) {
+        return this.bookingService.updateStatus(id, status);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch(':id/status')
+    updateStatusPatch(@Param('id') id: string, @Body('status') status: string) {
+        return this.bookingService.updateStatus(id, status);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.bookingService.remove(id);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Post('clear-demo')
+    clearDemo() {
+        return this.bookingService.clearDemoData();
+    }
+}
+

@@ -1,0 +1,46 @@
+# System Files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+
+# Environment
+.env
+.env.*
+.env.local
+.env.production
+server/.env
+server/.env.*
+server/.env.local
+server/.env.production
+
+# Backend Utils
+server/public/uploads/*
+!server/public/uploads/.gitkeep
+server/public/kundlis/*
+!server/public/kundlis/.gitkeep
+public/uploads/*
+public/kundlis/*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+*.txt
+pids
+*.pid
+*.seed
+*.pid.lock
+.vercel
+
+# Local Backups & Ancillary Apps
+audit-system/
+audit-system*/
+server-express-backup/
