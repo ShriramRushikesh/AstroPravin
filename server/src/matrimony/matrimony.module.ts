@@ -62,10 +62,16 @@ import { SharedModule } from '../shared/shared.module';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'astropravin_matrimony_secret_jwt_2026',
-        signOptions: { expiresIn: '7d' },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_SECRET') || process.env.JWT_SECRET;
+        if (!secret) {
+          throw new Error('JWT_SECRET environment variable is missing for MatrimonyModule.');
+        }
+        return {
+          secret,
+          signOptions: { expiresIn: '7d' },
+        };
+      },
     }),
 
     // Mongoose collection bindings
