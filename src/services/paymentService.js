@@ -44,7 +44,7 @@ export const getRazorpayKey = async () => {
     } catch (e) {
         console.warn('Could not fetch Razorpay config from backend:', e);
     }
-    return 'rzp_live_Th9OrjJuzf9j5f'; // fallback to configured key
+    return '';
 };
 
 /**
