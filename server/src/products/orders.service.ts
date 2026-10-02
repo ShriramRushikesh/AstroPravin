@@ -31,8 +31,8 @@ export class OrdersService implements OnModuleInit {
   }
 
   private getRazorpayKeys() {
-    const keyId = process.env.RAZORPAY_KEY_ID || this.keyId || 'rzp_live_TTvoOCRWmpKPkv';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || this.keySecret || 'YocfWD7w0RjVkYVyfcjD725h';
+    const keyId = process.env.RAZORPAY_KEY_ID || this.keyId || 'rzp_live_Th9OrjJuzf9j5f';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || this.keySecret || 'zXoWiJZbgHRsKWrlmXt9LwvS';
     return { keyId, keySecret };
   }
 

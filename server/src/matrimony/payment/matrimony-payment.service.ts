@@ -140,8 +140,8 @@ export class MatrimonyPaymentService {
   ) {}
 
   private getRazorpayKeys() {
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_TTvoOCRWmpKPkv';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'YocfWD7w0RjVkYVyfcjD725h';
+    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_Th9OrjJuzf9j5f';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'zXoWiJZbgHRsKWrlmXt9LwvS';
     return { keyId, keySecret };
   }
 

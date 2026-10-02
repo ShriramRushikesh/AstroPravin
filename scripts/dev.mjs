@@ -36,7 +36,7 @@ console.log(`
 🛍️ Astro Store:       http://127.0.0.1:5173/store
 📊 Admin CRM:         http://127.0.0.1:5173/admin
 🚀 Backend API:       http://127.0.0.1:5002/api
-💳 Razorpay Gateway:  rzp_live_TTvoOCRWmpKPkv (ACTIVE)
+💳 Razorpay Gateway:  rzp_live_Th9OrjJuzf9j5f (ACTIVE)
 ==================================================
 💡 KEEP THIS TERMINAL OPEN while using the site!
 💡 Do NOT press Ctrl+C until you want to stop the app.

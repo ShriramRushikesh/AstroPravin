@@ -16,8 +16,8 @@ export class PaymentService {
     }
 
     private initClient() {
-        this.keyId = process.env.RAZORPAY_KEY_ID || this.configService.get<string>('RAZORPAY_KEY_ID') || 'rzp_live_TTvoOCRWmpKPkv';
-        this.keySecret = process.env.RAZORPAY_KEY_SECRET || this.configService.get<string>('RAZORPAY_KEY_SECRET') || 'YocfWD7w0RjVkYVyfcjD725h';
+        this.keyId = process.env.RAZORPAY_KEY_ID || this.configService.get<string>('RAZORPAY_KEY_ID') || 'rzp_live_Th9OrjJuzf9j5f';
+        this.keySecret = process.env.RAZORPAY_KEY_SECRET || this.configService.get<string>('RAZORPAY_KEY_SECRET') || 'zXoWiJZbgHRsKWrlmXt9LwvS';
 
         if (this.keyId && this.keySecret) {
             try {
